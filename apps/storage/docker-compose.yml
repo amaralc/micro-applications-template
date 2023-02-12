@@ -56,7 +56,7 @@ services:
       - '5432:5432'
     restart: always
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - ./tmp/postgres:/var/lib/postgresql/data
     env_file:
       - .env.development.local
   graphql-engine:
@@ -68,5 +68,3 @@ services:
     restart: always
     env_file:
       - .env.development.local
-volumes:
-  db_data:
