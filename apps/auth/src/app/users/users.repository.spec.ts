@@ -1,4 +1,4 @@
-import { UsersRepository } from './users.repository';
+import { UsersRepository } from './repositories/users.repository';
 
 describe('UsersRepository', () => {
   it('should be defined', () => {
