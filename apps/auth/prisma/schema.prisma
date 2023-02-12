@@ -1,5 +1,11 @@
 generator client {
   provider = "prisma-client-js"
+
+  // Working with multiple clients in a single monorepo without overlaps
+  // References:
+  // - Issue https://github.com/prisma/prisma/issues/7470
+  // - Repository: https://github.com/ionut-gheorghe/nx-multi-prisma
+  output = "../generated"
 }
 
 datasource db {

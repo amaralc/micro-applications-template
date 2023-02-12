@@ -6,7 +6,8 @@
     "name": "Calil Amaral"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "auth:prisma:generate": "prisma generate --schema apps/auth/prisma/schema.prisma"
   },
   "private": true,
   "devDependencies": {
@@ -40,9 +41,11 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nrwl/nest": "^15.6.3",
+    "@prisma/client": "^4.10.1",
     "axios": "^1.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "prisma": "^4.10.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0"

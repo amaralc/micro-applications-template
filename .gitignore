@@ -42,3 +42,6 @@ Thumbs.db
 .env
 .env.development.local
 .env.production.local
+
+# Generated
+apps/auth/generated
