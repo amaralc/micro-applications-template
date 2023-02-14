@@ -1,12 +1,12 @@
 // users.repository.ts
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../infra/storage/prisma/prisma.service';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { User } from '../entities/user.entity';
-import { UsersRepository } from './users.repository';
+import { PrismaService } from '../../../../infra/storage/prisma/prisma.service';
+import { CreateUserDto } from '../../dto/create-user.dto';
+import { User } from '../../entities/user.entity';
+import { UsersStorageRepository } from './users-storage.repository';
 
 @Injectable()
-export class PrismaUsersRepository implements UsersRepository {
+export class PrismaUsersStorageRepository implements UsersStorageRepository {
   constructor(private prismaService: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {

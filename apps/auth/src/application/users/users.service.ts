@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UsersRepository } from './repositories/users.repository';
+import { UsersEventsRepository } from './repositories/events/users-events.repository';
+import { UsersStorageRepository } from './repositories/storage/users-storage.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersStorageRepository: UsersStorageRepository,
+    private usersEventsRepository: UsersEventsRepository
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
-    await this.usersRepository.create(createUserDto);
+    await this.usersStorageRepository.create(createUserDto);
+    await this.usersEventsRepository.publishUserCreated(createUserDto);
     return `Hello, ${createUserDto.email}!`;
   }
 }

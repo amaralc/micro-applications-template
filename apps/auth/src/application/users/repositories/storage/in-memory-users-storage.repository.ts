@@ -1,8 +1,8 @@
 // users.repository.ts
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { User } from '../entities/user.entity';
-import { UsersRepository } from './users.repository';
+import { CreateUserDto } from '../../dto/create-user.dto';
+import { User } from '../../entities/user.entity';
+import { UsersStorageRepository } from './users-storage.repository';
 
 // interface CreatedUserMessage {
 //   key: 'email';
@@ -10,7 +10,7 @@ import { UsersRepository } from './users.repository';
 // }
 
 @Injectable()
-export class InMemoryUsersRepository implements UsersRepository {
+export class InMemoryUsersStorageRepository implements UsersStorageRepository {
   // private usersCreatedTopic: CreatedUserMessage[] = [];
   private users: User[] = [];
 

@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import {
-  UsersRepository,
-  UsersRepositoryImplementation,
-} from './application/users/repositories/users.repository';
+  UsersEventsRepository,
+  UsersEventsRepositoryImplementation,
+} from './application/users/repositories/events/users-events.repository';
+import {
+  UsersStorageRepository,
+  UsersStorageRepositoryImplementation,
+} from './application/users/repositories/storage/users-storage.repository';
 import { UsersController } from './application/users/users.controller';
 import { UsersService } from './application/users/users.service';
 import { KafkaService } from './infra/events/kafka/kafka.service';
@@ -24,8 +28,12 @@ import { PrismaService } from './infra/storage/prisma/prisma.service';
     PrismaService,
     UsersService,
     {
-      provide: UsersRepository,
-      useClass: UsersRepositoryImplementation,
+      provide: UsersStorageRepository,
+      useClass: UsersStorageRepositoryImplementation,
+    },
+    {
+      provide: UsersEventsRepository,
+      useClass: UsersEventsRepositoryImplementation,
     },
   ],
 })

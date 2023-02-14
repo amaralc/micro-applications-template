@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Kafka, logLevel } from 'kafkajs';
 
 @Injectable()
@@ -12,11 +12,13 @@ export class KafkaService implements OnModuleInit {
   }
 
   async onModuleInit() {
-    // Connect with database
+    // Connect with kafka
+    Logger.log('Connecting with Kafka...');
     this.kafka = new Kafka({
       clientId: 'auth',
-      brokers: ['kafka:9092'], // replace 'kafka:9092' with your kafka host and port
+      brokers: ['localhost:9092'], // replace 'kafka:9092' with your kafka host and port
       logLevel: logLevel.NOTHING,
     });
+    console.log(this.kafka);
   }
 }
