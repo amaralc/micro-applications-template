@@ -1,6 +1,6 @@
 # WhereIsMyStuff
 
-This is a side project meant to practice software development skills with TypeScript, Node.js and React, while delivering a real product that could help people to manage their own stuff. 
+This is a side project meant to practice software development skills with TypeScript, Node.js and React, while delivering a real product that could help people to manage their own stuff.
 
 The primary use case I had in mind, was manage my books. I often lend books to friends and colleagues and later find myself asking the same question: "Where is that book again?". If WhereIsMyStuff could help me to find answers for that sort of question, than the mission was accomplished.
 
@@ -15,3 +15,10 @@ This repository is using husky and commitlint to organize commit messages a litt
 - https://github.com/jdiponziano/next-nx-mfe/blob/stripped-code/.commitlintrc.json
 - https://github.com/typicode/husky
 - https://github.com/conventional-changelog/commitlint
+
+# References
+
+- https://github.com/devfullcycle/imersao-12-esquenta-kafka
+- https://github.com/amaralc/nestjs-fundamentals
+- https://github.com/amaralc/2022-course-rocketseat-ignite-lab-nodejs
+- chat.openai.com
