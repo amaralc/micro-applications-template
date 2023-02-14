@@ -7,7 +7,9 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "auth:prisma:generate": "prisma generate --schema apps/auth/prisma/schema.prisma"
+    "persistence:setup": "make persistence-setup && make hasura-setup",
+    "auth:prisma:generate": "prisma generate --schema apps/auth/prisma/schema.prisma",
+    "auth:serve": "yarn auth:prisma:generate && nx serve auth"
   },
   "private": true,
   "devDependencies": {
