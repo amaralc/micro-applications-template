@@ -7,8 +7,7 @@ export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    await this.usersRepository.store(createUserDto);
-    await this.usersRepository.publish(createUserDto);
+    await this.usersRepository.create(createUserDto);
     return `Hello, ${createUserDto.email}!`;
   }
 }
