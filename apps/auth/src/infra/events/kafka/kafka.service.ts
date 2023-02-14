@@ -19,6 +19,5 @@ export class KafkaService implements OnModuleInit {
       brokers: ['localhost:9092'], // replace 'kafka:9092' with your kafka host and port
       logLevel: logLevel.NOTHING,
     });
-    console.log(this.kafka);
   }
 }
