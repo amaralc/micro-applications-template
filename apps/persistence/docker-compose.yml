@@ -59,6 +59,7 @@ services:
       - ./tmp/postgres:/var/lib/postgresql/data
     env_file:
       - .env.development.local
+
   graphql-engine:
     image: hasura/graphql-engine:v2.18.0
     ports:
