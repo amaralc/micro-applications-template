@@ -9,7 +9,7 @@ export interface IHeaders {
 
 interface CreatedUserMessage {
   key: string;
-  value: User;
+  value: string;
   headers?: IHeaders;
 }
 
@@ -20,10 +20,10 @@ export class InMemoryUsersEventsRepository implements UsersEventsRepository {
   async publishUserCreated(user: User): Promise<void> {
     this.usersCreatedTopic.push({
       key: user.email,
-      value: {
+      value: JSON.stringify({
         id: user.id,
         email: user.email,
-      },
+      }),
       headers: {
         role: 'default',
       },
