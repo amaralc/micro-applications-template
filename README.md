@@ -4,6 +4,35 @@ This is a side project meant to practice software development skills with TypeSc
 
 The primary use case I had in mind, was manage my books. I often lend books to friends and colleagues and later find myself asking the same question: "Where is that book again?". If WhereIsMyStuff could help me to find answers for that sort of question, than the mission was accomplished.
 
+# Setup
+
+## Prerequisites
+
+- [Install NVM]()
+- [Install NodeJS]()
+- [Install Yarn]()
+- [Install Docker Engine]()
+- [Install Docker Compose]()
+- [Install Hasura CLI]()
+- [Install Make]()
+
+## Run Auth Service
+
+- (github) Fork this repository;
+- (terminal) Clone repository: `git clone git@github.com:<your-username>/where-is-my-stuff.git`;
+- (terminal) Install dependencies: `yarn install`;
+- (terminal) Set up persistence layer: `yarn persistence:setup`;
+- (terminal) Verify that all containers are running: `docker ps`;
+- (terminal) You should see 5 containers up and running:
+
+  ```
+    - confluent-control-center
+    - kafka
+    - hasura
+    - postgres
+    - zookeeper
+  ```
+
 # TODO
 
 In order to keep track of what should be done, the project will be managed using github projects, although for faster development, I might take notes in the [todo.md file](./docs/todo.md), in this repository.
