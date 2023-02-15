@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './application/users/users.module';
+import { KafkaService } from './events/kafka/kafka.service';
+import { PrismaService } from './storage/prisma/prisma.service';
 
 @Module({
   imports: [
@@ -10,9 +11,9 @@ import { UsersModule } from './application/users/users.module';
      *
      */
     ConfigModule.forRoot(),
-    UsersModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [KafkaService, PrismaService],
+  exports: [KafkaService, PrismaService],
 })
-export class RootModule {}
+export class InfraModule {}
