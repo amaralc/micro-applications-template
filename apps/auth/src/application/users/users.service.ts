@@ -11,8 +11,8 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    await this.usersStorageRepository.create(createUserDto);
-    await this.usersEventsRepository.publishUserCreated(createUserDto);
+    const user = await this.usersStorageRepository.create(createUserDto);
+    await this.usersEventsRepository.publishUserCreated(user);
     return `Hello, ${createUserDto.email}!`;
   }
 }

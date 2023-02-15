@@ -1,13 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import {
-  UsersEventsRepository,
-  UsersEventsRepositoryImplementation,
-} from './application/users/repositories/events/users-events.repository';
-import {
-  UsersStorageRepository,
-  UsersStorageRepositoryImplementation,
-} from './application/users/repositories/storage/users-storage.repository';
+import { UsersEventsRepositoryImplementation } from './application/users/repositories/events/implementation/index.repository';
+import { UsersEventsRepository } from './application/users/repositories/events/users-events.repository';
+import { UsersStorageRepositoryImplementation } from './application/users/repositories/storage/implementation/index.repository';
+import { UsersStorageRepository } from './application/users/repositories/storage/users-storage.repository';
 import { UsersController } from './application/users/users.controller';
 import { UsersService } from './application/users/users.service';
 import { KafkaService } from './infra/events/kafka/kafka.service';

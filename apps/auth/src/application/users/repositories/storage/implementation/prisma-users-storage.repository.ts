@@ -1,9 +1,9 @@
 // users.repository.ts
 import { ConflictException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../../infra/storage/prisma/prisma.service';
-import { CreateUserDto } from '../../dto/create-user.dto';
-import { User } from '../../entities/user.entity';
-import { UsersStorageRepository } from './users-storage.repository';
+import { PrismaService } from '../../../../../infra/storage/prisma/prisma.service';
+import { CreateUserDto } from '../../../dto/create-user.dto';
+import { User } from '../../../entities/user.entity';
+import { UsersStorageRepository } from '../users-storage.repository';
 
 @Injectable()
 export class PrismaUsersStorageRepository implements UsersStorageRepository {
