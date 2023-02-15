@@ -1,9 +1,10 @@
 import { Logger } from '@nestjs/common';
+import { featureFlags } from '../../../../../config';
 import { InMemoryUsersEventsRepository } from './in-memory-users-events.repository';
 import { KafkaUsersEventsRepository } from './kafka-users-events.repository';
 
 const isPersistentStorageEnabled =
-  process.env['PERSISTENT_STORAGE_ENABLED'] === 'true';
+  featureFlags.peristentStorageEnabled === 'true';
 
 export const UsersEventsRepositoryImplementation = isPersistentStorageEnabled
   ? KafkaUsersEventsRepository
