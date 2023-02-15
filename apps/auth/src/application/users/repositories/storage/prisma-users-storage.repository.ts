@@ -11,7 +11,7 @@ export class PrismaUsersStorageRepository implements UsersStorageRepository {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email } = createUserDto;
-    const userExists = this.findByEmail(email);
+    const userExists = await this.findByEmail(email);
     if (userExists) {
       throw new ConflictException('This e-mail is already taken');
     }
