@@ -2,21 +2,24 @@
 import { Injectable } from '@nestjs/common';
 import { Message } from 'kafkajs';
 import { KafkaService } from '../../../../infra/events/kafka/kafka.service';
-import { CreateUserDto } from '../../dto/create-user.dto';
+import { User } from '../../entities/user.entity';
 import { UsersEventsRepository } from './users-events.repository';
 
 @Injectable()
 export class KafkaUsersEventsRepository implements UsersEventsRepository {
   constructor(private kafkaService: KafkaService) {}
 
-  async publishUserCreated(createUserDto: CreateUserDto): Promise<void> {
+  async publishUserCreated(user: User): Promise<void> {
     const producer = await this.kafkaService.createProducer();
-    const { email } = createUserDto;
+
     const message: Message = {
-      key: 'email',
-      value: email,
+      key: user.email,
+      value: JSON.stringify({
+        email: user.email,
+        id: user.id,
+      }),
       headers: {
-        role: 'admin',
+        role: 'default',
       },
     };
 

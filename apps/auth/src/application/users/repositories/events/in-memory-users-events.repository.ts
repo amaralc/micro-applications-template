@@ -1,6 +1,6 @@
 // users.repository.ts
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../../dto/create-user.dto';
+import { User } from '../../entities/user.entity';
 import { UsersEventsRepository } from './users-events.repository';
 
 export interface IHeaders {
@@ -8,8 +8,8 @@ export interface IHeaders {
 }
 
 interface CreatedUserMessage {
-  key: 'email';
-  value: string;
+  key: string;
+  value: User;
   headers?: IHeaders;
 }
 
@@ -17,12 +17,15 @@ interface CreatedUserMessage {
 export class InMemoryUsersEventsRepository implements UsersEventsRepository {
   private usersCreatedTopic: CreatedUserMessage[] = [];
 
-  async publishUserCreated(createUserDto: CreateUserDto): Promise<void> {
+  async publishUserCreated(user: User): Promise<void> {
     this.usersCreatedTopic.push({
-      key: 'email',
-      value: createUserDto.email,
+      key: user.email,
+      value: {
+        id: user.id,
+        email: user.email,
+      },
       headers: {
-        role: 'admin',
+        role: 'default',
       },
     });
     console.log('user-created', this.usersCreatedTopic);
