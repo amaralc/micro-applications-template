@@ -6,12 +6,6 @@ persistence-setup:
 persistence-cleanup:
 	cd apps/persistence && docker-compose down
 
-# Docker
-docker-prune:
-	make persistence-cleanup \
-	&& docker volume prune \
-	&& docker system prune
-
 # Hasura (Dev Tool)
 hasura-console:
 	cd apps/persistence && cp .env ./hasura/.env && cd hasura && hasura console --envfile .env
@@ -27,6 +21,12 @@ hasura-setup:
 # Infra
 infra-setup:
 	make persistence-setup && make hasura-setup
+
+# Docker
+docker-prune:
+	make persistence-cleanup \
+	&& docker volume prune \
+	&& docker system prune
 
 # Application
 auth-prisma-postgresql-setup:
