@@ -29,4 +29,4 @@ auth-prisma-postgresql-setup:
 	prisma generate --schema apps/auth/prisma/schema.prisma
 
 auth-serve:
-	cp .env.example ./apps/auth/.env && make auth-prisma-postgresql-setup && nx serve auth
+	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve auth
