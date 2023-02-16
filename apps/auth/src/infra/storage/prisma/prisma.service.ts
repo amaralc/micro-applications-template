@@ -1,8 +1,13 @@
-import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  INestApplication,
+  Injectable,
+  Logger,
+  OnModuleInit,
+} from '@nestjs/common';
 import { PrismaClient } from '../../../../generated';
+import { featureFlags } from '../../../config';
 
-const isPersistentStorageEnabled =
-  process.env['PERSISTENT_STORAGE_ENABLED'] === 'true';
+const isInMemoryStorageEnabled = featureFlags.inMemoryStorageEnabled === 'true';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -13,18 +18,24 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
 
   async onModuleInit() {
-    if (isPersistentStorageEnabled) {
-      // Connect with database
-      await this.$connect();
+    if (isInMemoryStorageEnabled) {
+      Logger.log('Skipping database connection...');
+      return;
     }
+
+    Logger.log('Connecting with database...');
+    await this.$connect();
   }
 
   async enableShutdownHooks(app: INestApplication) {
-    if (isPersistentStorageEnabled) {
-      this.$on('beforeExit', async () => {
-        // Close app before database shutdown
-        await app.close();
-      });
+    if (isInMemoryStorageEnabled) {
+      Logger.log('Skipping shudown hook...');
+      return;
     }
+
+    this.$on('beforeExit', async () => {
+      Logger.log('Closing app before database shutdown...');
+      await app.close();
+    });
   }
 }

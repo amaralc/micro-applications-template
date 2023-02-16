@@ -29,4 +29,5 @@ auth-prisma-postgresql-setup:
 	prisma generate --schema apps/auth/prisma/schema.prisma
 
 auth-serve:
+  # The .env in root folder make it possible to use env variables within .env file
 	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve auth

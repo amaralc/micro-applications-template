@@ -1,16 +1,16 @@
 import { Logger } from '@nestjs/common';
+import { featureFlags } from '../../../../../config';
 import { InMemoryUsersStorageRepository } from './in-memory-users-storage.repository';
 import { PrismaUsersStorageRepository } from './prisma-users-storage.repository';
 
-const isPersistentStorageEnabled =
-  process.env['PERSISTENT_STORAGE_ENABLED'] === 'true';
+const isInMemoryStorageEnabled = featureFlags.inMemoryStorageEnabled === 'true';
 
-export const UsersStorageRepositoryImplementation = isPersistentStorageEnabled
-  ? PrismaUsersStorageRepository
-  : InMemoryUsersStorageRepository;
+export const UsersStorageRepositoryImplementation = isInMemoryStorageEnabled
+  ? InMemoryUsersStorageRepository
+  : PrismaUsersStorageRepository;
 
 Logger.log(
-  isPersistentStorageEnabled
-    ? 'Using persistent storage...'
-    : 'Using in memory storage...'
+  isInMemoryStorageEnabled
+    ? 'Using in memory storage...'
+    : 'Using persistent storage...'
 );
