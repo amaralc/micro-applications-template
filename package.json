@@ -7,7 +7,8 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "auth:serve": "make auth-serve"
+    "auth-svc:setup": "make infra-setup",
+    "auth-svc:serve": "make auth-svc-serve"
   },
   "private": true,
   "devDependencies": {

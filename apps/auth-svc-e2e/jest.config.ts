@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'auth-e2e',
+  displayName: 'auth-svc-e2e',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -15,5 +15,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/auth-e2e',
+  coverageDirectory: '../../coverage/auth-svc-e2e',
 };

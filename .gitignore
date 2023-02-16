@@ -44,4 +44,4 @@ Thumbs.db
 .env.production.local
 
 # Generated
-apps/auth/generated
+apps/auth-svc/generated

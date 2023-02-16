@@ -29,9 +29,9 @@ docker-prune:
 	&& docker system prune
 
 # Application
-auth-prisma-postgresql-setup:
-	prisma generate --schema apps/auth/prisma/schema.prisma
+auth-svc-prisma-postgresql-setup:
+	prisma generate --schema apps/auth-svc/prisma/schema.prisma
 
-auth-serve:
+auth-svc-serve:
   # The .env in root folder make it possible to use env variables within .env file
-	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve auth
+	cp .env.example .env && make auth-svc-prisma-postgresql-setup && nx serve auth-svc
