@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { KafkaService } from './events/kafka/kafka.service';
-import { PrismaService } from './storage/prisma/prisma.service';
+import { PrismaPostgreSQLService } from './storage/prisma/prisma-postgresql.service';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { PrismaService } from './storage/prisma/prisma.service';
     ConfigModule.forRoot(),
   ],
   controllers: [],
-  providers: [KafkaService, PrismaService],
-  exports: [KafkaService, PrismaService],
+  providers: [KafkaService, PrismaPostgreSQLService],
+  exports: [KafkaService, PrismaPostgreSQLService],
 })
 export class InfraModule {}

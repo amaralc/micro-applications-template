@@ -4,13 +4,16 @@ import {
   Logger,
   OnModuleInit,
 } from '@nestjs/common';
-import { PrismaClient } from '../../../../generated';
+import { PrismaClient } from '../../../../generated/prisma-client/postgresql';
 import { featureFlags } from '../../../config';
 
 const isInMemoryStorageEnabled = featureFlags.inMemoryStorageEnabled === 'true';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaPostgreSQLService
+  extends PrismaClient
+  implements OnModuleInit
+{
   constructor() {
     super({
       log: ['query'],
