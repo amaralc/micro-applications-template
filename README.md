@@ -15,13 +15,14 @@ The primary use case I had in mind, was manage my books. I often lend books to f
 - [Install Docker Compose]()
 - [Install Hasura CLI]()
 - [Install Make]()
+- [Install VSCode Rest Client Extension]()
+- [Install NX Console Extension]()
 
-## Run Auth Service
+## Infrastructure Setup
 
 - (github) Fork this repository;
 - (terminal) Clone repository: `git clone git@github.com:<your-username>/where-is-my-stuff.git`;
-- (terminal) Install dependencies: `yarn install`;
-- (terminal) Set up persistence layer: `yarn persistence:setup`;
+- (terminal) Set up persistence layer: `make infra-setup`;
 - (terminal) Verify that all containers are running: `docker ps`;
 - (terminal) You should see 5 containers up and running:
 
@@ -32,6 +33,11 @@ The primary use case I had in mind, was manage my books. I often lend books to f
     - postgres
     - zookeeper
   ```
+
+## Run auth service
+
+- (terminal) Install dependencies: `yarn install`;
+- (terminal) Run project: `yarn auth:serve`;
 
 # TODO
 

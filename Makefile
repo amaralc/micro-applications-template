@@ -24,6 +24,10 @@ hasura-setup:
 	&& hasura migrate apply --envfile .env \
 	&& hasura metadata reload --envfile .env
 
+# Infra
+infra-setup:
+	make persistence-setup && make hasura-setup
+
 # Application
 auth-prisma-postgresql-setup:
 	prisma generate --schema apps/auth/prisma/schema.prisma
