@@ -45,6 +45,6 @@ export class InMemoryEventsService implements EventsService {
   }
 
   async onModuleInit(): Promise<void> {
-    console.log('initializing');
+    Logger.log('Initializing in memory events manager...');
   }
 }

@@ -99,6 +99,7 @@ export interface Consumer {
 }
 
 export type EachMessageCallback = (payload: ProducerRecord) => Promise<void>;
+
 export type InMemoryEventsManager = {
   [topic: string]: { [id: string]: EachMessageCallback };
 };
