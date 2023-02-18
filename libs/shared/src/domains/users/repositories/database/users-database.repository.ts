@@ -13,13 +13,14 @@ export abstract class UsersDatabaseRepository {
 }
 
 // Implementation
-const isInMemoryStorageEnabled = featureFlags.inMemoryStorageEnabled === 'true';
-export const UsersDatabaseRepositoryImplementation = isInMemoryStorageEnabled
+const isInMemoryDatabaseEnabled =
+  featureFlags.inMemoryDatabaseEnabled === 'true';
+export const UsersDatabaseRepositoryImplementation = isInMemoryDatabaseEnabled
   ? InMemoryUsersDatabaseRepository
   : PrismaUsersDatabaseRepository;
 
 Logger.log(
-  isInMemoryStorageEnabled
+  isInMemoryDatabaseEnabled
     ? 'Using in memory storage...'
     : 'Using persistent storage...'
 );

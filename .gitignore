@@ -44,4 +44,4 @@ Thumbs.db
 .env.production.local
 
 # Generated
-apps/auth-api/generated
+prisma/generated

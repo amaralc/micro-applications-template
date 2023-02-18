@@ -1,5 +1,5 @@
 // users.repository.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Message } from 'kafkajs';
 import { KafkaService } from '../../../../../infra/events/kafka/kafka.service';
 import { User } from '../../../entities/user.entity';
@@ -13,6 +13,10 @@ export class KafkaUsersEventsRepository implements UsersEventsRepository {
 
   async publishUserCreated(user: User): Promise<void> {
     const producer = await this.kafkaService.createProducer();
+    if (!producer) {
+      Logger.warn('Producer was not created');
+      return;
+    }
 
     const messagePayload: IUserCreatedMessagePayload = {
       email: user.email,

@@ -1,13 +1,14 @@
+import { PrismaClient } from '@infra/prisma/generated/postgresql';
 import {
   INestApplication,
   Injectable,
   Logger,
   OnModuleInit,
 } from '@nestjs/common';
-import { PrismaClient } from '../../../../generated/prisma-client/postgresql';
-import { featureFlags } from '../../../config';
+import { featureFlags } from '../../../../../../libs/shared/src/config';
 
-const isInMemoryStorageEnabled = featureFlags.inMemoryStorageEnabled === 'true';
+const isInMemoryDatabaseEnabled =
+  featureFlags.inMemoryDatabaseEnabled === 'true';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -18,7 +19,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
 
   async onModuleInit() {
-    if (isInMemoryStorageEnabled) {
+    if (isInMemoryDatabaseEnabled) {
       Logger.log('Skipping database connection...');
       return;
     }
@@ -28,7 +29,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
 
   async enableShutdownHooks(app: INestApplication) {
-    if (isInMemoryStorageEnabled) {
+    if (isInMemoryDatabaseEnabled) {
       Logger.log('Skipping shudown hook...');
       return;
     }

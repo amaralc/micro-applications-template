@@ -5,7 +5,7 @@ generator client {
   // References:
   // - Issue https://github.com/prisma/prisma/issues/7470
   // - Repository: https://github.com/ionut-gheorghe/nx-multi-prisma
-  output = "../generated/prisma-client/postgresql"
+  output = "./generated/postgresql"
 }
 
 datasource db {

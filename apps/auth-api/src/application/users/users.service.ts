@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UsersDatabaseRepository } from './repositories/database/users-database.repository';
-import { UsersEventsRepository } from './repositories/events/users-events.repository';
+import { CreateUserDto } from '../../../../../libs/shared/src/domains/users/dto/create-user.dto';
+import { UsersDatabaseRepository } from '../../../../../libs/shared/src/domains/users/repositories/database/users-database.repository';
+import { UsersEventsRepository } from '../../../../../libs/shared/src/domains/users/repositories/events/users-events.repository';
 
 @Injectable()
 export class UsersService {

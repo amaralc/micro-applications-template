@@ -10,13 +10,13 @@ export abstract class UsersEventsRepository {
 }
 
 // Implementation
-const isInMemoryStorageEnabled = featureFlags.inMemoryStorageEnabled === 'true';
-export const UsersEventsRepositoryImplementation = isInMemoryStorageEnabled
+const isInMemoryEventsEnabled = featureFlags.inMemoryEventsEnabled === 'true';
+export const UsersEventsRepositoryImplementation = isInMemoryEventsEnabled
   ? InMemoryUsersEventsRepository
   : KafkaUsersEventsRepository;
 
 Logger.log(
-  isInMemoryStorageEnabled
+  isInMemoryEventsEnabled
     ? 'Using in memory events...'
     : 'Using persistent events...'
 );

@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { InfraModule } from '../../infra/infra.module';
 import {
   UsersDatabaseRepository,
   UsersDatabaseRepositoryImplementation,
-} from './repositories/database/users-database.repository';
+} from '@auth/shared/domains/users/repositories/database/users-database.repository';
+import { InfraModule } from '@auth/shared/infra/infra.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import {
   UsersEventsRepository,
   UsersEventsRepositoryImplementation,
-} from './repositories/events/users-events.repository';
+} from '../../../../../libs/shared/src/domains/users/repositories/events/users-events.repository';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
