@@ -10,10 +10,7 @@ import { featureFlags } from '../../../config';
 const isInMemoryStorageEnabled = featureFlags.inMemoryStorageEnabled === 'true';
 
 @Injectable()
-export class PrismaPostgreSQLService
-  extends PrismaClient
-  implements OnModuleInit
-{
+export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor() {
     super({
       log: ['query'],

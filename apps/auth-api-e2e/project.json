@@ -1,13 +1,13 @@
 {
-  "name": "auth-svc-e2e",
+  "name": "auth-api-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": ["auth-svc"],
+  "implicitDependencies": ["auth-api"],
   "targets": {
     "e2e": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
       "options": {
-        "jestConfig": "apps/auth-svc-e2e/jest.config.ts",
+        "jestConfig": "apps/auth-api-e2e/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -15,7 +15,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/auth-svc-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/auth-api-e2e/**/*.{js,ts}"]
       }
     }
   }

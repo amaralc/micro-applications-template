@@ -29,7 +29,7 @@ export class KafkaService implements OnModuleInit {
     // Connect with kafka
     Logger.log('Connecting with kafka...');
     this.kafka = new Kafka({
-      clientId: 'auth-svc',
+      clientId: 'auth-api',
       brokers: ['localhost:9092'], // replace 'kafka:9092' with your kafka host and port
       logLevel: logLevel.NOTHING,
     });
