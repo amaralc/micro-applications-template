@@ -103,3 +103,19 @@ export type EachMessageCallback = (payload: ProducerRecord) => Promise<void>;
 export type InMemoryEventsManager = {
   [topic: string]: { [id: string]: EachMessageCallback };
 };
+
+// export interface EachMessagePayload {
+//   topic: string;
+//   partition: number;
+//   message: KafkaMessage;
+//   heartbeat(): Promise<void>;
+//   pause(): () => void;
+// }
+
+// export interface ProducerRecord {
+//   topic: string;
+//   messages: Message[];
+//   acks?: number;
+//   timeout?: number;
+//   compression?: CompressionTypes;
+// }

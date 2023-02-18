@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Kafka, logLevel } from 'kafkajs';
 import { featureFlags } from '../../../config';
 import { EventsService } from '../events.service';
-import { ProducerRecord } from '../types';
+import { EachMessageHandler, ProducerRecord } from '../types';
 
 const isInMemoryEventsEnabled = featureFlags.inMemoryEventsEnabled === 'true';
 
@@ -40,5 +40,25 @@ export class KafkaEventsService implements EventsService {
     }
     await producer.send(payload);
     await producer.disconnect();
+  }
+
+  async subscribe(topic: string, callback: EachMessageHandler): Promise<void> {
+    if (!this.eventsManager) {
+      Logger.log('Skipping Kafka producer creation...');
+      return;
+    }
+
+    Logger.log('Creating and running kafka consumer...');
+    const consumer = this.eventsManager.consumer({
+      groupId: 'auth',
+    });
+    await consumer.connect();
+    await consumer.subscribe({
+      topics: [topic],
+      fromBeginning: false,
+    });
+    await consumer.run({
+      eachMessage: callback,
+    });
   }
 }

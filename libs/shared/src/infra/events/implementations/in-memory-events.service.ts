@@ -1,7 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { EventsService } from '../events.service';
-import { InMemoryEventsManager, ProducerRecord } from '../types';
+import { parseMessageToKafkaMessage } from '../helpers/parsers';
+import {
+  EachMessageHandler,
+  InMemoryEventsManager,
+  ProducerRecord,
+} from '../types';
 
 @Injectable()
 export class InMemoryEventsService implements EventsService {
@@ -36,12 +41,32 @@ export class InMemoryEventsService implements EventsService {
     });
   }
 
-  async subscribe(
-    topic: string,
-    callback: (payload: ProducerRecord) => Promise<void>
-  ): Promise<void> {
+  async subscribe(topic: string, callback: EachMessageHandler): Promise<void> {
     const id = randomUUID();
-    this.eventsManager[topic][id] = callback;
+    if (!this.eventsManager[topic]) {
+      this.eventsManager[topic] = {};
+    }
+
+    this.eventsManager[topic][id] = async ({ topic, messages }) => {
+      const kafkaMessages = messages.map((message) => {
+        const kafkaMessage = parseMessageToKafkaMessage(message);
+        return kafkaMessage;
+      });
+
+      kafkaMessages.forEach((kafkaMessage) => {
+        callback({
+          topic,
+          message: kafkaMessage,
+          partition: 0,
+          heartbeat: async () => console.log('hi'),
+          pause: () => {
+            return () => {
+              Logger.log('Pausing...');
+            };
+          },
+        });
+      });
+    };
   }
 
   async onModuleInit(): Promise<void> {
