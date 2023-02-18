@@ -1,35 +1,26 @@
 // users.repository.ts
 import { Injectable } from '@nestjs/common';
+import { EventsService } from '../../../../../infra/events/events.service';
 import { User } from '../../../entities/user.entity';
-import { IUserCreatedMessagePayload } from '../dto/types';
 import { USERS_TOPICS } from '../topics';
 import { UsersEventsRepository } from '../users-events.repository';
 
-export interface IHeaders {
-  [key: string]: Buffer | string | (Buffer | string)[] | undefined;
-}
-
-interface CreatedUserMessage {
-  key: string;
-  value: string;
-  headers?: IHeaders;
-}
-
 @Injectable()
 export class InMemoryUsersEventsRepository implements UsersEventsRepository {
-  private usersCreatedTopic: CreatedUserMessage[] = [];
+  constructor(private eventsService: EventsService) {}
 
   async publishUserCreated(user: User): Promise<void> {
-    const messagePayload: IUserCreatedMessagePayload = {
-      email: user.email,
-      id: user.id,
-    };
-
-    this.usersCreatedTopic.push({
-      key: user.email,
-      value: JSON.stringify(messagePayload),
+    this.eventsService.publish({
+      topic: USERS_TOPICS['USER_CREATED'],
+      messages: [
+        {
+          key: user.email,
+          value: JSON.stringify({
+            email: user.email,
+            id: user.id,
+          }),
+        },
+      ],
     });
-
-    console.log(USERS_TOPICS['USER_CREATED'], this.usersCreatedTopic);
   }
 }

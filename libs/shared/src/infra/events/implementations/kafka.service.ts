@@ -7,7 +7,7 @@ import { ProducerRecord } from '../types';
 const isInMemoryEventsEnabled = featureFlags.inMemoryEventsEnabled === 'true';
 
 @Injectable()
-export class KafkaService implements EventsService {
+export class KafkaEventsService implements EventsService {
   private eventsManager: Kafka | undefined;
 
   async onModuleInit() {
