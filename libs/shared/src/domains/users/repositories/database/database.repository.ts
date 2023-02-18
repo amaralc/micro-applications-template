@@ -2,8 +2,8 @@ import { Logger } from '@nestjs/common';
 import { featureFlags } from '../../../../config';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { User } from '../../entities/user.entity';
-import { InMemoryUsersDatabaseRepository } from './implementation/in-memory-users-database.repository';
-import { PrismaUsersDatabaseRepository } from './implementation/prisma-users-database.repository';
+import { InMemoryUsersDatabaseRepository } from './implementation/in-memory.repository';
+import { PrismaUsersDatabaseRepository } from './implementation/prisma.repository';
 
 // Abstraction
 export abstract class UsersDatabaseRepository {

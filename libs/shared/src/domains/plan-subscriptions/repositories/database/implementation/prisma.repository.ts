@@ -3,7 +3,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../../infra/storage/prisma/prisma.service';
 import { CreatePlanSubscriptionDto } from '../../../dto/create-plan-subscription.dto';
 import { PlanSubscription } from '../../../entities/plan-subscription.entity';
-import { PlanSubscriptionsDatabaseRepository } from '../plan-subscriptions-database.repository';
+import { PlanSubscriptionsDatabaseRepository } from '../database.repository';
 
 @Injectable()
 export class PrismaPlanSubscriptionsDatabaseRepository

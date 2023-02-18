@@ -7,11 +7,11 @@ import { PlanSubscriptionsService } from './plan-subscriptions.service';
 import {
   PlanSubscriptionsDatabaseRepository,
   PlanSubscriptionsDatabaseRepositoryImplementation,
-} from './repositories/database/plan-subscriptions-database.repository';
+} from './repositories/database/database.repository';
 import {
   PlanSubscriptionsEventsRepository,
   PlanSubscriptionsEventsRepositoryImplementation,
-} from './repositories/events/plan-subscriptions-events.repository';
+} from './repositories/events/events.repository';
 
 @Module({
   imports: [

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { EventsService } from '../../../../../infra/events/events.service';
 import { UsersService } from '../../../../users/users.service';
 import { PlanSubscription } from '../../../entities/plan-subscription.entity';
-import { PlanSubscriptionsEventsRepository } from '../plan-subscriptions-events.repository';
+import { PlanSubscriptionsEventsRepository } from '../events.repository';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../topics';
 
 @Injectable()

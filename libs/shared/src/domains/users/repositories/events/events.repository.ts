@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { featureFlags } from '../../../../config';
 import { User } from '../../entities/user.entity';
-import { InMemoryUsersEventsRepository } from './implementation/in-memory-users-events.repository';
-import { KafkaUsersEventsRepository } from './implementation/kafka-users-events.repository';
+import { InMemoryUsersEventsRepository } from './implementation/in-memory.repository';
+import { KafkaUsersEventsRepository } from './implementation/kafka.repository';
 
 // Abstraction
 export abstract class UsersEventsRepository {

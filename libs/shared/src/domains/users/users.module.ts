@@ -4,11 +4,11 @@ import { InfraModule } from '../../infra/infra.module';
 import {
   UsersDatabaseRepository,
   UsersDatabaseRepositoryImplementation,
-} from './repositories/database/users-database.repository';
+} from './repositories/database/database.repository';
 import {
   UsersEventsRepository,
   UsersEventsRepositoryImplementation,
-} from './repositories/events/users-events.repository';
+} from './repositories/events/events.repository';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
