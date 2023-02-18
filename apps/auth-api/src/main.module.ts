@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './application/users/users.module';
+import { UsersModule } from './app/users/users.module';
 
 @Module({
   imports: [
@@ -15,4 +15,4 @@ import { UsersModule } from './application/users/users.module';
   controllers: [],
   providers: [],
 })
-export class RootModule {}
+export class MainModule {}

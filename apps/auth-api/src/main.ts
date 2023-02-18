@@ -5,10 +5,10 @@
 
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { RootModule } from './root.module';
+import { MainModule } from './main.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(RootModule);
+  const app = await NestFactory.create(MainModule);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
