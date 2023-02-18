@@ -1,5 +1,5 @@
 // users.repository.ts
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../../../dto/create-user.dto';
 import { User } from '../../../entities/user.entity';
 import { UsersDatabaseRepository } from '../users-database.repository';
@@ -14,7 +14,7 @@ export class InMemoryUsersDatabaseRepository
     const { email } = createUserDto;
     const isExistingUser = await this.findByEmail(email);
     if (isExistingUser) {
-      throw new Error('conflict_existing_user');
+      throw new ConflictException('This e-mail is already taken');
     }
     const user = new User(email);
     this.users.push(user);

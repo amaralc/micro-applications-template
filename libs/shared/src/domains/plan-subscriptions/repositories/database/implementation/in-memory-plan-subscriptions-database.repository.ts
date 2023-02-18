@@ -1,7 +1,7 @@
 // planSubscriptions.repository.ts
 import { ConflictException, Injectable } from '@nestjs/common';
-import { CreatePlanSubscriptionDto } from '../../../../dto/create-plan-subscription.dto';
-import { PlanSubscription } from '../../../../entities/plan-subscription.entity';
+import { CreatePlanSubscriptionDto } from '../../../dto/create-plan-subscription.dto';
+import { PlanSubscription } from '../../../entities/plan-subscription.entity';
 import { PlanSubscriptionsDatabaseRepository } from '../plan-subscriptions-database.repository';
 
 @Injectable()

@@ -1,5 +1,5 @@
-import { CreatePlanSubscriptionDto } from '@auth/shared/domains/dto/create-plan-subscription.dto';
 import { Body, Controller, Post } from '@nestjs/common';
+import { CreatePlanSubscriptionDto } from './dto/create-plan-subscription.dto';
 import { PlanSubscriptionsService } from './plan-subscriptions.service';
 
 @Controller('plan-subscriptions')

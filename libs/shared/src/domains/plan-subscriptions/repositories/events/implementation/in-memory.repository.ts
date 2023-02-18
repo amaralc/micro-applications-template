@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { EventsService } from '../../../../../infra/events/events.service';
-import { PlanSubscription } from '../../../../entities/plan-subscription.entity';
-import { UsersDatabaseRepository } from '../../../../users/repositories/database/users-database.repository';
+import { UsersService } from '../../../../users/users.service';
+import { PlanSubscription } from '../../../entities/plan-subscription.entity';
 import { PlanSubscriptionsEventsRepository } from '../plan-subscriptions-events.repository';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../topics';
 
@@ -11,20 +11,24 @@ export class InMemoryPlanSubscriptionsEventsRepository
 {
   constructor(
     private eventsService: EventsService,
-    private usersDatabaseRepository: UsersDatabaseRepository
+    private usersService: UsersService
   ) {}
 
   async consumePlanSubscriptionCreatedAndUpdateUsers(): Promise<void> {
     this.eventsService.subscribe(
       'plan-subscription-created',
       async ({ message }) => {
-        // Business logic
-        if (!message.value) {
-          return;
+        try {
+          // Business logic
+          if (!message.value) {
+            return;
+          }
+          const jsonMessage = JSON.parse(message.value.toString());
+          console.log('message consumed', jsonMessage);
+          await this.usersService.create({ email: jsonMessage.email });
+        } catch (e) {
+          Logger.log(e);
         }
-        const jsonMessage = JSON.parse(message.value.toString());
-        console.log('message consumed', jsonMessage);
-        this.usersDatabaseRepository.create({ email: jsonMessage.email });
       }
     );
   }
@@ -32,17 +36,21 @@ export class InMemoryPlanSubscriptionsEventsRepository
   async publishPlanSubscriptionCreated(
     planSubscription: PlanSubscription
   ): Promise<void> {
-    this.eventsService.publish({
-      topic: PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED'],
-      messages: [
-        {
-          key: planSubscription.email,
-          value: JSON.stringify({
-            email: planSubscription.email,
-            id: planSubscription.id,
-          }),
-        },
-      ],
-    });
+    try {
+      this.eventsService.publish({
+        topic: PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED'],
+        messages: [
+          {
+            key: planSubscription.email,
+            value: JSON.stringify({
+              email: planSubscription.email,
+              id: planSubscription.id,
+            }),
+          },
+        ],
+      });
+    } catch (e) {
+      Logger.log(e);
+    }
   }
 }

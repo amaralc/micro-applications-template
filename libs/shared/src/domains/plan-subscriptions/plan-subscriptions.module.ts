@@ -1,20 +1,17 @@
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { InfraModule } from '../../infra/infra.module';
+import { UsersModule } from '../users/users.module';
+import { PlanSubscriptionsController } from './plan-subscriptions.controller';
+import { PlanSubscriptionsService } from './plan-subscriptions.service';
 import {
   PlanSubscriptionsDatabaseRepository,
   PlanSubscriptionsDatabaseRepositoryImplementation,
-} from '@auth/shared/domains/plan-subscriptions/repositories/database/plan-subscriptions-database.repository';
+} from './repositories/database/plan-subscriptions-database.repository';
 import {
   PlanSubscriptionsEventsRepository,
   PlanSubscriptionsEventsRepositoryImplementation,
-} from '@auth/shared/domains/plan-subscriptions/repositories/events/plan-subscriptions-events.repository';
-import {
-  UsersDatabaseRepository,
-  UsersDatabaseRepositoryImplementation,
-} from '@auth/shared/domains/users/repositories/database/users-database.repository';
-import { InfraModule } from '@auth/shared/infra/infra.module';
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { PlanSubscriptionsController } from './plan-subscriptions.controller';
-import { PlanSubscriptionsService } from './plan-subscriptions.service';
+} from './repositories/events/plan-subscriptions-events.repository';
 
 @Module({
   imports: [
@@ -25,6 +22,7 @@ import { PlanSubscriptionsService } from './plan-subscriptions.service';
      */
     ConfigModule.forRoot(),
     InfraModule,
+    UsersModule,
   ],
   controllers: [PlanSubscriptionsController],
   providers: [
@@ -36,10 +34,6 @@ import { PlanSubscriptionsService } from './plan-subscriptions.service';
     {
       provide: PlanSubscriptionsEventsRepository,
       useClass: PlanSubscriptionsEventsRepositoryImplementation,
-    },
-    {
-      provide: UsersDatabaseRepository,
-      useClass: UsersDatabaseRepositoryImplementation,
     },
   ],
 })

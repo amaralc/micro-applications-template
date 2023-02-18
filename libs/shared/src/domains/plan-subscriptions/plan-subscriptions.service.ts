@@ -1,13 +1,12 @@
-import { CreatePlanSubscriptionDto } from '@auth/shared/domains/dto/create-plan-subscription.dto';
-import { PlanSubscription } from '@auth/shared/domains/entities/plan-subscription.entity';
-import { PlanSubscriptionsDatabaseRepository } from '@auth/shared/domains/plan-subscriptions/repositories/database/plan-subscriptions-database.repository';
-import { PlanSubscriptionsEventsRepository } from '@auth/shared/domains/plan-subscriptions/repositories/events/plan-subscriptions-events.repository';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { CreatePlanSubscriptionDto } from './dto/create-plan-subscription.dto';
+import { PlanSubscription } from './entities/plan-subscription.entity';
+import { PlanSubscriptionsEventsRepository } from './repositories/events/plan-subscriptions-events.repository';
 
 @Injectable()
 export class PlanSubscriptionsService implements OnModuleInit {
   constructor(
-    private planSubscriptionsDatabaseRepository: PlanSubscriptionsDatabaseRepository,
+    // private planSubscriptionsDatabaseRepository: PlanSubscriptionsDatabaseRepository,
     private planSubscriptionsEventsRepository: PlanSubscriptionsEventsRepository
   ) {}
 

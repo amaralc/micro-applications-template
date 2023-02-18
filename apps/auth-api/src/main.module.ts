@@ -1,6 +1,6 @@
+import { UsersModule } from '@auth/shared/domains/users/users.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './app/users/users.module';
 
 @Module({
   imports: [

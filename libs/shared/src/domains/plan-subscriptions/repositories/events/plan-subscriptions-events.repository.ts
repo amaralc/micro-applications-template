@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { featureFlags } from '../../../../config';
-import { PlanSubscription } from '../../../entities/plan-subscription.entity';
+import { PlanSubscription } from '../../entities/plan-subscription.entity';
 import { InMemoryPlanSubscriptionsEventsRepository } from './implementation/in-memory.repository';
 import { KafkaPlanSubscriptionsEventsRepository } from './implementation/kafka.repository';
 

@@ -1,6 +1,6 @@
+import { PlanSubscriptionsModule } from '@auth/shared/domains/plan-subscriptions/plan-subscriptions.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { PlanSubscriptionsModule } from './app/plan-subscriptions/plan-subscriptions.module';
 
 @Module({
   imports: [
