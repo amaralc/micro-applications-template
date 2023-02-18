@@ -21,6 +21,6 @@ export const UsersDatabaseRepositoryImplementation = isInMemoryDatabaseEnabled
 
 Logger.log(
   isInMemoryDatabaseEnabled
-    ? 'Using in memory storage...'
-    : 'Using persistent storage...'
+    ? 'Using in memory database...'
+    : 'Using persistent database...'
 );
