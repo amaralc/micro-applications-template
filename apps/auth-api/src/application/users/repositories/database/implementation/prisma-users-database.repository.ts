@@ -3,10 +3,10 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../../infra/storage/prisma/prisma.service';
 import { CreateUserDto } from '../../../dto/create-user.dto';
 import { User } from '../../../entities/user.entity';
-import { UsersStorageRepository } from '../users-storage.repository';
+import { UsersDatabaseRepository } from '../users-database.repository';
 
 @Injectable()
-export class PrismaUsersStorageRepository implements UsersStorageRepository {
+export class PrismaUsersDatabaseRepository implements UsersDatabaseRepository {
   constructor(private prismaService: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {

@@ -2,10 +2,12 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../../../dto/create-user.dto';
 import { User } from '../../../entities/user.entity';
-import { UsersStorageRepository } from '../users-storage.repository';
+import { UsersDatabaseRepository } from '../users-database.repository';
 
 @Injectable()
-export class InMemoryUsersStorageRepository implements UsersStorageRepository {
+export class InMemoryUsersDatabaseRepository
+  implements UsersDatabaseRepository
+{
   private users: User[] = [];
 
   async create(createUserDto: CreateUserDto) {

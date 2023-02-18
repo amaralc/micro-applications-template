@@ -1,8 +1,8 @@
 // users.repository.ts
 import { Injectable } from '@nestjs/common';
 import { User } from '../../../entities/user.entity';
-import { USERS_TOPICS } from '../constants';
-import { IUserCreatedMessagePayload } from '../types';
+import { IUserCreatedMessagePayload } from '../dto/types';
+import { USERS_TOPICS } from '../topics';
 import { UsersEventsRepository } from '../users-events.repository';
 
 export interface IHeaders {

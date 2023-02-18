@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { Message } from 'kafkajs';
 import { KafkaService } from '../../../../../infra/events/kafka/kafka.service';
 import { User } from '../../../entities/user.entity';
-import { USERS_TOPICS } from '../constants';
-import { IUserCreatedMessagePayload } from '../types';
+import { IUserCreatedMessagePayload } from '../dto/types';
+import { USERS_TOPICS } from '../topics';
 import { UsersEventsRepository } from '../users-events.repository';
 
 @Injectable()
