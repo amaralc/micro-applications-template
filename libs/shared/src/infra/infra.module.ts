@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { KafkaService } from './events/kafka/kafka.service';
+import { KafkaService } from './events/implementations/kafka.service';
 import { PrismaService } from './storage/prisma/prisma.service';
 
 @Module({

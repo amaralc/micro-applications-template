@@ -1,12 +1,14 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Kafka, logLevel } from 'kafkajs';
 import { featureFlags } from '../../../config';
+import { EventsService } from '../events.service';
+import { ProducerRecord } from '../types';
 
 const isInMemoryEventsEnabled = featureFlags.inMemoryEventsEnabled === 'true';
 
 @Injectable()
-export class KafkaService implements OnModuleInit {
-  private kafka: Kafka | undefined;
+export class KafkaService implements EventsService {
+  private eventsManager: Kafka | undefined;
 
   async onModuleInit() {
     if (isInMemoryEventsEnabled) {
@@ -16,22 +18,27 @@ export class KafkaService implements OnModuleInit {
 
     // Connect with kafka
     Logger.log('Connecting with kafka...');
-    this.kafka = new Kafka({
+    this.eventsManager = new Kafka({
       clientId: 'auth-api',
       brokers: ['localhost:9092'], // replace 'kafka:9092' with your kafka host and port
       logLevel: logLevel.NOTHING,
     });
   }
 
-  async createProducer() {
-    if (!this.kafka) {
+  async publish(payload: ProducerRecord) {
+    if (!this.eventsManager) {
       Logger.log('Skipping Kafka producer creation...');
       return;
     }
 
     Logger.log('Creating kafka producer...');
-    const producer = this.kafka.producer();
+    const producer = this.eventsManager.producer();
     await producer.connect();
-    return producer;
+    if (!producer) {
+      Logger.warn('Producer was not created');
+      return;
+    }
+    await producer.send(payload);
+    await producer.disconnect();
   }
 }
