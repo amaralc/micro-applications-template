@@ -8,7 +8,8 @@
   "scripts": {
     "prepare": "husky install",
     "auth-api:setup": "make infra-setup",
-    "auth-api:serve": "make auth-api-serve"
+    "auth-api:serve": "make auth-api-serve",
+    "auth-consumer:serve": "make auth-consumer-serve"
   },
   "private": true,
   "devDependencies": {

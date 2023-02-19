@@ -18,7 +18,7 @@ export class PlanSubscriptionsService implements OnModuleInit {
   }
 
   onModuleInit() {
-    Logger.log('Initializing planSubscriptions service...');
+    Logger.log('Initializing plan subscriptions service consumers...');
     this.planSubscriptionsEventsRepository.consumePlanSubscriptionCreatedAndUpdateUsers();
   }
 }

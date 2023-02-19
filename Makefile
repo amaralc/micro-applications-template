@@ -29,9 +29,13 @@ docker-prune:
 	&& docker system prune
 
 # Application
-auth-api-prisma-postgresql-setup:
+auth-prisma-postgresql-setup:
 	yarn prisma generate --schema prisma/postgresql.schema.prisma
 
 auth-api-serve:
   # The .env in root folder make it possible to use env variables within .env file
-	cp .env.example .env && make auth-api-prisma-postgresql-setup && nx serve auth-api
+	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve auth-api
+
+auth-consumer-serve:
+  # The .env in root folder make it possible to use env variables within .env file
+	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve auth-consumer
