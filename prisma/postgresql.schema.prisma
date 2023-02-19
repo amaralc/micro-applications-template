@@ -9,7 +9,7 @@ generator client {
   // Remove comment from next line if you wich to change the output of the prisma client. You will also need to change the
   // imports of "PrismaClient" class in other files.
 
-  output = "./generated/postgresql"
+  // output = "./generated/postgresql"
 }
 
 datasource db {
