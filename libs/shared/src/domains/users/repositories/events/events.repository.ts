@@ -17,6 +17,6 @@ export const UsersEventsRepositoryImplementation = isInMemoryEventsEnabled
 
 Logger.log(
   isInMemoryEventsEnabled
-    ? 'Using in memory events...'
-    : 'Using persistent events...'
+    ? 'Using in memory users events repository...'
+    : 'Using persistent users events repository...'
 );

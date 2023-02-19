@@ -24,6 +24,6 @@ export const PlanSubscriptionsDatabaseRepositoryImplementation =
 
 Logger.log(
   isInMemoryDatabaseEnabled
-    ? 'Using in memory database...'
-    : 'Using persistent database...'
+    ? 'Using in memory plan subscriptions database repository...'
+    : 'Using persistent plan subscriptions database repository...'
 );

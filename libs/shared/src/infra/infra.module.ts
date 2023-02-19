@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { EventsService } from './events/events.service';
-import { InMemoryEventsService } from './events/implementations/in-memory-events.service';
+import {
+  EventsService,
+  EventsServiceImplementation,
+} from './events/events.service';
 import { PrismaService } from './storage/prisma/prisma.service';
 
 @Module({
@@ -18,15 +20,15 @@ import { PrismaService } from './storage/prisma/prisma.service';
     PrismaService,
     {
       provide: EventsService,
-      useClass: InMemoryEventsService,
+      useClass: EventsServiceImplementation,
     },
   ],
   exports: [
+    PrismaService,
     {
       provide: EventsService,
-      useClass: InMemoryEventsService,
+      useClass: EventsServiceImplementation,
     },
-    PrismaService,
   ],
 })
 export class InfraModule {}

@@ -21,6 +21,6 @@ export const PlanSubscriptionsEventsRepositoryImplementation =
 
 Logger.log(
   isInMemoryEventsEnabled
-    ? 'Using in memory events...'
-    : 'Using persistent events...'
+    ? 'Using in memory plan subscriptions events repository...'
+    : 'Using persistent plan subscriptions events repository...'
 );

@@ -5,6 +5,7 @@ import { parseMessageToKafkaMessage } from '../helpers/parsers';
 import {
   EachMessageHandler,
   InMemoryEventsManager,
+  InMemoryMessages,
   ProducerRecord,
 } from '../types';
 
@@ -15,7 +16,11 @@ export class InMemoryEventsService implements EventsService {
    * { topic: { id: callback } }
    */
   eventsManager: InMemoryEventsManager = {};
-  messages: { [topic: string]: Array<ProducerRecord> } = {};
+  messages: InMemoryMessages = {};
+
+  async onModuleInit(): Promise<void> {
+    Logger.log('Initializing in memory events manager...');
+  }
 
   async publish(payload: ProducerRecord): Promise<void> {
     const { topic } = payload;
@@ -67,9 +72,5 @@ export class InMemoryEventsService implements EventsService {
         });
       });
     };
-  }
-
-  async onModuleInit(): Promise<void> {
-    Logger.log('Initializing in memory events manager...');
   }
 }

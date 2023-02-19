@@ -104,6 +104,8 @@ export type InMemoryEventsManager = {
   [topic: string]: { [id: string]: EachMessageCallback };
 };
 
+export type InMemoryMessages = { [topic: string]: Array<ProducerRecord> };
+
 // export interface EachMessagePayload {
 //   topic: string;
 //   partition: number;
