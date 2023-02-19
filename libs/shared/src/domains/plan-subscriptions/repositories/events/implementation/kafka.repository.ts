@@ -1,6 +1,6 @@
-// users.repository.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { KafkaEventsService } from '../../../../../infra/events/implementations/kafka.service';
+import { EventsService } from '../../../../../infra/events/events.service';
+import { UsersService } from '../../../../users/users.service';
 import { PlanSubscription } from '../../../entities/plan-subscription.entity';
 import { PlanSubscriptionsEventsRepository } from '../events.repository';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../topics';
@@ -9,32 +9,35 @@ import { PLAN_SUBSCRIPTIONS_TOPICS } from '../topics';
 export class KafkaPlanSubscriptionsEventsRepository
   implements PlanSubscriptionsEventsRepository
 {
-  constructor(private kafkaEventsService: KafkaEventsService) {}
+  constructor(
+    private eventsService: EventsService,
+    private usersService: UsersService
+  ) {}
 
   async consumePlanSubscriptionCreatedAndUpdateUsers(): Promise<void> {
-    try {
-      this.kafkaEventsService.subscribe(
-        'plan-subscription-created',
-        async ({ message }) => {
+    this.eventsService.subscribe(
+      'plan-subscription-created',
+      async ({ message }) => {
+        try {
           // Business logic
           if (!message.value) {
             return;
           }
           const jsonMessage = JSON.parse(message.value.toString());
-          console.log('message consumed', jsonMessage);
-          // this.usersDatabaseRepository.create({ email: jsonMessage.email });
+          console.log('Message consumed: ', jsonMessage);
+          await this.usersService.create({ email: jsonMessage.email });
+        } catch (e) {
+          Logger.log(e);
         }
-      );
-    } catch (e) {
-      Logger.log(e);
-    }
+      }
+    );
   }
 
   async publishPlanSubscriptionCreated(
     planSubscription: PlanSubscription
   ): Promise<void> {
     try {
-      this.kafkaEventsService.publish({
+      this.eventsService.publish({
         topic: PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED'],
         messages: [
           {

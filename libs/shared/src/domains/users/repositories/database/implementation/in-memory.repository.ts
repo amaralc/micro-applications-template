@@ -18,7 +18,7 @@ export class InMemoryUsersDatabaseRepository
     }
     const user = new User(email);
     this.users.push(user);
-    console.log('user stored', this.users);
+    console.log('User stored: ', user);
     return user;
   }
 

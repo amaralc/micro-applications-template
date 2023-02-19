@@ -24,7 +24,7 @@ export class InMemoryPlanSubscriptionsEventsRepository
             return;
           }
           const jsonMessage = JSON.parse(message.value.toString());
-          console.log('message consumed', jsonMessage);
+          console.log('Message consumed: ', jsonMessage);
           await this.usersService.create({ email: jsonMessage.email });
         } catch (e) {
           Logger.log(e);

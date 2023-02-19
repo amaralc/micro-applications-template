@@ -32,7 +32,7 @@ export class InMemoryEventsService implements EventsService {
 
     Logger.log('Publishing new message...');
     this.messages[topic].push(payload);
-    console.log('Messages: ', this.messages);
+    console.log('Message published: ', payload);
 
     // If there are no subscribers, do nothing
     if (!this.eventsManager[topic]) {
