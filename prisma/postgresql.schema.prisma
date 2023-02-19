@@ -14,11 +14,11 @@ model users {
   email      String   @unique
 }
 
-// model plan_subscriptions {
-//   id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-//   created_at DateTime @default(now()) @db.Timestamptz(6)
-//   updated_at DateTime @default(now()) @db.Timestamptz(6)
-//   email      String   @unique
-//   plan       String
-//   is_active  Boolean  @default(true)
-// }
+model plan_subscriptions {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  email      String   @unique
+  plan       String
+  is_active  Boolean  @default(true)
+}
