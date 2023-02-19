@@ -1,4 +1,5 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { GlobalAppHttpException } from '../../errors/global-app-http-exception';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersDatabaseRepository } from './repositories/database/database.repository';
 import { UsersEventsRepository } from './repositories/events/events.repository';
@@ -15,8 +16,9 @@ export class UsersService {
       const user = await this.usersDatabaseRepository.create(createUserDto);
       await this.usersEventsRepository.publishUserCreated(user);
       return user;
-    } catch (e) {
-      throw new ConflictException('This e-mail is already taken');
+    } catch (error) {
+      Logger.log(error);
+      throw new GlobalAppHttpException(error);
     }
   }
 }

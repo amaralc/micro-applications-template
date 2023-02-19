@@ -1,9 +1,5 @@
-import {
-  ConflictException,
-  Injectable,
-  Logger,
-  OnModuleInit,
-} from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { GlobalAppHttpException } from '../../errors/global-app-http-exception';
 import { CreatePlanSubscriptionDto } from './dto/create-plan-subscription.dto';
 import { PlanSubscriptionsDatabaseRepository } from './repositories/database/database.repository';
 import { PlanSubscriptionsEventsRepository } from './repositories/events/events.repository';
@@ -24,8 +20,8 @@ export class PlanSubscriptionsService implements OnModuleInit {
       this.planSubscriptionsEventsRepository.publishPlanSubscriptionCreated(
         planSubscription
       );
-    } catch (e) {
-      throw new ConflictException(e);
+    } catch (error) {
+      throw new GlobalAppHttpException(error);
     }
   }
 
