@@ -1,20 +1,32 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  Logger,
+  OnModuleInit,
+} from '@nestjs/common';
 import { CreatePlanSubscriptionDto } from './dto/create-plan-subscription.dto';
-import { PlanSubscription } from './entities/plan-subscription.entity';
+import { PlanSubscriptionsDatabaseRepository } from './repositories/database/database.repository';
 import { PlanSubscriptionsEventsRepository } from './repositories/events/events.repository';
 
 @Injectable()
 export class PlanSubscriptionsService implements OnModuleInit {
   constructor(
-    // private planSubscriptionsDatabaseRepository: PlanSubscriptionsDatabaseRepository,
+    private planSubscriptionsDatabaseRepository: PlanSubscriptionsDatabaseRepository,
     private planSubscriptionsEventsRepository: PlanSubscriptionsEventsRepository
   ) {}
 
-  create(createPlanSubscriptionDto: CreatePlanSubscriptionDto) {
-    const { email, plan } = createPlanSubscriptionDto;
-    this.planSubscriptionsEventsRepository.publishPlanSubscriptionCreated(
-      new PlanSubscription(email, plan)
-    );
+  async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto) {
+    try {
+      const planSubscription =
+        await this.planSubscriptionsDatabaseRepository.create(
+          createPlanSubscriptionDto
+        );
+      this.planSubscriptionsEventsRepository.publishPlanSubscriptionCreated(
+        planSubscription
+      );
+    } catch (e) {
+      throw new ConflictException(e);
+    }
   }
 
   onModuleInit() {

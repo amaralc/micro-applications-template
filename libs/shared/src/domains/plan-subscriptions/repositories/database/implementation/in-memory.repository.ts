@@ -14,7 +14,9 @@ export class InMemoryPlanSubscriptionsDatabaseRepository
     const { email, plan } = createPlanSubscriptionDto;
     const isExistingPlanSubscription = await this.findByEmail(email);
     if (isExistingPlanSubscription) {
-      throw new ConflictException('This e-mail is already taken');
+      throw new ConflictException(
+        'A subscription with this e-mail already exists.'
+      );
     }
     const user = new PlanSubscription(email, plan);
     this.planSubscriptions.push(user);

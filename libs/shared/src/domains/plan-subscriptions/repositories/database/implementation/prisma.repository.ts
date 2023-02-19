@@ -15,14 +15,18 @@ export class PrismaPlanSubscriptionsDatabaseRepository
     createPlanSubscriptionDto: CreatePlanSubscriptionDto
   ): Promise<PlanSubscription> {
     const { email, plan } = createPlanSubscriptionDto;
-    const userExists = await this.findByEmail(email);
-    if (userExists) {
-      throw new ConflictException('This e-mail is already taken');
+    const subscriptionExists = await this.findByEmail(email);
+    if (subscriptionExists) {
+      throw new ConflictException(
+        'A subscription with this e-mail already exists.'
+      );
     }
 
-    const prismaPlanSubscription = await this.prismaService.users.create({
-      data: { email },
-    });
+    const prismaPlanSubscription =
+      await this.prismaService.plan_subscriptions.create({
+        data: { is_active: true, email, plan },
+      });
+
     const applicationPlanSubscription = new PlanSubscription(
       prismaPlanSubscription.email,
       plan
