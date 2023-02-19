@@ -3,7 +3,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../../infra/storage/prisma/prisma.service';
 import { CreateUserDto } from '../../../dto/create-user.dto';
 import { User } from '../../../entities/user.entity';
-import { UsersDatabaseRepository } from '../users-database.repository';
+import { UsersDatabaseRepository } from '../database.repository';
 
 @Injectable()
 export class PrismaUsersDatabaseRepository implements UsersDatabaseRepository {

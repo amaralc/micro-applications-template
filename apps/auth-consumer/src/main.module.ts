@@ -1,4 +1,4 @@
-import { UsersModule } from '@auth/shared/domains/users/users.module';
+import { PlanSubscriptionsModule } from '@auth/shared/domains/plan-subscriptions/plan-subscriptions.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
@@ -10,7 +10,7 @@ import { ConfigModule } from '@nestjs/config';
      *
      */
     ConfigModule.forRoot(),
-    UsersModule,
+    PlanSubscriptionsModule,
   ],
   controllers: [],
   providers: [],

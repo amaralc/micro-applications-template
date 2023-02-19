@@ -1,11 +1,11 @@
-import { PrismaClient } from '@infra/prisma/generated/postgresql';
 import {
   INestApplication,
   Injectable,
   Logger,
   OnModuleInit,
 } from '@nestjs/common';
-import { featureFlags } from '../../../../../../libs/shared/src/config';
+import { PrismaClient } from '@prisma/client';
+import { featureFlags } from '../../../config';
 
 const isInMemoryDatabaseEnabled =
   featureFlags.inMemoryDatabaseEnabled === 'true';
