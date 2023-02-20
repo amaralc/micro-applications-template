@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { featureFlags } from '../../../../config';
-import { PlanSubscription } from '../../entities/plan-subscription.entity';
+import { PlanSubscriptionCreatedMessageDto } from '../../dto/plan-subscription-created-message.dto';
 import { InMemoryPlanSubscriptionsEventsRepository } from './implementation/in-memory.repository';
 import { KafkaPlanSubscriptionsEventsRepository } from './implementation/kafka.repository';
 
@@ -8,7 +8,7 @@ import { KafkaPlanSubscriptionsEventsRepository } from './implementation/kafka.r
 export abstract class PlanSubscriptionsEventsRepository {
   abstract consumePlanSubscriptionCreatedAndUpdateUsers(): Promise<void>;
   abstract publishPlanSubscriptionCreated(
-    planSubscription: PlanSubscription
+    planSubscriptionCreatedMessageDto: PlanSubscriptionCreatedMessageDto
   ): Promise<void>;
 }
 

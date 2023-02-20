@@ -3,6 +3,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../../infra/storage/prisma/prisma.service';
 import { CreateUserDto } from '../../../dto/create-user.dto';
 import { User } from '../../../entities/user.entity';
+import { USERS_ERROR_MESSAGES } from '../../../errors/error-messages';
 import { UsersDatabaseRepository } from '../database.repository';
 
 @Injectable()
@@ -13,7 +14,9 @@ export class PrismaUsersDatabaseRepository implements UsersDatabaseRepository {
     const { email } = createUserDto;
     const userExists = await this.findByEmail(email);
     if (userExists) {
-      throw new ConflictException('This e-mail is already taken');
+      throw new ConflictException(
+        USERS_ERROR_MESSAGES['CONFLICT_EMAIL_ALREADY_EXIST']
+      );
     }
 
     const prismaUser = await this.prismaService.users.create({

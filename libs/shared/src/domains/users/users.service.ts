@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { GlobalAppHttpException } from '../../errors/global-app-http-exception';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersDatabaseRepository } from './repositories/database/database.repository';
@@ -17,7 +17,6 @@ export class UsersService {
       await this.usersEventsRepository.publishUserCreated(user);
       return user;
     } catch (error) {
-      Logger.log(error);
       throw new GlobalAppHttpException(error);
     }
   }

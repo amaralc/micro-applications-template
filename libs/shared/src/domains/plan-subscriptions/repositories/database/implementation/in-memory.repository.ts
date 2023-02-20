@@ -2,6 +2,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CreatePlanSubscriptionDto } from '../../../dto/create-plan-subscription.dto';
 import { PlanSubscription } from '../../../entities/plan-subscription.entity';
+import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../../../errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from '../database.repository';
 
 @Injectable()
@@ -15,7 +16,7 @@ export class InMemoryPlanSubscriptionsDatabaseRepository
     const isExistingPlanSubscription = await this.findByEmail(email);
     if (isExistingPlanSubscription) {
       throw new ConflictException(
-        'A subscription with this e-mail already exists.'
+        PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT_EMAIL_ALREADY_EXIST']
       );
     }
     const user = new PlanSubscription(email, plan);

@@ -3,6 +3,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../../infra/storage/prisma/prisma.service';
 import { CreatePlanSubscriptionDto } from '../../../dto/create-plan-subscription.dto';
 import { PlanSubscription } from '../../../entities/plan-subscription.entity';
+import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../../../errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from '../database.repository';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class PrismaPlanSubscriptionsDatabaseRepository
     const subscriptionExists = await this.findByEmail(email);
     if (subscriptionExists) {
       throw new ConflictException(
-        'A subscription with this e-mail already exists.'
+        PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT_EMAIL_ALREADY_EXIST']
       );
     }
 

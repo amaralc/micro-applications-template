@@ -17,7 +17,8 @@ export class PlanSubscriptionsService implements OnModuleInit {
         await this.planSubscriptionsDatabaseRepository.create(
           createPlanSubscriptionDto
         );
-      this.planSubscriptionsEventsRepository.publishPlanSubscriptionCreated(
+
+      await this.planSubscriptionsEventsRepository.publishPlanSubscriptionCreated(
         planSubscription
       );
     } catch (error) {
