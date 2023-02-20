@@ -22,7 +22,7 @@ const setupTests = () => {
   };
 };
 
-describe('Create and Publish new User', () => {
+describe('[users] Create user', () => {
   it('should create and publish a new user', async () => {
     const { createUserService, publish } = setupTests();
 
