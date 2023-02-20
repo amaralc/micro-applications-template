@@ -59,7 +59,7 @@ describe('[POST] /users', () => {
         expect(error.response.status).toEqual(409);
         expect(error.response.data).toEqual(
           expect.objectContaining({
-            message: [USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXIST']],
+            message: [USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']],
           })
         );
       }

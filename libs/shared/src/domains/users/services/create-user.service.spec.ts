@@ -2,7 +2,7 @@ import { ValidationException } from '../../../errors/validation-exception';
 import { InMemoryEventsService } from '../../../infra/events/implementations/in-memory-events.service';
 import { InMemoryUsersDatabaseRepository } from '../repositories/database/implementation/in-memory.repository';
 import { InMemoryUsersEventsRepository } from '../repositories/events/implementation/in-memory.repository';
-import { CreateUser } from './create-user';
+import { CreateUserService } from './create-user.service';
 
 describe('Create User', () => {
   it('should create a new user', async () => {
@@ -13,13 +13,13 @@ describe('Create User', () => {
       eventsService
     );
 
-    const createUser = new CreateUser(
+    const createUserService = new CreateUserService(
       usersDatabaseRepository,
       usersEventsRepository
     );
 
     const userEmail = 'user@email.com';
-    const { user } = await createUser.execute({
+    const { user } = await createUserService.execute({
       email: userEmail,
     });
     expect(user.email).toEqual(userEmail);
@@ -33,14 +33,14 @@ describe('Create User', () => {
       eventsService
     );
 
-    const createUser = new CreateUser(
+    const createUserService = new CreateUserService(
       usersDatabaseRepository,
       usersEventsRepository
     );
 
     const userEmail = 'user';
-    await expect(createUser.execute({ email: userEmail })).rejects.toThrow(
-      ValidationException
-    );
+    await expect(
+      createUserService.execute({ email: userEmail })
+    ).rejects.toThrow(ValidationException);
   });
 });
