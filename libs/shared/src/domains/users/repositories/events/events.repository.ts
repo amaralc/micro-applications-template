@@ -4,6 +4,8 @@ import { User } from '../../entities/user.entity';
 import { InMemoryUsersEventsRepository } from './implementation/in-memory.repository';
 import { KafkaUsersEventsRepository } from './implementation/kafka.repository';
 
+const className = 'UsersEventsRepository';
+
 // Abstraction
 export abstract class UsersEventsRepository {
   abstract publishUserCreated(user: User): Promise<void>;
@@ -18,5 +20,6 @@ export const UsersEventsRepositoryImplementation = isInMemoryEventsEnabled
 Logger.log(
   isInMemoryEventsEnabled
     ? 'Using in memory users events repository...'
-    : 'Using persistent users events repository...'
+    : 'Using persistent users events repository...',
+  className
 );

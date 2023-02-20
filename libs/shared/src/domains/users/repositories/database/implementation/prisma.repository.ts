@@ -22,7 +22,7 @@ export class PrismaUsersDatabaseRepository implements UsersDatabaseRepository {
     const prismaUser = await this.prismaService.users.create({
       data: { email },
     });
-    const applicationUser = new User(prismaUser.email);
+    const applicationUser = new User({ email: prismaUser.email });
     return applicationUser;
   }
 
@@ -36,13 +36,15 @@ export class PrismaUsersDatabaseRepository implements UsersDatabaseRepository {
       return null;
     }
 
-    const applicationUser = new User(prismaUser.email);
+    const applicationUser = new User({ email: prismaUser.email });
     return applicationUser;
   }
 
   async findAll() {
     const prismaUsers = await this.prismaService.users.findMany();
-    const applicationUsers = prismaUsers.map((user) => new User(user.email));
+    const applicationUsers = prismaUsers.map(
+      (user) => new User({ email: user.email })
+    );
     return applicationUsers;
   }
 }

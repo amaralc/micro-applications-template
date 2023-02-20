@@ -1,6 +1,6 @@
-import { IsString } from 'class-validator';
+import { IsEmail } from 'class-validator';
 
-export abstract class CreateUserDto {
-  @IsString()
+export class CreateUserDto {
+  @IsEmail()
   email!: string;
 }

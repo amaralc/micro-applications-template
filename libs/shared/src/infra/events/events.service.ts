@@ -5,6 +5,8 @@ import { InMemoryEventsService } from './implementations/in-memory-events.servic
 import { KafkaEventsService } from './implementations/kafka.service';
 import { EachMessageHandler } from './types';
 
+const className = 'EventsService';
+
 export abstract class EventsService implements OnModuleInit {
   abstract publish(payload: ProducerRecord): Promise<void>;
   abstract subscribe(
@@ -23,5 +25,6 @@ export const EventsServiceImplementation = isInMemoryEventsEnabled
 Logger.log(
   isInMemoryEventsEnabled
     ? 'Using in memory events service...'
-    : 'Using persistent events service...'
+    : 'Using persistent events service...',
+  className
 );

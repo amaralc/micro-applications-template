@@ -5,6 +5,8 @@ import { User } from '../../entities/user.entity';
 import { InMemoryUsersDatabaseRepository } from './implementation/in-memory.repository';
 import { PrismaUsersDatabaseRepository } from './implementation/prisma.repository';
 
+const className = 'UsersDatabaseRepository';
+
 // Abstraction
 export abstract class UsersDatabaseRepository {
   abstract create(createUserDto: CreateUserDto): Promise<User>;
@@ -22,5 +24,6 @@ export const UsersDatabaseRepositoryImplementation = isInMemoryDatabaseEnabled
 Logger.log(
   isInMemoryDatabaseEnabled
     ? 'Using in memory users database repository...'
-    : 'Using persistent users database repository...'
+    : 'Using persistent users database repository...',
+  className
 );

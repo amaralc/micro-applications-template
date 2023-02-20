@@ -1,23 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { GlobalAppHttpException } from '../../errors/global-app-http-exception';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UsersDatabaseRepository } from './repositories/database/database.repository';
-import { UsersEventsRepository } from './repositories/events/events.repository';
+import { CreateUser } from './services/create-user';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private usersDatabaseRepository: UsersDatabaseRepository,
-    private usersEventsRepository: UsersEventsRepository
-  ) {}
+  constructor(private createUser: CreateUser) {}
 
-  async create(createUserDto: CreateUserDto) {
-    try {
-      const user = await this.usersDatabaseRepository.create(createUserDto);
-      await this.usersEventsRepository.publishUserCreated(user);
-      return user;
-    } catch (error) {
-      throw new GlobalAppHttpException(error);
-    }
+  create(createUserDto: CreateUserDto) {
+    return this.createUser.execute(createUserDto);
   }
 }

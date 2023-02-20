@@ -9,6 +9,8 @@ import {
   ProducerRecord,
 } from '../types';
 
+const className = 'InMemoryEventsService';
+
 @Injectable()
 export class InMemoryEventsService implements EventsService {
   /**
@@ -26,13 +28,12 @@ export class InMemoryEventsService implements EventsService {
     const { topic } = payload;
 
     if (!this.messages[topic]) {
-      Logger.log('Initializing topic...');
+      Logger.log('Initializing topic...', className);
       this.messages[topic] = [];
     }
 
-    Logger.log('Publishing new message...');
     this.messages[topic].push(payload);
-    console.log('Message published: ', payload);
+    Logger.log('Message published: ' + JSON.stringify(payload), className);
 
     // If there are no subscribers, do nothing
     if (!this.eventsManager[topic]) {

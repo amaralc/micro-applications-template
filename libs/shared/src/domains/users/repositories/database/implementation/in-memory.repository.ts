@@ -1,9 +1,11 @@
 // users.repository.ts
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from '../../../dto/create-user.dto';
 import { User } from '../../../entities/user.entity';
 import { USERS_ERROR_MESSAGES } from '../../../errors/error-messages';
 import { UsersDatabaseRepository } from '../database.repository';
+
+const className = 'InMemoryUsersDatabaseRepository';
 
 @Injectable()
 export class InMemoryUsersDatabaseRepository
@@ -19,9 +21,9 @@ export class InMemoryUsersDatabaseRepository
         USERS_ERROR_MESSAGES['CONFLICT_EMAIL_ALREADY_EXIST']
       );
     }
-    const user = new User(email);
+    const user = new User({ email });
     this.users.push(user);
-    console.log('User stored: ', user);
+    Logger.log('User stored: ' + JSON.stringify(user), className);
     return user;
   }
 

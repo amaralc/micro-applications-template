@@ -1,11 +1,17 @@
 import { randomUUID } from 'crypto';
+import { CreateUserDto } from '../dto/create-user.dto';
 
-export class User {
+export interface IUserProps {
   id: string;
   email: string;
+}
 
-  constructor(email: string) {
+export class User {
+  id: IUserProps['id'];
+  email: IUserProps['email'];
+
+  constructor(createUserDto: CreateUserDto) {
     this.id = randomUUID();
-    this.email = email;
+    this.email = createUserDto.email;
   }
 }

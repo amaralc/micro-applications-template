@@ -9,6 +9,7 @@ import {
   UsersEventsRepository,
   UsersEventsRepositoryImplementation,
 } from './repositories/events/events.repository';
+import { CreateUser } from './services/create-user';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -25,6 +26,7 @@ import { UsersService } from './users.service';
   controllers: [UsersController],
   providers: [
     UsersService,
+    CreateUser,
     {
       provide: UsersDatabaseRepository,
       useClass: UsersDatabaseRepositoryImplementation,

@@ -1,3 +1,8 @@
 export const USERS_ERROR_MESSAGES = {
-  CONFLICT_EMAIL_ALREADY_EXIST: 'E-mail already registered',
+  VALIDATION: {
+    INVALID_EMAIL: 'email must be an email',
+  },
+  CONFLICT: {
+    EMAIL_ALREADY_EXIST: 'E-mail already registered',
+  },
 };
