@@ -9,7 +9,7 @@ import {
   UsersEventsRepository,
   UsersEventsRepositoryImplementation,
 } from './repositories/events/events.repository';
-import { CreateUserService } from './services/create-user.service';
+import { CreateUserUseCase } from './use-cases/create-user.use-case';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -26,7 +26,7 @@ import { UsersService } from './users.service';
   controllers: [UsersController],
   providers: [
     UsersService,
-    CreateUserService,
+    CreateUserUseCase,
     {
       provide: UsersDatabaseRepository,
       useClass: UsersDatabaseRepositoryImplementation,

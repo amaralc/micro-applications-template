@@ -27,7 +27,7 @@ describe('[POST] /users', () => {
         email: invalidEmail,
       });
 
-      expect('this-branch').toEqual('should-never-pass');
+      expect(true).toEqual(false);
     } catch (error) {
       expect(error instanceof AxiosError).toEqual(true);
       if (error instanceof AxiosError) {
@@ -52,7 +52,7 @@ describe('[POST] /users', () => {
         email: newUserEmail,
       });
 
-      expect('this-branch').toEqual('should-never-pass');
+      expect(true).toEqual(false);
     } catch (error) {
       expect(error instanceof AxiosError).toEqual(true);
       if (error instanceof AxiosError) {
