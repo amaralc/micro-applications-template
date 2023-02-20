@@ -4,43 +4,44 @@ import { InMemoryUsersDatabaseRepository } from '../repositories/database/implem
 import { InMemoryUsersEventsRepository } from '../repositories/events/implementation/in-memory.repository';
 import { CreateUserService } from './create-user.service';
 
-describe('Create User', () => {
-  it('should create a new user', async () => {
-    const usersDatabaseRepository = new InMemoryUsersDatabaseRepository();
+const setupTests = () => {
+  const usersDatabaseRepository = new InMemoryUsersDatabaseRepository();
+  const eventsService = new InMemoryEventsService();
+  const usersEventsRepository = new InMemoryUsersEventsRepository(
+    eventsService
+  );
+  const publish = jest.spyOn(usersEventsRepository, 'publishUserCreated');
+  const createUserService = new CreateUserService(
+    usersDatabaseRepository,
+    usersEventsRepository
+  );
 
-    const eventsService = new InMemoryEventsService();
-    const usersEventsRepository = new InMemoryUsersEventsRepository(
-      eventsService
-    );
+  return {
+    publish,
+    createUserService,
+  };
+};
 
-    const createUserService = new CreateUserService(
-      usersDatabaseRepository,
-      usersEventsRepository
-    );
+describe('Create and Publish new User', () => {
+  it('should create and publish a new user', async () => {
+    const { createUserService, publish } = setupTests();
 
     const userEmail = 'user@email.com';
     const { user } = await createUserService.execute({
       email: userEmail,
     });
     expect(user.email).toEqual(userEmail);
+    expect(publish).toHaveBeenCalledTimes(1);
+    expect(publish).toHaveBeenCalledWith(user);
   });
 
-  it('should not create a new user with an invalid e-mail', async () => {
-    const usersDatabaseRepository = new InMemoryUsersDatabaseRepository();
-
-    const eventsService = new InMemoryEventsService();
-    const usersEventsRepository = new InMemoryUsersEventsRepository(
-      eventsService
-    );
-
-    const createUserService = new CreateUserService(
-      usersDatabaseRepository,
-      usersEventsRepository
-    );
+  it('should not create nor publish a new user with an invalid e-mail', async () => {
+    const { createUserService, publish } = setupTests();
 
     const userEmail = 'user';
     await expect(
       createUserService.execute({ email: userEmail })
     ).rejects.toThrow(ValidationException);
+    expect(publish).toHaveBeenCalledTimes(0);
   });
 });

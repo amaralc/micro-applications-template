@@ -15,7 +15,7 @@ export class PrismaUsersDatabaseRepository implements UsersDatabaseRepository {
     const userExists = await this.findByEmail(email);
     if (userExists) {
       throw new ConflictException(
-        USERS_ERROR_MESSAGES['CONFLICT_EMAIL_ALREADY_EXIST']
+        USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']
       );
     }
 

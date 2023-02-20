@@ -18,7 +18,7 @@ export class InMemoryUsersDatabaseRepository
     const isExistingUser = await this.findByEmail(email);
     if (isExistingUser) {
       throw new ConflictException(
-        USERS_ERROR_MESSAGES['CONFLICT_EMAIL_ALREADY_EXIST']
+        USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']
       );
     }
     const user = new User({ email });
