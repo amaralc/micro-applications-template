@@ -51,6 +51,16 @@ This repository is using husky and commitlint to organize commit messages a litt
 - https://github.com/typicode/husky
 - https://github.com/conventional-changelog/commitlint
 
+# Deployment
+
+TODO
+
+References:
+
+- https://upstash.com/
+- https://registry.terraform.io/providers/upstash/upstash/latest/docs
+- https://payloadcms.com/
+
 # References
 
 - https://github.com/devfullcycle/imersao-12-esquenta-kafka
