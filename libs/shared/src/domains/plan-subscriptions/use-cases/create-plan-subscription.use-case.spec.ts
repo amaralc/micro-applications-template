@@ -1,3 +1,6 @@
+import { faker } from '@faker-js/faker';
+import { ConflictException } from '@nestjs/common';
+import { ValidationException } from '../../../errors/validation-exception';
 import { InMemoryEventsService } from '../../../infra/events/implementations/in-memory-events.service';
 import { InMemoryUsersDatabaseRepository } from '../../users/repositories/database/implementation/in-memory.repository';
 import { InMemoryUsersEventsRepository } from '../../users/repositories/events/implementation/in-memory.repository';
@@ -43,18 +46,71 @@ const setupTests = () => {
 };
 
 describe('[plan-subscriptions] Create plan subscription', () => {
-  it('should create and publish a new plan-subscription', async () => {
-    const {
-      createPlanSubscriptionUseCase,
-      create,
-      publishPlanSubscriptionCreated,
-    } = setupTests();
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-    await createPlanSubscriptionUseCase.execute({
-      email: 'email',
-      plan: 'default',
-    });
-    expect(publishPlanSubscriptionCreated).toHaveBeenCalledTimes(1);
-    expect(create).toHaveBeenCalledTimes(1);
+  it('should throw conflict exception if e-mail is already being used', async () => {
+    const { createPlanSubscriptionUseCase } = setupTests();
+    const newUserEmail = faker.internet.email();
+    try {
+      await createPlanSubscriptionUseCase.execute({
+        email: newUserEmail,
+        plan: 'default',
+      });
+      await createPlanSubscriptionUseCase.execute({
+        email: newUserEmail,
+        plan: 'default',
+      });
+      expect(true).toEqual(false);
+    } catch (error) {
+      expect(error instanceof ConflictException).toEqual(true);
+    }
+  });
+
+  it('should throw validation exception if e-mail is not valid', async () => {
+    const { createPlanSubscriptionUseCase, publishPlanSubscriptionCreated } =
+      setupTests();
+    const invalidUserEmail = 'invalid-user-email';
+    try {
+      await createPlanSubscriptionUseCase.execute({
+        email: invalidUserEmail,
+        plan: 'default',
+      });
+      expect(true).toEqual(false);
+    } catch (error) {
+      expect(error instanceof ValidationException).toEqual(true);
+      expect(publishPlanSubscriptionCreated).not.toHaveBeenCalled();
+    }
+  });
+
+  it('should create and publish a new plan-subscription', async () => {
+    try {
+      const {
+        createPlanSubscriptionUseCase,
+        create,
+        publishPlanSubscriptionCreated,
+      } = setupTests();
+
+      const createPlanSubscriptionDto = {
+        email: faker.internet.email(),
+        plan: 'default',
+      };
+
+      await createPlanSubscriptionUseCase.execute(createPlanSubscriptionDto);
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(create).toHaveBeenCalledWith(createPlanSubscriptionDto);
+
+      expect(publishPlanSubscriptionCreated).toHaveBeenCalledTimes(1);
+      expect(publishPlanSubscriptionCreated).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ...createPlanSubscriptionDto,
+          id: expect.any(String),
+          isActive: true,
+        })
+      );
+    } catch (error) {
+      expect(true).toBe(false);
+    }
   });
 });

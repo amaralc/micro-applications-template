@@ -11,21 +11,28 @@ export class InMemoryPlanSubscriptionsDatabaseRepository
 {
   private planSubscriptions: PlanSubscription[] = [];
 
-  async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto) {
+  async create(
+    createPlanSubscriptionDto: CreatePlanSubscriptionDto
+  ): Promise<PlanSubscription> {
     const { email, plan } = createPlanSubscriptionDto;
     const isExistingPlanSubscription = await this.findByEmail(email);
+
     if (isExistingPlanSubscription) {
       throw new ConflictException(
-        PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT_EMAIL_ALREADY_EXIST']
+        PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']
       );
     }
-    const user = new PlanSubscription({ email, plan });
-    this.planSubscriptions.push(user);
-    return user;
+    const planSubscription = new PlanSubscription({ email, plan });
+    this.planSubscriptions.push(planSubscription);
+    return planSubscription;
   }
 
   async findByEmail(email: string): Promise<PlanSubscription | null> {
-    return this.planSubscriptions.find((user) => user.email === email) || null;
+    return (
+      this.planSubscriptions.find(
+        (planSubscription) => planSubscription.email === email
+      ) || null
+    );
   }
 
   async findAll() {

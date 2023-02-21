@@ -1,20 +1,17 @@
 import { faker } from '@faker-js/faker';
-import { randomUUID } from 'crypto';
 import {
-  CreatePlanSubscriptionDto,
-  ICreatePlanSubscriptionDtoProps,
-} from '../../dto/create-plan-subscription.dto';
+  IPlanSubscriptionProps,
+  PlanSubscription,
+} from '../plan-subscription.entity';
 
-type Override = Partial<ICreatePlanSubscriptionDtoProps>;
+type Override = Partial<IPlanSubscriptionProps>;
 
 export function makePlanSubscriptionCreatedMessage(override: Override) {
-  const createPlanSubscriptionDto = new CreatePlanSubscriptionDto({
-    id: randomUUID(),
-    isActive: true,
+  const newPlanSubscription = new PlanSubscription({
     email: faker.internet.email(),
     plan: 'default',
     ...override,
   });
 
-  return JSON.stringify(createPlanSubscriptionDto);
+  return JSON.stringify(newPlanSubscription);
 }

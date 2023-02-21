@@ -4,7 +4,7 @@ import {
   EachMessageHandler,
   EachMessagePayload,
 } from '../../../../infra/events/types';
-import { PlanSubscriptionCreatedMessageDto } from '../../dto/plan-subscription-created-message.dto';
+import { PlanSubscription } from '../../entities/plan-subscription.entity';
 import { InMemoryPlanSubscriptionsEventsRepository } from './implementation/in-memory.repository';
 import { KafkaPlanSubscriptionsEventsRepository } from './implementation/kafka.repository';
 
@@ -19,7 +19,7 @@ export abstract class PlanSubscriptionsEventsRepository {
     payload: EachMessagePayload
   ): Promise<void>;
   abstract publishPlanSubscriptionCreated(
-    planSubscriptionCreatedMessageDto: PlanSubscriptionCreatedMessageDto
+    planSubscription: PlanSubscription
   ): Promise<void>;
 }
 

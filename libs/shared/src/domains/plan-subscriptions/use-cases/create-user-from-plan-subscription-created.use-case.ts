@@ -56,10 +56,5 @@ export class CreateUserFromPlanSubscriptionCreatedUseCase {
 
     // Execute
     await this.createUserUseCase.execute({ email: jsonMessage.email });
-    // } catch (error) {
-    //   if (error instanceof ValidationException) {
-    //     Logger.warn(JSON.stringify(error.causes), error.message);
-    //   }
-    // }
   }
 }
