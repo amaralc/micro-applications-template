@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { InfraModule } from '../../infra/infra.module';
 import { UsersModule } from '../users/users.module';
+import { PlanSubscriptionsConsumer } from './plan-subscriptions.consumer';
 import { PlanSubscriptionsController } from './plan-subscriptions.controller';
 import { PlanSubscriptionsService } from './plan-subscriptions.service';
 import {
@@ -29,6 +30,7 @@ import { ParseOrRejectPlanSubscriptionCreatedMessageUseCase } from './use-cases/
   ],
   controllers: [PlanSubscriptionsController],
   providers: [
+    PlanSubscriptionsConsumer,
     PlanSubscriptionsService,
     ConsumePlanSubscriptionCreatedUseCase,
     CreatePlanSubscriptionUseCase,
