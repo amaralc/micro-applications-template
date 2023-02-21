@@ -28,10 +28,12 @@ export class PrismaPlanSubscriptionsDatabaseRepository
         data: { is_active: true, email, plan },
       });
 
-    const applicationPlanSubscription = new PlanSubscription(
-      prismaPlanSubscription.email,
-      plan
-    );
+    const applicationPlanSubscription = new PlanSubscription({
+      id: prismaPlanSubscription.id,
+      email: prismaPlanSubscription.email,
+      plan,
+      isActive: prismaPlanSubscription.is_active,
+    });
     return applicationPlanSubscription;
   }
 
@@ -46,10 +48,12 @@ export class PrismaPlanSubscriptionsDatabaseRepository
       return null;
     }
 
-    const applicationPlanSubscription = new PlanSubscription(
-      prismaPlanSubscription.email,
-      prismaPlanSubscription.plan
-    );
+    const applicationPlanSubscription = new PlanSubscription({
+      id: prismaPlanSubscription.id,
+      isActive: prismaPlanSubscription.is_active,
+      email: prismaPlanSubscription.email,
+      plan: prismaPlanSubscription.plan,
+    });
     return applicationPlanSubscription;
   }
 
@@ -58,7 +62,12 @@ export class PrismaPlanSubscriptionsDatabaseRepository
       await this.prismaService.plan_subscriptions.findMany();
     const applicationPlanSubscriptions = prismaPlanSubscriptions.map(
       (subscription) =>
-        new PlanSubscription(subscription.email, subscription.plan)
+        new PlanSubscription({
+          id: subscription.id,
+          isActive: subscription.is_active,
+          email: subscription.email,
+          plan: subscription.plan,
+        })
     );
     return applicationPlanSubscriptions;
   }

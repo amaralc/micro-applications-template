@@ -38,11 +38,7 @@ export class CreateUserUseCase {
 
     // Execute
     const user = await this.usersDatabaseRepository.create(createUserDto);
-
-    // Publish
     await this.usersEventsRepository.publishUserCreated(user);
-
-    // Return
     return { user };
   }
 }

@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { EventsService } from '../events.service';
 import { parseMessageToKafkaMessage } from '../helpers/parsers';
+import { makeEachMessagePayloadMock } from '../tests/factories/each-message-payload.factory';
 import {
   EachMessageHandler,
   InMemoryEventsManager,
@@ -42,7 +43,7 @@ export class InMemoryEventsService implements EventsService {
 
     // Execute consumer callbacks for this topic
     Object.keys(this.eventsManager[topic]).forEach((id) => {
-      Logger.log(`Executing callback for consumer id ${id}`);
+      Logger.log(`Executing callback for consumer id ${id}`, className);
       this.eventsManager[topic][id](payload);
     });
   }
@@ -60,17 +61,12 @@ export class InMemoryEventsService implements EventsService {
       });
 
       kafkaMessages.forEach((kafkaMessage) => {
-        callback({
-          topic,
-          message: kafkaMessage,
-          partition: 0,
-          heartbeat: async () => console.log('hi'),
-          pause: () => {
-            return () => {
-              Logger.log('Pausing...');
-            };
-          },
-        });
+        callback(
+          makeEachMessagePayloadMock({
+            topic,
+            message: kafkaMessage,
+          })
+        );
       });
     };
   }

@@ -15,11 +15,22 @@ export const parseMessageToKafkaMessage: (message: Message) => KafkaMessage = ({
   headers,
   key,
   timestamp,
-}) => ({
-  key: typeof key === 'string' ? Buffer.from(key) : null,
-  timestamp: timestamp ?? new Date().toISOString(),
-  headers: headers ?? {},
-  value: typeof value === 'string' ? Buffer.from(value) : null,
-  offset: '0',
-  attributes: 2,
-});
+}) => {
+  let localKey: Buffer | null;
+  if (typeof key === 'undefined') {
+    localKey = null;
+  } else if (typeof key === 'string') {
+    localKey = Buffer.from(key);
+  } else {
+    localKey = key;
+  }
+
+  return {
+    key: localKey,
+    value: typeof value === 'string' ? Buffer.from(value) : value,
+    offset: '0',
+    attributes: 1,
+    headers: headers ?? {},
+    timestamp: timestamp ?? new Date().toISOString(),
+  };
+};

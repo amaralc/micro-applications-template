@@ -19,7 +19,7 @@ export class InMemoryPlanSubscriptionsDatabaseRepository
         PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT_EMAIL_ALREADY_EXIST']
       );
     }
-    const user = new PlanSubscription(email, plan);
+    const user = new PlanSubscription({ email, plan });
     this.planSubscriptions.push(user);
     return user;
   }
