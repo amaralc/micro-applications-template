@@ -1,12 +1,15 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
+import { CreatePlanSubscriptionDto } from './dto/create-plan-subscription.dto';
 import { ConsumePlanSubscriptionCreatedUseCase } from './use-cases/consume-plan-subscription-created.use-case';
+import { CreatePlanSubscriptionUseCase } from './use-cases/create-plan-subscription.use-case';
 import { CreateUserFromPlanSubscriptionCreatedUseCase } from './use-cases/create-user-from-plan-subscription-created.use-case';
 
 @Injectable()
 export class PlanSubscriptionsService implements OnModuleInit {
   constructor(
     private readonly consumePlanSubscriptionCreatedUseCase: ConsumePlanSubscriptionCreatedUseCase,
-    private readonly createUserFromPlanSubscriptionCreatedUseCase: CreateUserFromPlanSubscriptionCreatedUseCase
+    private readonly createUserFromPlanSubscriptionCreatedUseCase: CreateUserFromPlanSubscriptionCreatedUseCase,
+    private readonly createPlanSubscriptionUseCase: CreatePlanSubscriptionUseCase
   ) {}
 
   onModuleInit() {
@@ -23,18 +26,7 @@ export class PlanSubscriptionsService implements OnModuleInit {
     return this.createUserFromPlanSubscriptionCreatedUseCase.execute;
   }
 
-  // async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto) {
-  //   try {
-  //     const planSubscription =
-  //       await this.planSubscriptionsDatabaseRepository.create(
-  //         createPlanSubscriptionDto
-  //       );
-
-  //     await this.planSubscriptionsEventsRepository.publishPlanSubscriptionCreated(
-  //       planSubscription
-  //     );
-  //   } catch (error) {
-  //     throw new GlobalAppHttpException(error);
-  //   }
-  // }
+  create(createPlanSubscriptionDto: CreatePlanSubscriptionDto) {
+    this.createPlanSubscriptionUseCase.execute(createPlanSubscriptionDto);
+  }
 }

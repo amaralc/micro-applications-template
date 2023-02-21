@@ -13,6 +13,7 @@ import {
   PlanSubscriptionsEventsRepositoryImplementation,
 } from './repositories/events/events.repository';
 import { ConsumePlanSubscriptionCreatedUseCase } from './use-cases/consume-plan-subscription-created.use-case';
+import { CreatePlanSubscriptionUseCase } from './use-cases/create-plan-subscription.use-case';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ConsumePlanSubscriptionCreatedUseCase } from './use-cases/consume-plan-
   providers: [
     PlanSubscriptionsService,
     ConsumePlanSubscriptionCreatedUseCase,
+    CreatePlanSubscriptionUseCase,
     {
       provide: PlanSubscriptionsDatabaseRepository,
       useClass: PlanSubscriptionsDatabaseRepositoryImplementation,
