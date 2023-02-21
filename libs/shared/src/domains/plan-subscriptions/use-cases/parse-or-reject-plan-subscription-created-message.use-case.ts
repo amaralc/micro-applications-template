@@ -2,13 +2,13 @@ import { Injectable, Logger } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
 import { InvalidJsonString } from '../../../errors/invalid-json-exception';
+import { InvalidTopic } from '../../../errors/invalid-topic-exception';
 import { ValidationException } from '../../../errors/validation-exception';
 import { EachMessagePayload } from '../../../infra/events/types';
-import { CreateUserUseCase } from '../../users/use-cases/create-user.use-case';
 import { PlanSubscriptionCreatedMessageDto } from '../dto/plan-subscription-created-message.dto';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../repositories/events/topics';
 
-const className = 'CreateUserFromPlanSubscriptionCreatedUseCase';
+const className = 'ParseOrRejectPlanSubscriptionCreatedMessageUseCase';
 
 function isJsonString(str: string) {
   try {
@@ -20,13 +20,14 @@ function isJsonString(str: string) {
 }
 
 @Injectable()
-export class CreateUserFromPlanSubscriptionCreatedUseCase {
-  constructor(private createUserUseCase: CreateUserUseCase) {}
-
-  async execute({ message, topic }: EachMessagePayload): Promise<void> {
-    // Validate or reject
+export class ParseOrRejectPlanSubscriptionCreatedMessageUseCase {
+  async execute({
+    message,
+    topic,
+  }: EachMessagePayload): Promise<PlanSubscriptionCreatedMessageDto> {
+    // Parse or reject
     if (topic !== PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED']) {
-      return;
+      throw new InvalidTopic();
     }
 
     if (!message.value) {
@@ -54,7 +55,6 @@ export class CreateUserFromPlanSubscriptionCreatedUseCase {
       }
     );
 
-    // Execute
-    await this.createUserUseCase.execute({ email: jsonMessage.email });
+    return jsonMessage;
   }
 }

@@ -14,6 +14,7 @@ import {
 } from './repositories/events/events.repository';
 import { ConsumePlanSubscriptionCreatedUseCase } from './use-cases/consume-plan-subscription-created.use-case';
 import { CreatePlanSubscriptionUseCase } from './use-cases/create-plan-subscription.use-case';
+import { ParseOrRejectPlanSubscriptionCreatedMessageUseCase } from './use-cases/parse-or-reject-plan-subscription-created-message.use-case';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CreatePlanSubscriptionUseCase } from './use-cases/create-plan-subscript
     PlanSubscriptionsService,
     ConsumePlanSubscriptionCreatedUseCase,
     CreatePlanSubscriptionUseCase,
+    ParseOrRejectPlanSubscriptionCreatedMessageUseCase,
     {
       provide: PlanSubscriptionsDatabaseRepository,
       useClass: PlanSubscriptionsDatabaseRepositoryImplementation,
@@ -40,5 +42,6 @@ import { CreatePlanSubscriptionUseCase } from './use-cases/create-plan-subscript
       useClass: PlanSubscriptionsEventsRepositoryImplementation,
     },
   ],
+  exports: [],
 })
 export class PlanSubscriptionsModule {}

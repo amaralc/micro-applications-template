@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { ValidationException } from './validation-exception';
 
+const className = 'GlobalAppHttpException';
 export class GlobalAppHttpException {
   constructor(error: unknown, message?: string, status?: HttpStatus) {
     this.bubbleUpHttpException(error, message, status);
@@ -29,8 +30,8 @@ export class GlobalAppHttpException {
     status?: HttpStatus
   ) {
     const exceptionMessage = message || 'Validation failed';
-    Logger.warn(exceptionMessage);
     if (error instanceof ValidationException) {
+      Logger.warn(exceptionMessage + JSON.stringify(error.causes), className);
       throw new HttpException(
         {
           message: exceptionMessage,

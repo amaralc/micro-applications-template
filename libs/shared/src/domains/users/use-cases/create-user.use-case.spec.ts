@@ -59,12 +59,11 @@ describe('[users] Create user', () => {
   });
 
   it('should throw validation exception if e-mail is not valid', async () => {
-    const { createUserUseCase, publish, shouldFailIfThisFunctionIsExecuted } =
-      setupTests();
+    const { createUserUseCase, publish } = setupTests();
     const invalidUserEmail = 'invalid-user-email';
     try {
       await createUserUseCase.execute({ email: invalidUserEmail });
-      shouldFailIfThisFunctionIsExecuted();
+      expect(true).toEqual(false);
     } catch (error) {
       expect(error instanceof ValidationException).toEqual(true);
       expect(publish).not.toHaveBeenCalled();

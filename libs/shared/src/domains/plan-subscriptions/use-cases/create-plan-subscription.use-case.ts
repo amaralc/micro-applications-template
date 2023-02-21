@@ -1,4 +1,4 @@
-import { ValidationError } from '@nestjs/common';
+import { Injectable, ValidationError } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validateOrReject } from 'class-validator';
 import { ValidationException } from '../../../errors/validation-exception';
@@ -7,6 +7,7 @@ import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from '../repositories/database/database.repository';
 import { PlanSubscriptionsEventsRepository } from '../repositories/events/events.repository';
 
+@Injectable()
 export class CreatePlanSubscriptionUseCase {
   constructor(
     private readonly planSubscriptionsDatabaseRepository: PlanSubscriptionsDatabaseRepository,
@@ -38,5 +39,7 @@ export class CreatePlanSubscriptionUseCase {
     await this.planSubscriptionsEventsRepository.publishPlanSubscriptionCreated(
       planSubscription
     );
+
+    return { planSubscription };
   }
 }

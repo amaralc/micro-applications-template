@@ -19,14 +19,22 @@ export class CreateUserUseCase {
   async execute(createUserDto: CreateUserDto): Promise<{ user: User }> {
     // Validate or reject
     const createUserDtoInstance = plainToInstance(CreateUserDto, createUserDto);
-    await validateOrReject(createUserDtoInstance).catch(
-      (validationErrors: ValidationError[]) => {
+
+    try {
+      await validateOrReject(createUserDtoInstance);
+    } catch (errors) {
+      if (
+        Array.isArray(errors) &&
+        errors.every((error) => error instanceof ValidationError)
+      ) {
         throw new ValidationException(
-          validationErrors,
+          errors,
           USERS_ERROR_MESSAGES['VALIDATION']['INVALID_EMAIL']
         );
       }
-    );
+
+      throw errors;
+    }
 
     const existingUser = await this.usersDatabaseRepository.findByEmail(
       createUserDto.email

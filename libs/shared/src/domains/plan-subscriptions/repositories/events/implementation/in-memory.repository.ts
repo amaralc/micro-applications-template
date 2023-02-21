@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { ValidationException } from '../../../../../errors/validation-exception';
 import { EventsService } from '../../../../../infra/events/events.service';
@@ -71,10 +71,7 @@ export class InMemoryPlanSubscriptionsEventsRepository
         messages: [
           {
             key: planSubscription.email,
-            value: JSON.stringify({
-              email: planSubscription.email,
-              id: planSubscription.id,
-            }),
+            value: JSON.stringify(instanceToPlain(planSubscription)),
           },
         ],
       });

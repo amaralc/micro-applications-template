@@ -19,7 +19,7 @@ export class PrismaPlanSubscriptionsDatabaseRepository
     const subscriptionExists = await this.findByEmail(email);
     if (subscriptionExists) {
       throw new ConflictException(
-        PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT_EMAIL_ALREADY_EXIST']
+        PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']
       );
     }
 

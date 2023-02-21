@@ -1,4 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { GlobalAppHttpException } from '../../errors/global-app-http-exception';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 
@@ -8,6 +9,10 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    try {
+      return this.usersService.create(createUserDto);
+    } catch (e) {
+      throw new GlobalAppHttpException(e);
+    }
   }
 }

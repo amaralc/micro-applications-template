@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { GlobalAppHttpException } from '../../errors/global-app-http-exception';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateUserUseCase } from './use-cases/create-user.use-case';
 
@@ -6,7 +7,12 @@ import { CreateUserUseCase } from './use-cases/create-user.use-case';
 export class UsersService {
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
-  create(createUserDto: CreateUserDto) {
-    return this.createUserUseCase.execute(createUserDto);
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const user = await this.createUserUseCase.execute(createUserDto);
+      return user;
+    } catch (e) {
+      throw new GlobalAppHttpException(e);
+    }
   }
 }
