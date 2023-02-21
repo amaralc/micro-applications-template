@@ -13,6 +13,8 @@ The primary use case I had in mind, was manage my books. I often lend books to f
 - [Install Yarn]()
 - [Install Docker Engine]()
 - [Install Docker Compose]()
+- [Mongo Database Tools](https://www.mongodb.com/docs/database-tools/installation/installation-linux/#installation)
+- [Install Studio3T](https://github.com/Studio3T/robomongo)
 - [Install Hasura CLI]()
 - [Install Make]()
 - [Install VSCode Rest Client Extension]()

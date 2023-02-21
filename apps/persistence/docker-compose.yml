@@ -69,3 +69,25 @@ services:
     restart: always
     env_file:
       - .env
+
+  # Mongo Database container initialization (https://hub.docker.com/_/mongo)
+  mongo:
+    image: mongo:5.0
+    restart: always
+    container_name: mongo
+    ports:
+      - '27017:27017'
+    env_file:
+      - .env
+
+  # # Mongo Express (https://github.com/mongo-express/mongo-express)
+  # mongo-express:
+  #   depends_on:
+  #     - mongo
+  #   image: mongo-express
+  #   container_name: mongo-express
+  #   restart: always
+  #   ports:
+  #     - 8081:8081
+  #   env_file:
+  #     - .env
