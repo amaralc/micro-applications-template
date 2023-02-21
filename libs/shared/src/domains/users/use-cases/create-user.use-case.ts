@@ -41,7 +41,9 @@ export class CreateUserUseCase {
     );
 
     if (existingUser) {
-      throw new UserConflictException();
+      throw new UserConflictException(
+        USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']
+      );
     }
 
     // Execute

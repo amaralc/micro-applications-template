@@ -1,11 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { ValidationException } from '../../../../../errors/validation-exception';
 import { EventsService } from '../../../../../infra/events/events.service';
-import { EachMessagePayload } from '../../../../../infra/events/types';
+import {
+  EachMessageHandler,
+  EachMessagePayload,
+} from '../../../../../infra/events/types';
 import { UsersService } from '../../../../users/users.service';
-import { PlanSubscriptionCreatedMessageDto } from '../../../dto/plan-subscription-created-message.dto';
 import { PlanSubscription } from '../../../entities/plan-subscription.entity';
 import { PlanSubscriptionsEventsRepository } from '../events.repository';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../topics';
@@ -31,7 +33,7 @@ export class KafkaPlanSubscriptionsEventsRepository
       }
       const jsonMessage = JSON.parse(message.value.toString());
       const planSubscriptionCreatedMessage = plainToInstance(
-        PlanSubscriptionCreatedMessageDto,
+        PlanSubscription,
         jsonMessage
       );
       Logger.log(JSON.stringify(jsonMessage), className);
@@ -51,10 +53,12 @@ export class KafkaPlanSubscriptionsEventsRepository
     }
   }
 
-  async consumePlanSubscriptionCreated(): Promise<void> {
+  async consumePlanSubscriptionCreated(
+    callback: EachMessageHandler
+  ): Promise<void> {
     this.eventsService.subscribe(
       PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED'],
-      this.createUserFromPlanSubscriptionCreated
+      callback
     );
   }
 
@@ -66,11 +70,8 @@ export class KafkaPlanSubscriptionsEventsRepository
         topic: PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED'],
         messages: [
           {
-            value: JSON.stringify({
-              id: planSubscription.id,
-              email: planSubscription.email,
-              plan: planSubscription.plan,
-            }),
+            key: planSubscription.email,
+            value: JSON.stringify(instanceToPlain(planSubscription)),
           },
         ],
       });

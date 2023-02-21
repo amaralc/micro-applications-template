@@ -38,12 +38,12 @@ export class ParseOrRejectPlanSubscriptionCreatedMessageUseCase {
     }
 
     const stringMessage = message.value.toString();
+    Logger.log('Message value: ' + stringMessage, className);
     if (!isJsonString(stringMessage)) {
       throw new InvalidJsonString();
     }
 
     const jsonMessage = JSON.parse(message.value.toString());
-    Logger.log(JSON.stringify(jsonMessage), className);
     const planSubscriptionCreatedMessage = plainToInstance(
       PlanSubscriptionCreatedMessageDto,
       jsonMessage
