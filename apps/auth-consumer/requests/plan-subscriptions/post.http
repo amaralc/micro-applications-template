@@ -1,0 +1,8 @@
+POST http://localhost:3333/plan-subscriptions HTTP/1.1
+content-type: application/json
+
+{
+    "email": "user3@email.com",
+    "plan": "premium"
+}
+
