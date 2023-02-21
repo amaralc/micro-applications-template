@@ -1,5 +1,5 @@
-import { GlobalAppHttpException } from '@auth/shared/errors/global-app-http-exception';
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { GlobalAppHttpException } from '../../errors/global-app-http-exception';
 import { UsersService } from '../users/users.service';
 import { CreatePlanSubscriptionDto } from './dto/create-plan-subscription.dto';
 import { ConsumePlanSubscriptionCreatedUseCase } from './use-cases/consume-plan-subscription-created.use-case';
@@ -8,7 +8,7 @@ import { ParseOrRejectPlanSubscriptionCreatedMessageUseCase } from './use-cases/
 
 const className = 'PlanSubscriptionsService';
 @Injectable()
-export class PlanSubscriptionsService implements OnModuleInit {
+export class PlanSubscriptionsService {
   constructor(
     private readonly usersService: UsersService,
     private readonly createPlanSubscriptionUseCase: CreatePlanSubscriptionUseCase,
@@ -16,7 +16,7 @@ export class PlanSubscriptionsService implements OnModuleInit {
     private readonly parseOrRejectPlanSubscriptionCreatedMessageUseCase: ParseOrRejectPlanSubscriptionCreatedMessageUseCase
   ) {}
 
-  onModuleInit() {
+  async consumePlanSubscriptionCreatedAndCreateUsers() {
     this.consumePlanSubscriptionCreatedUseCase.execute(async (payload) => {
       try {
         const f = this.parseOrRejectPlanSubscriptionCreatedMessageUseCase;
