@@ -50,6 +50,15 @@ This repository is using husky and commitlint to organize commit messages a litt
 - https://github.com/jdiponziano/next-nx-mfe/blob/stripped-code/.commitlintrc.json
 - https://github.com/typicode/husky
 - https://github.com/conventional-changelog/commitlint
+- https://github.com/conventional-changelog/conventional-changelog
+
+# Releases
+
+We will start using conventional commits in order to experiment on the automation of changelog generation.
+
+[Here](https://github.com/conventional-changelog/conventional-changelog) there are recommendations on how to handle that operation, and although [this](https://github.com/conventional-changelog/standard-version) link points out that the [standard-version](https://github.com/conventional-changelog/standard-version) library is deprecated, it was the simpler to configure. Other great alternative was the [semantic-release](https://github.com/semantic-release/semantic-release) library, but apparently it only works when using Node 18.
+
+For now, for experimentation purposes, we will go with `standard-version`. Later on, I hope to be more familiar so that I can put an effort to switch to whatever other better option.
 
 # Deployment
 

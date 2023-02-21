@@ -7,6 +7,7 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "release": "standard-version",
     "auth-api:setup": "make infra-setup",
     "auth-api:serve": "make auth-api-serve",
     "auth-consumer:serve": "make auth-consumer-serve"
@@ -53,6 +54,7 @@
     "prisma": "^4.10.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
+    "standard-version": "^9.5.0",
     "tslib": "^2.3.0"
   }
 }
