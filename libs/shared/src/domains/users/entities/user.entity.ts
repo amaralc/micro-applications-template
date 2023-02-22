@@ -1,3 +1,4 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { randomUUID } from 'crypto';
 import { CreateUserDto } from '../dto/create-user.dto';
 
@@ -15,3 +16,14 @@ export class User {
     this.email = createUserDto.email;
   }
 }
+
+@Schema()
+export class MongooseUser extends Document implements User {
+  @Prop()
+  id!: IUserProps['id'];
+
+  @Prop()
+  email!: IUserProps['email'];
+}
+
+export const MongooseUserSchema = SchemaFactory.createForClass(MongooseUser);
