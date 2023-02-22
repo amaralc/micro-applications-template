@@ -1,6 +1,7 @@
 # Persistence
 persistence-setup:
-	cp .env.example ./apps/persistence/.env \
+	cp .env.example .env \
+	&& cp .env.example ./apps/persistence/.env \
 	&& cd apps/persistence && docker-compose up -d && echo 'Finish setting up containers...' && sleep 2
 
 persistence-cleanup:
