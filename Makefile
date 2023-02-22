@@ -28,6 +28,10 @@ docker-prune:
 	&& docker volume prune \
 	&& docker system prune
 
+docker-config:
+	cp .env.example ./apps/persistence/.env \
+	&& cd apps/persistence && docker-compose config
+
 # Application
 auth-prisma-postgresql-setup:
 	yarn prisma generate --schema prisma/postgresql.schema.prisma
