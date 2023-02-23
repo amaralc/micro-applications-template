@@ -7,7 +7,9 @@ import { USERS_ERROR_MESSAGES } from '../../../errors/error-messages';
 import { UsersDatabaseRepository } from '../database.repository';
 
 @Injectable()
-export class PrismaUsersDatabaseRepository implements UsersDatabaseRepository {
+export class PrismaPostgreSqlUsersDatabaseRepository
+  implements UsersDatabaseRepository
+{
   constructor(private prismaService: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -22,7 +24,10 @@ export class PrismaUsersDatabaseRepository implements UsersDatabaseRepository {
     const prismaUser = await this.prismaService.users.create({
       data: { email },
     });
-    const applicationUser = new User({ email: prismaUser.email });
+    const applicationUser = new User({
+      email: prismaUser.email,
+      id: prismaUser.id,
+    });
     return applicationUser;
   }
 
@@ -36,14 +41,17 @@ export class PrismaUsersDatabaseRepository implements UsersDatabaseRepository {
       return null;
     }
 
-    const applicationUser = new User({ email: prismaUser.email });
+    const applicationUser = new User({
+      email: prismaUser.email,
+      id: prismaUser.id,
+    });
     return applicationUser;
   }
 
   async findAll() {
     const prismaUsers = await this.prismaService.users.findMany();
     const applicationUsers = prismaUsers.map(
-      (user) => new User({ email: user.email })
+      (prismaUser) => new User({ email: prismaUser.email, id: prismaUser.id })
     );
     return applicationUsers;
   }

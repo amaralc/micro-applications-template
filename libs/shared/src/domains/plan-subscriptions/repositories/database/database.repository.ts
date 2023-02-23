@@ -3,7 +3,8 @@ import { featureFlags } from '../../../../config';
 import { CreatePlanSubscriptionDto } from '../../dto/create-plan-subscription.dto';
 import { PlanSubscription } from '../../entities/plan-subscription.entity';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from './implementation/in-memory.repository';
-import { PrismaPlanSubscriptionsDatabaseRepository } from './implementation/prisma.repository';
+import { MongooseMongoDbPlanSubscriptionsDatabaseRepository } from './implementation/mongoose-mongodb.repository';
+import { PrismaPostgreSqlPlanSubscriptionsDatabaseRepository } from './implementation/prisma-postgresql.repository';
 
 // Abstraction
 export abstract class PlanSubscriptionsDatabaseRepository {
@@ -15,15 +16,34 @@ export abstract class PlanSubscriptionsDatabaseRepository {
 }
 
 // Implementation
-const isInMemoryDatabaseEnabled =
-  featureFlags.inMemoryDatabaseEnabled === 'true';
-export const PlanSubscriptionsDatabaseRepositoryImplementation =
-  isInMemoryDatabaseEnabled
-    ? InMemoryPlanSubscriptionsDatabaseRepository
-    : PrismaPlanSubscriptionsDatabaseRepository;
+const getImplementation = () => {
+  const isInMemoryDatabaseEnabled =
+    featureFlags.inMemoryDatabaseEnabled === 'true';
+  const useMongoDbInsteadOfPostgreSql =
+    featureFlags.useMongoDbInsteadOfPostgreSql === 'true';
 
-Logger.log(
-  isInMemoryDatabaseEnabled
-    ? 'Using in memory plan subscriptions database repository...'
-    : 'Using persistent plan subscriptions database repository...'
-);
+  if (isInMemoryDatabaseEnabled) {
+    Logger.log(
+      'Using in memory plan subscriptions database repository...',
+      PlanSubscriptionsDatabaseRepository.name
+    );
+    return InMemoryPlanSubscriptionsDatabaseRepository;
+  }
+
+  if (useMongoDbInsteadOfPostgreSql) {
+    Logger.log(
+      'Using in persistent plan subscriptions database repository with Mongoose and MongoDB...',
+      PlanSubscriptionsDatabaseRepository.name
+    );
+    return MongooseMongoDbPlanSubscriptionsDatabaseRepository;
+  }
+
+  Logger.log(
+    'Using in persistent plan subscriptions database repository with PrismaORM and PostgreSQL...',
+    PlanSubscriptionsDatabaseRepository.name
+  );
+  return PrismaPostgreSqlPlanSubscriptionsDatabaseRepository;
+};
+
+export const PlanSubscriptionsDatabaseRepositoryImplementation =
+  getImplementation();

@@ -3,7 +3,8 @@ import { featureFlags } from '../../../../config';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { User } from '../../entities/user.entity';
 import { InMemoryUsersDatabaseRepository } from './implementation/in-memory.repository';
-import { PrismaUsersDatabaseRepository } from './implementation/prisma.repository';
+import { MongooseMongodbUsersDatabaseRepository } from './implementation/mongoose-mongodb.repository';
+import { PrismaPostgreSqlUsersDatabaseRepository } from './implementation/prisma-postgresql.repository';
 
 const className = 'UsersDatabaseRepository';
 
@@ -15,15 +16,30 @@ export abstract class UsersDatabaseRepository {
 }
 
 // Implementation
-const isInMemoryDatabaseEnabled =
-  featureFlags.inMemoryDatabaseEnabled === 'true';
-export const UsersDatabaseRepositoryImplementation = isInMemoryDatabaseEnabled
-  ? InMemoryUsersDatabaseRepository
-  : PrismaUsersDatabaseRepository;
+const getImplementation = () => {
+  const isInMemoryDatabaseEnabled =
+    featureFlags.inMemoryDatabaseEnabled === 'true';
+  const useMongoDbInsteadOfPostgreSql =
+    featureFlags.useMongoDbInsteadOfPostgreSql === 'true';
 
-Logger.log(
-  isInMemoryDatabaseEnabled
-    ? 'Using in memory users database repository...'
-    : 'Using persistent users database repository...',
-  className
-);
+  if (isInMemoryDatabaseEnabled) {
+    Logger.log('Using in memory users database repository...', className);
+    return InMemoryUsersDatabaseRepository;
+  }
+
+  if (useMongoDbInsteadOfPostgreSql) {
+    Logger.log(
+      'Using in persistent users database repository with Mongoose and MongoDB...',
+      className
+    );
+    return MongooseMongodbUsersDatabaseRepository;
+  }
+
+  Logger.log(
+    'Using in persistent users database repository with PrismaORM and PostgreSQL...',
+    className
+  );
+  return PrismaPostgreSqlUsersDatabaseRepository;
+};
+
+export const UsersDatabaseRepositoryImplementation = getImplementation();

@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
 import {
-  IPlanSubscriptionProps,
+  IMakePlanSubscriptionProps,
   PlanSubscription,
 } from '../plan-subscription.entity';
 
-type Override = Partial<IPlanSubscriptionProps>;
+type Override = Partial<IMakePlanSubscriptionProps>;
 
 export function makePlanSubscriptionCreatedMessage(override: Override) {
   const newPlanSubscription = new PlanSubscription({

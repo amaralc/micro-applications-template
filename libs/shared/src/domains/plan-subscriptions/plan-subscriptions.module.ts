@@ -1,7 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { InfraModule } from '../../infra/infra.module';
 import { UsersModule } from '../users/users.module';
+import {
+  MongoosePlanSubscription,
+  MongoosePlanSubscriptionSchema,
+} from './entities/plan-subscription.entity';
 import { PlanSubscriptionsConsumer } from './plan-subscriptions.consumer';
 import { PlanSubscriptionsController } from './plan-subscriptions.controller';
 import { PlanSubscriptionsService } from './plan-subscriptions.service';
@@ -27,6 +32,12 @@ import { ParseOrRejectPlanSubscriptionCreatedMessageUseCase } from './use-cases/
     ConfigModule.forRoot(),
     InfraModule,
     UsersModule,
+    MongooseModule.forFeature([
+      {
+        name: MongoosePlanSubscription.name,
+        schema: MongoosePlanSubscriptionSchema,
+      },
+    ]),
   ],
   controllers: [PlanSubscriptionsController],
   providers: [

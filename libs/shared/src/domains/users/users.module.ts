@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { InfraModule } from '../../infra/infra.module';
+import { MongooseUser, MongooseUserSchema } from './entities/user.entity';
 import {
   UsersDatabaseRepository,
   UsersDatabaseRepositoryImplementation,
@@ -22,6 +24,12 @@ import { UsersService } from './users.service';
      */
     ConfigModule.forRoot(),
     InfraModule,
+    MongooseModule.forFeature([
+      {
+        name: MongooseUser.name,
+        schema: MongooseUserSchema,
+      },
+    ]),
   ],
   controllers: [UsersController],
   providers: [
