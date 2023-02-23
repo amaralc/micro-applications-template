@@ -8,7 +8,7 @@ import { EachMessagePayload } from '../../../infra/events/types';
 import { PlanSubscriptionCreatedMessageDto } from '../dto/plan-subscription-created-message.dto';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../repositories/events/topics';
 
-const className = 'ParseOrRejectPlanSubscriptionCreatedMessageUseCase';
+const className = 'ParseOrRejectPlanSubscriptionCreatedMessageService';
 
 function isJsonString(str: string) {
   try {
@@ -20,7 +20,7 @@ function isJsonString(str: string) {
 }
 
 @Injectable()
-export class ParseOrRejectPlanSubscriptionCreatedMessageUseCase {
+export class ParseOrRejectPlanSubscriptionCreatedMessageService {
   async execute({
     message,
     topic,

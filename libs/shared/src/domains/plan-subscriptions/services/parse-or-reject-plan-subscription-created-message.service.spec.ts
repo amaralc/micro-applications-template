@@ -4,11 +4,11 @@ import { makeEachMessagePayloadMock } from '../../../infra/events/tests/factorie
 import { makeKafkaMessageMock } from '../../../infra/events/tests/factories/kafka-message.factory';
 import { makePlanSubscriptionCreatedMessage } from '../entities/factories/make-plan-subscription-created-message.factory';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../repositories/events/topics';
-import { ParseOrRejectPlanSubscriptionCreatedMessageUseCase } from './parse-or-reject-plan-subscription-created-message.use-case';
+import { ParseOrRejectPlanSubscriptionCreatedMessageService } from './parse-or-reject-plan-subscription-created-message.service';
 
 const setupTests = () => {
   const parseOrRejectPlanSubscriptionCreatedMessage =
-    new ParseOrRejectPlanSubscriptionCreatedMessageUseCase();
+    new ParseOrRejectPlanSubscriptionCreatedMessageService();
   const execute = jest.spyOn(
     parseOrRejectPlanSubscriptionCreatedMessage,
     'execute'

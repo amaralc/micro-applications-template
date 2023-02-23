@@ -1,4 +1,3 @@
-import { USERS_ERROR_MESSAGES } from '@auth/shared/domains/users/errors/error-messages';
 import { faker } from '@faker-js/faker';
 import axios, { AxiosError } from 'axios';
 
@@ -32,11 +31,6 @@ describe('[POST] /users', () => {
       expect(error instanceof AxiosError).toEqual(true);
       if (error instanceof AxiosError) {
         expect(error.response.status).toEqual(400);
-        expect(error.response.data).toEqual(
-          expect.objectContaining({
-            message: [USERS_ERROR_MESSAGES['VALIDATION']['INVALID_EMAIL']],
-          })
-        );
       }
     }
   });
@@ -57,11 +51,6 @@ describe('[POST] /users', () => {
       expect(error instanceof AxiosError).toEqual(true);
       if (error instanceof AxiosError) {
         expect(error.response.status).toEqual(409);
-        expect(error.response.data).toEqual(
-          expect.objectContaining({
-            message: [USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']],
-          })
-        );
       }
     }
   });

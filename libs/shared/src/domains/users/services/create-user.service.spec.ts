@@ -13,7 +13,7 @@ const setupTests = () => {
     eventsService
   );
   const publish = jest.spyOn(usersEventsRepository, 'publishUserCreated');
-  const createUserUseCase = new CreateUserService(
+  const createUserService = new CreateUserService(
     usersDatabaseRepository,
     usersEventsRepository
   );
@@ -24,16 +24,16 @@ const setupTests = () => {
 
   return {
     publish,
-    createUserUseCase,
+    createUserService,
     shouldFailIfThisFunctionIsExecuted,
   };
 };
 
 describe('[users] Create user', () => {
   it('should create and publish a new user', async () => {
-    const { createUserUseCase, publish } = setupTests();
+    const { createUserService, publish } = setupTests();
     const newUserEmail = faker.internet.email();
-    const { user } = await createUserUseCase.execute({
+    const { user } = await createUserService.execute({
       email: newUserEmail,
     });
     expect(user.email).toEqual(newUserEmail);
@@ -42,14 +42,14 @@ describe('[users] Create user', () => {
   });
 
   it('should throw conflict exception if e-mail is already being used', async () => {
-    const { createUserUseCase, shouldFailIfThisFunctionIsExecuted } =
+    const { createUserService, shouldFailIfThisFunctionIsExecuted } =
       setupTests();
     const newUserEmail = faker.internet.email();
     try {
-      await createUserUseCase.execute({
+      await createUserService.execute({
         email: newUserEmail,
       });
-      await createUserUseCase.execute({
+      await createUserService.execute({
         email: newUserEmail,
       });
       shouldFailIfThisFunctionIsExecuted();
@@ -59,10 +59,10 @@ describe('[users] Create user', () => {
   });
 
   it('should throw validation exception if e-mail is not valid', async () => {
-    const { createUserUseCase, publish } = setupTests();
+    const { createUserService, publish } = setupTests();
     const invalidUserEmail = 'invalid-user-email';
     try {
-      await createUserUseCase.execute({ email: invalidUserEmail });
+      await createUserService.execute({ email: invalidUserEmail });
       expect(true).toEqual(false);
     } catch (error) {
       expect(error instanceof ValidationException).toEqual(true);
