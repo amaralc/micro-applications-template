@@ -4,7 +4,7 @@ import { ValidationException } from '../../../errors/validation-exception';
 import { InMemoryEventsService } from '../../../infra/events/implementations/in-memory-events.service';
 import { InMemoryUsersDatabaseRepository } from '../../users/repositories/database/implementation/in-memory.repository';
 import { InMemoryUsersEventsRepository } from '../../users/repositories/events/implementation/in-memory.repository';
-import { CreateUserUseCase } from '../../users/use-cases/create-user.use-case';
+import { CreateUserService } from '../../users/use-cases/create-user.use-case';
 import { UsersService } from '../../users/users.service';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database/implementation/in-memory.repository';
 import { InMemoryPlanSubscriptionsEventsRepository } from '../repositories/events/implementation/in-memory.repository';
@@ -20,7 +20,7 @@ const setupTests = () => {
   const usersEventsRepository = new InMemoryUsersEventsRepository(
     eventsService
   );
-  const createUserUseCase = new CreateUserUseCase(
+  const createUserUseCase = new CreateUserService(
     usersDatabaseRepository,
     usersEventsRepository
   );

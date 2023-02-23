@@ -11,9 +11,8 @@ import {
   UsersEventsRepository,
   UsersEventsRepositoryImplementation,
 } from './repositories/events/events.repository';
-import { CreateUserUseCase } from './use-cases/create-user.use-case';
+import { CreateUserService } from './services/create-user.service';
 import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
 
 @Module({
   imports: [
@@ -33,8 +32,7 @@ import { UsersService } from './users.service';
   ],
   controllers: [UsersController],
   providers: [
-    UsersService,
-    CreateUserUseCase,
+    CreateUserService,
     {
       provide: UsersDatabaseRepository,
       useClass: UsersDatabaseRepositoryImplementation,
@@ -44,6 +42,6 @@ import { UsersService } from './users.service';
       useClass: UsersEventsRepositoryImplementation,
     },
   ],
-  exports: [UsersService],
+  exports: [CreateUserService],
 })
 export class UsersModule {}

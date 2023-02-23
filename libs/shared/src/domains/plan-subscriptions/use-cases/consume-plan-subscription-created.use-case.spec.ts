@@ -2,7 +2,7 @@ import { InMemoryEventsService } from '../../../infra/events/implementations/in-
 import { Message } from '../../../infra/events/types';
 import { InMemoryUsersDatabaseRepository } from '../../users/repositories/database/implementation/in-memory.repository';
 import { InMemoryUsersEventsRepository } from '../../users/repositories/events/implementation/in-memory.repository';
-import { CreateUserUseCase } from '../../users/use-cases/create-user.use-case';
+import { CreateUserService } from '../../users/use-cases/create-user.use-case';
 import { UsersService } from '../../users/users.service';
 import { InMemoryPlanSubscriptionsEventsRepository } from '../repositories/events/implementation/in-memory.repository';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../repositories/events/topics';
@@ -14,7 +14,7 @@ const setupTests = () => {
   const usersEventsRepository = new InMemoryUsersEventsRepository(
     eventsService
   );
-  const createUserUseCase = new CreateUserUseCase(
+  const createUserUseCase = new CreateUserService(
     usersDatabaseRepository,
     usersEventsRepository
   );

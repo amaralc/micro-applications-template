@@ -7,7 +7,7 @@ import {
   EachMessageHandler,
   EachMessagePayload,
 } from '../../../../../infra/events/types';
-import { UsersService } from '../../../../users/users.service';
+import { CreateUserService } from '../../../../users/services/create-user.service';
 import { PlanSubscriptionCreatedMessageDto } from '../../../dto/plan-subscription-created-message.dto';
 import { PlanSubscription } from '../../../entities/plan-subscription.entity';
 import { PlanSubscriptionsEventsRepository } from '../events.repository';
@@ -20,7 +20,7 @@ export class InMemoryPlanSubscriptionsEventsRepository
 {
   constructor(
     private eventsService: EventsService,
-    private usersService: UsersService
+    private createUserService: CreateUserService
   ) {}
 
   async createUserFromPlanSubscriptionCreated({
@@ -45,7 +45,7 @@ export class InMemoryPlanSubscriptionsEventsRepository
         throw new ValidationException(isValid, className);
       }
 
-      await this.usersService.create({ email: jsonMessage.email });
+      await this.createUserService.execute({ email: jsonMessage.email });
     } catch (error) {
       if (error instanceof ValidationException) {
         Logger.warn(JSON.stringify(error.causes), error.message);
