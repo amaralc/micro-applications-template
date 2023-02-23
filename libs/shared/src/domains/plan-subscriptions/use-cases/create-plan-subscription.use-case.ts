@@ -1,6 +1,6 @@
-import { Injectable, Logger, ValidationError } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { validateOrReject } from 'class-validator';
+import { validateOrReject, ValidationError } from 'class-validator';
 import { ValidationException } from '../../../errors/validation-exception';
 import { CreatePlanSubscriptionDto } from '../dto/create-plan-subscription.dto';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../errors/error-messages';
@@ -17,19 +17,25 @@ export class CreatePlanSubscriptionUseCase {
 
   async execute(createPlanSubscriptionDto: CreatePlanSubscriptionDto) {
     // Validate or reject
-    const createPlanSubscriptionDtoInstance = plainToInstance(
-      CreatePlanSubscriptionDto,
-      createPlanSubscriptionDto
-    );
-
-    await validateOrReject(createPlanSubscriptionDtoInstance).catch(
-      (validationErrors: ValidationError[]) => {
+    try {
+      const createPlanSubscriptionDtoInstance = plainToInstance(
+        CreatePlanSubscriptionDto,
+        createPlanSubscriptionDto
+      );
+      await validateOrReject(createPlanSubscriptionDtoInstance);
+    } catch (errors) {
+      if (
+        Array.isArray(errors) &&
+        errors.every((error) => error instanceof ValidationError)
+      ) {
         throw new ValidationException(
-          validationErrors,
+          errors,
           PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['VALIDATION']['INVALID_EMAIL']
         );
       }
-    );
+
+      throw errors;
+    }
 
     // Execute
     const planSubscription =

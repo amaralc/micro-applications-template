@@ -1,16 +1,23 @@
 // users.repository.ts
 import { ConflictException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../../../infra/storage/prisma/prisma.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreatePlanSubscriptionDto } from '../../../dto/create-plan-subscription.dto';
-import { PlanSubscription } from '../../../entities/plan-subscription.entity';
+import {
+  MongoosePlanSubscription,
+  PlanSubscription,
+} from '../../../entities/plan-subscription.entity';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../../../errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from '../database.repository';
 
 @Injectable()
-export class PrismaPlanSubscriptionsDatabaseRepository
+export class MongooseMongoDbPlanSubscriptionsDatabaseRepository
   implements PlanSubscriptionsDatabaseRepository
 {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    @InjectModel(MongoosePlanSubscription.name)
+    private readonly planSubscriptionModel: Model<MongoosePlanSubscription>
+  ) {}
 
   async create(
     createPlanSubscriptionDto: CreatePlanSubscriptionDto
@@ -23,48 +30,50 @@ export class PrismaPlanSubscriptionsDatabaseRepository
       );
     }
 
-    const prismaPlanSubscription =
-      await this.prismaService.plan_subscriptions.create({
-        data: { is_active: true, email, plan },
-      });
+    const mongoosePlanSubscription = new this.planSubscriptionModel({
+      isActive: true,
+      email,
+      plan,
+    });
+    mongoosePlanSubscription.save();
 
     const applicationPlanSubscription = new PlanSubscription({
-      id: prismaPlanSubscription.id,
-      email: prismaPlanSubscription.email,
+      id: mongoosePlanSubscription.id,
+      email: mongoosePlanSubscription.email,
+      isActive: mongoosePlanSubscription.isActive,
       plan,
-      isActive: prismaPlanSubscription.is_active,
     });
     return applicationPlanSubscription;
   }
 
   async findByEmail(email: string): Promise<PlanSubscription | null> {
-    const prismaPlanSubscription =
-      await this.prismaService.plan_subscriptions.findFirst({
-        where: {
-          email,
-        },
-      });
-    if (!prismaPlanSubscription) {
+    const mongoosePlanSubscription = await this.planSubscriptionModel
+      .findOne({
+        email,
+      })
+      .exec();
+    if (!mongoosePlanSubscription) {
       return null;
     }
 
     const applicationPlanSubscription = new PlanSubscription({
-      id: prismaPlanSubscription.id,
-      isActive: prismaPlanSubscription.is_active,
-      email: prismaPlanSubscription.email,
-      plan: prismaPlanSubscription.plan,
+      id: mongoosePlanSubscription.id,
+      isActive: mongoosePlanSubscription.isActive,
+      email: mongoosePlanSubscription.email,
+      plan: mongoosePlanSubscription.plan,
     });
     return applicationPlanSubscription;
   }
 
   async findAll() {
-    const prismaPlanSubscriptions =
-      await this.prismaService.plan_subscriptions.findMany();
-    const applicationPlanSubscriptions = prismaPlanSubscriptions.map(
+    const mongoosePlanSubscriptions = await this.planSubscriptionModel
+      .find()
+      .exec();
+    const applicationPlanSubscriptions = mongoosePlanSubscriptions.map(
       (subscription) =>
         new PlanSubscription({
           id: subscription.id,
-          isActive: subscription.is_active,
+          isActive: subscription.isActive,
           email: subscription.email,
           plan: subscription.plan,
         })

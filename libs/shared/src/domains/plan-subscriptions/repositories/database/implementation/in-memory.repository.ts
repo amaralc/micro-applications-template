@@ -23,6 +23,7 @@ export class InMemoryPlanSubscriptionsDatabaseRepository
       );
     }
     const planSubscription = new PlanSubscription({ email, plan });
+    this.planSubscriptions.push(planSubscription);
     return planSubscription;
   }
 

@@ -25,31 +25,34 @@ export class MongooseMongodbUsersDatabaseRepository
       );
     }
 
-    const prismaUser = await this.userModel.create({
+    const mongooseUser = await this.userModel.create({
       email,
     });
 
-    const applicationUser = new User({ email: prismaUser.email });
+    const applicationUser = new User({ email: mongooseUser.email });
     return applicationUser;
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const prismaUser = await this.userModel.findOne({
+    const mongooseUser = await this.userModel.findOne({
       email: email,
     });
 
-    if (!prismaUser) {
+    if (!mongooseUser) {
       return null;
     }
 
-    const applicationUser = new User({ email: prismaUser.email });
+    const applicationUser = new User({
+      email: mongooseUser.email,
+      id: mongooseUser.id,
+    });
     return applicationUser;
   }
 
   async findAll() {
-    const prismaUsers = await this.userModel.find();
-    const applicationUsers = prismaUsers.map(
-      (user) => new User({ email: user.email })
+    const mongooseUsers = await this.userModel.find();
+    const applicationUsers = mongooseUsers.map(
+      (user) => new User({ email: user.email, id: user.id })
     );
     return applicationUsers;
   }
