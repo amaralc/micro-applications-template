@@ -10,7 +10,7 @@ import { UsersDatabaseRepository } from '../repositories/database/database.repos
 import { UsersEventsRepository } from '../repositories/events/events.repository';
 
 @Injectable()
-export class CreateUserUseCase {
+export class CreateUserService {
   constructor(
     private usersDatabaseRepository: UsersDatabaseRepository,
     private usersEventsRepository: UsersEventsRepository

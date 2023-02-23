@@ -9,7 +9,6 @@ import {
 } from './entities/plan-subscription.entity';
 import { PlanSubscriptionsConsumer } from './plan-subscriptions.consumer';
 import { PlanSubscriptionsController } from './plan-subscriptions.controller';
-import { PlanSubscriptionsService } from './plan-subscriptions.service';
 import {
   PlanSubscriptionsDatabaseRepository,
   PlanSubscriptionsDatabaseRepositoryImplementation,
@@ -18,9 +17,9 @@ import {
   PlanSubscriptionsEventsRepository,
   PlanSubscriptionsEventsRepositoryImplementation,
 } from './repositories/events/events.repository';
-import { ConsumePlanSubscriptionCreatedUseCase } from './use-cases/consume-plan-subscription-created.use-case';
-import { CreatePlanSubscriptionUseCase } from './use-cases/create-plan-subscription.use-case';
-import { ParseOrRejectPlanSubscriptionCreatedMessageUseCase } from './use-cases/parse-or-reject-plan-subscription-created-message.use-case';
+import { ConsumePlanSubscriptionCreatedService } from './services/consume-plan-subscription-created.service';
+import { CreatePlanSubscriptionService } from './services/create-plan-subscription.service';
+import { ParseOrRejectPlanSubscriptionCreatedMessageService } from './services/parse-or-reject-plan-subscription-created-message.service';
 
 @Module({
   imports: [
@@ -42,10 +41,9 @@ import { ParseOrRejectPlanSubscriptionCreatedMessageUseCase } from './use-cases/
   controllers: [PlanSubscriptionsController],
   providers: [
     PlanSubscriptionsConsumer,
-    PlanSubscriptionsService,
-    ConsumePlanSubscriptionCreatedUseCase,
-    CreatePlanSubscriptionUseCase,
-    ParseOrRejectPlanSubscriptionCreatedMessageUseCase,
+    ConsumePlanSubscriptionCreatedService,
+    CreatePlanSubscriptionService,
+    ParseOrRejectPlanSubscriptionCreatedMessageService,
     {
       provide: PlanSubscriptionsDatabaseRepository,
       useClass: PlanSubscriptionsDatabaseRepositoryImplementation,

@@ -4,11 +4,10 @@ import { ValidationException } from '../../../errors/validation-exception';
 import { InMemoryEventsService } from '../../../infra/events/implementations/in-memory-events.service';
 import { InMemoryUsersDatabaseRepository } from '../../users/repositories/database/implementation/in-memory.repository';
 import { InMemoryUsersEventsRepository } from '../../users/repositories/events/implementation/in-memory.repository';
-import { CreateUserUseCase } from '../../users/use-cases/create-user.use-case';
-import { UsersService } from '../../users/users.service';
+import { CreateUserService } from '../../users/services/create-user.service';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database/implementation/in-memory.repository';
 import { InMemoryPlanSubscriptionsEventsRepository } from '../repositories/events/implementation/in-memory.repository';
-import { CreatePlanSubscriptionUseCase } from '../use-cases/create-plan-subscription.use-case';
+import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
 
 const setupTests = () => {
   const planSubscriptionsDatabaseRepository =
@@ -20,15 +19,17 @@ const setupTests = () => {
   const usersEventsRepository = new InMemoryUsersEventsRepository(
     eventsService
   );
-  const createUserUseCase = new CreateUserUseCase(
+  const createUserService = new CreateUserService(
     usersDatabaseRepository,
     usersEventsRepository
   );
-  const usersService = new UsersService(createUserUseCase);
 
   const planSubscriptionsEventsRepository =
-    new InMemoryPlanSubscriptionsEventsRepository(eventsService, usersService);
-  const createPlanSubscriptionUseCase = new CreatePlanSubscriptionUseCase(
+    new InMemoryPlanSubscriptionsEventsRepository(
+      eventsService,
+      createUserService
+    );
+  const createPlanSubscriptionService = new CreatePlanSubscriptionService(
     planSubscriptionsDatabaseRepository,
     planSubscriptionsEventsRepository
   );
@@ -41,7 +42,7 @@ const setupTests = () => {
   return {
     create,
     publishPlanSubscriptionCreated,
-    createPlanSubscriptionUseCase,
+    createPlanSubscriptionService,
   };
 };
 
@@ -51,14 +52,14 @@ describe('[plan-subscriptions] Create plan subscription', () => {
   });
 
   it('should throw conflict exception if e-mail is already being used', async () => {
-    const { createPlanSubscriptionUseCase } = setupTests();
+    const { createPlanSubscriptionService } = setupTests();
     const newUserEmail = faker.internet.email();
     try {
-      await createPlanSubscriptionUseCase.execute({
+      await createPlanSubscriptionService.execute({
         email: newUserEmail,
         plan: 'default',
       });
-      await createPlanSubscriptionUseCase.execute({
+      await createPlanSubscriptionService.execute({
         email: newUserEmail,
         plan: 'default',
       });
@@ -69,11 +70,11 @@ describe('[plan-subscriptions] Create plan subscription', () => {
   });
 
   it('should throw validation exception if e-mail is not valid', async () => {
-    const { createPlanSubscriptionUseCase, publishPlanSubscriptionCreated } =
+    const { createPlanSubscriptionService, publishPlanSubscriptionCreated } =
       setupTests();
     const invalidUserEmail = 'invalid-user-email';
     try {
-      await createPlanSubscriptionUseCase.execute({
+      await createPlanSubscriptionService.execute({
         email: invalidUserEmail,
         plan: 'default',
       });
@@ -87,7 +88,7 @@ describe('[plan-subscriptions] Create plan subscription', () => {
   it('should create and publish a new plan-subscription', async () => {
     try {
       const {
-        createPlanSubscriptionUseCase,
+        createPlanSubscriptionService,
         create,
         publishPlanSubscriptionCreated,
       } = setupTests();
@@ -97,7 +98,7 @@ describe('[plan-subscriptions] Create plan subscription', () => {
         plan: 'default',
       };
 
-      await createPlanSubscriptionUseCase.execute(createPlanSubscriptionDto);
+      await createPlanSubscriptionService.execute(createPlanSubscriptionDto);
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createPlanSubscriptionDto);
 

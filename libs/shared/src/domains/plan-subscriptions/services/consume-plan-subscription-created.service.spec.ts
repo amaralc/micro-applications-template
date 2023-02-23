@@ -2,11 +2,10 @@ import { InMemoryEventsService } from '../../../infra/events/implementations/in-
 import { Message } from '../../../infra/events/types';
 import { InMemoryUsersDatabaseRepository } from '../../users/repositories/database/implementation/in-memory.repository';
 import { InMemoryUsersEventsRepository } from '../../users/repositories/events/implementation/in-memory.repository';
-import { CreateUserUseCase } from '../../users/use-cases/create-user.use-case';
-import { UsersService } from '../../users/users.service';
+import { CreateUserService } from '../../users/services/create-user.service';
 import { InMemoryPlanSubscriptionsEventsRepository } from '../repositories/events/implementation/in-memory.repository';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../repositories/events/topics';
-import { ConsumePlanSubscriptionCreatedUseCase } from './consume-plan-subscription-created.use-case';
+import { ConsumePlanSubscriptionCreatedService } from './consume-plan-subscription-created.service';
 
 const setupTests = () => {
   const eventsService = new InMemoryEventsService();
@@ -14,15 +13,18 @@ const setupTests = () => {
   const usersEventsRepository = new InMemoryUsersEventsRepository(
     eventsService
   );
-  const createUserUseCase = new CreateUserUseCase(
+  const createUserService = new CreateUserService(
     usersDatabaseRepository,
     usersEventsRepository
   );
-  const usersService = new UsersService(createUserUseCase);
+
   const planSubscriptionsEventsRepository =
-    new InMemoryPlanSubscriptionsEventsRepository(eventsService, usersService);
-  const consumePlanSubscriptionCreatedUseCase =
-    new ConsumePlanSubscriptionCreatedUseCase(
+    new InMemoryPlanSubscriptionsEventsRepository(
+      eventsService,
+      createUserService
+    );
+  const consumePlanSubscriptionCreatedService =
+    new ConsumePlanSubscriptionCreatedService(
       planSubscriptionsEventsRepository
     );
 
@@ -39,7 +41,7 @@ const setupTests = () => {
     callback,
     eventsService,
     subscribe,
-    consumePlanSubscriptionCreatedUseCase,
+    consumePlanSubscriptionCreatedService,
   };
 };
 
@@ -48,11 +50,11 @@ describe('[plan-subscriptions] Consume subscription an create user', () => {
     const {
       eventsService,
       subscribe,
-      consumePlanSubscriptionCreatedUseCase,
+      consumePlanSubscriptionCreatedService,
       callback,
     } = setupTests();
 
-    await consumePlanSubscriptionCreatedUseCase.execute(callback);
+    await consumePlanSubscriptionCreatedService.execute(callback);
 
     const topic = PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED'];
     const messages: Array<Message> = [];

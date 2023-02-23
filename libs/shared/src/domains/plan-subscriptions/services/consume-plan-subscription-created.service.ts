@@ -2,10 +2,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { EachMessageHandler } from '../../../infra/events/types';
 import { PlanSubscriptionsEventsRepository } from '../repositories/events/events.repository';
 
-const className = 'ConsumePlanSubscriptionCreatedUseCase';
+const className = 'ConsumePlanSubscriptionCreatedService';
 
 @Injectable()
-export class ConsumePlanSubscriptionCreatedUseCase {
+export class ConsumePlanSubscriptionCreatedService {
   constructor(
     private planSubscriptionsEventsRepository: PlanSubscriptionsEventsRepository
   ) {}

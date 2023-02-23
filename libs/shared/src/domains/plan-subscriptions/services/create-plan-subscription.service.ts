@@ -7,9 +7,9 @@ import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from '../repositories/database/database.repository';
 import { PlanSubscriptionsEventsRepository } from '../repositories/events/events.repository';
 
-const className = 'CreatePlanSubscriptionUseCase';
+const className = 'CreatePlanSubscriptionService';
 @Injectable()
-export class CreatePlanSubscriptionUseCase {
+export class CreatePlanSubscriptionService {
   constructor(
     private readonly planSubscriptionsDatabaseRepository: PlanSubscriptionsDatabaseRepository,
     private readonly planSubscriptionsEventsRepository: PlanSubscriptionsEventsRepository
