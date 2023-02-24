@@ -54,6 +54,10 @@ This repository is using husky and commitlint to organize commit messages a litt
 - https://github.com/conventional-changelog/commitlint
 - https://github.com/conventional-changelog/conventional-changelog
 
+## Hooks
+
+This repository include pre-commit hooks with Husky. There is a hook for checking if the commit message complies with the message formats and also a hook that runs all unit tests before the commit.
+
 # Releases
 
 We will start using conventional commits in order to experiment on the automation of changelog generation.

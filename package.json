@@ -7,10 +7,12 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "pre-commit": "yarn test:shared",
     "release": "standard-version",
     "auth-api:setup": "make infra-setup",
     "auth-api:serve": "make auth-api-serve",
-    "auth-consumer:serve": "make auth-consumer-serve"
+    "auth-consumer:serve": "make auth-consumer-serve",
+    "test:shared": "nx test shared"
   },
   "private": true,
   "devDependencies": {
