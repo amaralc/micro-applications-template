@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/amaralc/where-is-my-stuff/compare/v0.0.1...v0.0.2) (2023-02-24)
+
+
+### Features
+
+* add mongo to persistence layer ([ff6af9c](https://github.com/amaralc/where-is-my-stuff/commit/ff6af9cf120c2095226c009de11c601ba3d81638))
+* add mongodb to env and make ([5fa840d](https://github.com/amaralc/where-is-my-stuff/commit/5fa840df012cd69f0ee2b3c9f89e11c20a8fbbfc))
+* implement mongoose database repository ([765e356](https://github.com/amaralc/where-is-my-stuff/commit/765e3563d4efc09826f33ab2194dc67bcaeffd3d))
+* use mongoose models and schema ([822964f](https://github.com/amaralc/where-is-my-stuff/commit/822964fae7d358d62bf3f0ab2b5f1eec16f43b65))
+
 ### 0.0.1 (2023-02-21)
 
 
