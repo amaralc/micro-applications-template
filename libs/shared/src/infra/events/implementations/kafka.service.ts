@@ -21,7 +21,7 @@ export class KafkaEventsService implements EventsService {
     // Connect with kafka
     Logger.log('Connecting with kafka...', className);
     this.eventsManager = new Kafka({
-      clientId: 'auth-api',
+      clientId: 'auth-api-only',
       brokers: ['localhost:9092'], // replace 'kafka:9092' with your kafka host and port
       logLevel: logLevel.NOTHING,
     });

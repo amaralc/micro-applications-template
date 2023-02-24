@@ -36,10 +36,10 @@ The primary use case I had in mind, was manage my books. I often lend books to f
     - zookeeper
   ```
 
-## Run auth-api service
+## Run auth-api-only service
 
 - (terminal) Install dependencies: `yarn install`;
-- (terminal) Run project: `yarn auth-api:serve`;
+- (terminal) Run project: `yarn auth-api-only:serve`;
 
 # TODO
 

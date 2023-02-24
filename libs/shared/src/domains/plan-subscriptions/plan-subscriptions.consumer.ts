@@ -9,7 +9,7 @@ import { ParseOrRejectPlanSubscriptionCreatedMessageService } from './services/p
 @Injectable()
 export class PlanSubscriptionsConsumer implements OnModuleInit {
   constructor(
-    private consumePlanSubscriptionCreatedService: ConsumePlanSubscriptionCreatedService,
+    private readonly consumePlanSubscriptionCreatedService: ConsumePlanSubscriptionCreatedService,
     private readonly parseOrRejectPlanSubscriptionCreatedMessageService: ParseOrRejectPlanSubscriptionCreatedMessageService,
     private readonly createUserService: CreateUserService
   ) {}

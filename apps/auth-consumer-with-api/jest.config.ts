@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'auth-consumer',
+  displayName: 'auth-consumer-with-api',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -12,5 +12,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/auth-consumer',
+  coverageDirectory: '../../coverage/apps/auth-consumer-with-api',
 };

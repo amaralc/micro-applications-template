@@ -1,13 +1,13 @@
 {
-  "name": "auth-api-e2e",
+  "name": "auth-consumer-only-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": ["auth-api"],
+  "implicitDependencies": ["auth-consumer-only"],
   "targets": {
     "e2e": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
       "options": {
-        "jestConfig": "apps/auth-api-e2e/jest.config.ts",
+        "jestConfig": "apps/auth-consumer-only-e2e/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -15,7 +15,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/auth-api-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/auth-consumer-only-e2e/**/*.{js,ts}"]
       }
     }
   }
