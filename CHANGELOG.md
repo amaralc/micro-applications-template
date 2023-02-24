@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/amaralc/where-is-my-stuff/compare/v0.0.2...v0.0.3) (2023-02-24)
+
+
+### Features
+
+* **pre-commit-hooks:** 11 every unit test should run before a commit ([#13](https://github.com/amaralc/where-is-my-stuff/issues/13)) ([e332602](https://github.com/amaralc/where-is-my-stuff/commit/e332602b27a3d3051bb65888f94149b0e3388f48))
+
 ### [0.0.2](https://github.com/amaralc/where-is-my-stuff/compare/v0.0.1...v0.0.2) (2023-02-24)
 
 
