@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/amaralc/where-is-my-stuff/compare/v0.0.3...v0.0.4) (2023-02-24)
+
+
+### Features
+
+* **consumer-only:** 14 rename projects and add consumer example ([#15](https://github.com/amaralc/where-is-my-stuff/issues/15)) ([2189e9e](https://github.com/amaralc/where-is-my-stuff/commit/2189e9ecc726b735865641102abd406f825cdb6d))
+
 ### [0.0.3](https://github.com/amaralc/where-is-my-stuff/compare/v0.0.2...v0.0.3) (2023-02-24)
 
 
