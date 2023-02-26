@@ -51,8 +51,7 @@ export class KafkaPlanSubscriptionConsumerController {
 
       if (error instanceof UserConflictException) {
         return Logger.warn(
-          USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS'] +
-            JSON.stringify(error.cause),
+          USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS'],
           HandlePlanSubscriptionCreatedService.name
         );
       }

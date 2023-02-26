@@ -1,4 +1,3 @@
-import { ValidationException } from '../../../errors/validation-exception';
 import { InMemoryEventsService } from '../../../infra/events/implementations/in-memory-events.service';
 import { makeEachMessagePayloadMock } from '../../../infra/events/tests/factories/each-message-payload.factory';
 import { InMemoryUsersDatabaseRepository } from '../../users/repositories/database/implementation/in-memory.repository';
@@ -22,23 +21,28 @@ const setupTests = () => {
     new HandlePlanSubscriptionCreatedService(createUserService);
 
   const execute = jest.spyOn(createUserService, 'execute');
+  const warn = jest.spyOn(handlePlanSubscriptionCreatedService.logger, 'warn');
 
   return {
     handlePlanSubscriptionCreatedService,
     execute,
+    warn,
   };
 };
 
 describe('[plan-subscriptions] Consume subscription an create user', () => {
-  it('should throw validation exception if message payload is not json string', async () => {
-    const { handlePlanSubscriptionCreatedService, execute } = setupTests();
+  it('should log validation exception if message payload is not json string', async () => {
+    const { handlePlanSubscriptionCreatedService, execute, warn } =
+      setupTests();
     await expect(
       handlePlanSubscriptionCreatedService.execute('x')
-    ).rejects.toThrow(ValidationException);
+    ).resolves.toBeUndefined();
     expect(execute).not.toHaveBeenCalled();
+    expect(warn).toHaveBeenCalled();
   });
-  it('should throw validation exception if message payload is json string but not valid', async () => {
-    const { handlePlanSubscriptionCreatedService, execute } = setupTests();
+  it('should log validation exception if message payload is json string but not valid', async () => {
+    const { handlePlanSubscriptionCreatedService, execute, warn } =
+      setupTests();
 
     const eachMessagePayload = makeEachMessagePayloadMock({
       topic: PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED'],
@@ -46,8 +50,9 @@ describe('[plan-subscriptions] Consume subscription an create user', () => {
 
     await expect(
       handlePlanSubscriptionCreatedService.execute(eachMessagePayload)
-    ).rejects.toThrow(ValidationException);
+    ).resolves.toBeUndefined();
     expect(execute).not.toHaveBeenCalled();
+    expect(warn).toHaveBeenCalled();
   });
   it('should create user if payload is valid', async () => {
     const { handlePlanSubscriptionCreatedService, execute } = setupTests();
