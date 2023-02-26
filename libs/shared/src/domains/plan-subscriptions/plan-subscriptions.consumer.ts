@@ -32,8 +32,7 @@ export class PlanSubscriptionsConsumer implements OnModuleInit {
 
         if (error instanceof UserConflictException) {
           return Logger.warn(
-            USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS'] +
-              JSON.stringify(error.cause),
+            USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS'],
             PlanSubscriptionsConsumer.name
           );
         }
