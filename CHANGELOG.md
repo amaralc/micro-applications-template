@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/amaralc/where-is-my-stuff/compare/v0.0.4...v0.1.0) (2023-02-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **consumer-only:** use event pattern
+
+### Features
+
+* **consumer-only:** use event pattern ([91b8238](https://github.com/amaralc/where-is-my-stuff/commit/91b8238fc4cdb9924bc58bf97043f59aad972780))
+
+
+### Bug Fixes
+
+* **consumer-only:** handle exceptions in callback ([625f8c2](https://github.com/amaralc/where-is-my-stuff/commit/625f8c22c51aeb249808a45b03f4b9643c879686))
+
 ### [0.0.4](https://github.com/amaralc/where-is-my-stuff/compare/v0.0.3...v0.0.4) (2023-02-24)
 
 
