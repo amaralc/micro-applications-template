@@ -1,4 +1,4 @@
-import { PlanSubscriptionCreatedMessageDto } from '@auth/shared/domains/plan-subscriptions/entities/plan-subscription-created-message/dto';
+import { PlanSubscriptionCreatedMessageDto } from '@core/domains/plan-subscriptions/entities/plan-subscription-created-message/dto';
 import { faker } from '@faker-js/faker';
 import axios, { AxiosError } from 'axios';
 import { randomUUID } from 'crypto';

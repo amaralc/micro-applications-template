@@ -1,5 +1,5 @@
-import { PlanSubscriptionsRestModule } from '@auth/shared/domains/plan-subscriptions/plan-subscriptions-rest.module';
-import { UsersModule } from '@auth/shared/domains/users/users.module';
+import { PlanSubscriptionsRestModule } from '@core/domains/plan-subscriptions/plan-subscriptions-rest.module';
+import { UsersModule } from '@core/domains/users/users.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 

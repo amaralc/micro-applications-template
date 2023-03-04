@@ -7,12 +7,11 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "pre-commit": "yarn test:shared",
+    "pre-commit": "yarn test:unit",
     "release": "standard-version",
     "api-only:serve": "make api-only-serve",
     "consumer-only:serve": "make consumer-only-serve",
     "consumer-with-api:serve": "make consumer-with-api-serve",
-    "test:shared": "nx test shared",
     "test:unit": "yarn nx run-many --target=test --all=true",
     "start": "yarn nx run-many --target=serve --all=true"
   },

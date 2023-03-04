@@ -1,28 +1,28 @@
 import {
   MongoosePlanSubscription,
   MongoosePlanSubscriptionSchema,
-} from '@auth/shared/domains/plan-subscriptions/entities/plan-subscription.entity';
+} from '@core/domains/plan-subscriptions/entities/plan-subscription.entity';
 import {
   PlanSubscriptionsDatabaseRepository,
   PlanSubscriptionsDatabaseRepositoryImplementation,
-} from '@auth/shared/domains/plan-subscriptions/repositories/database/database.repository';
+} from '@core/domains/plan-subscriptions/repositories/database/database.repository';
 import {
   PlanSubscriptionsEventsRepository,
   PlanSubscriptionsEventsRepositoryImplementation,
-} from '@auth/shared/domains/plan-subscriptions/repositories/events/events.repository';
-import { CreatePlanSubscriptionService } from '@auth/shared/domains/plan-subscriptions/services/create-plan-subscription.service';
-import { HandlePlanSubscriptionCreatedService } from '@auth/shared/domains/plan-subscriptions/services/handle-plan-subscription-created.service';
-import { MongooseUser, MongooseUserSchema } from '@auth/shared/domains/users/entities/user.entity';
+} from '@core/domains/plan-subscriptions/repositories/events/events.repository';
+import { CreatePlanSubscriptionService } from '@core/domains/plan-subscriptions/services/create-plan-subscription.service';
+import { HandlePlanSubscriptionCreatedService } from '@core/domains/plan-subscriptions/services/handle-plan-subscription-created.service';
+import { MongooseUser, MongooseUserSchema } from '@core/domains/users/entities/user.entity';
 import {
   UsersDatabaseRepository,
   UsersDatabaseRepositoryImplementation,
-} from '@auth/shared/domains/users/repositories/database/database.repository';
+} from '@core/domains/users/repositories/database/database.repository';
 import {
   UsersEventsRepository,
   UsersEventsRepositoryImplementation,
-} from '@auth/shared/domains/users/repositories/events/events.repository';
-import { CreateUserService } from '@auth/shared/domains/users/services/create-user.service';
-import { InfraModule } from '@auth/shared/infra/infra.module';
+} from '@core/domains/users/repositories/events/events.repository';
+import { CreateUserService } from '@core/domains/users/services/create-user.service';
+import { InfraModule } from '@core/infra/infra.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
