@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { pagination } from '../../../config';
 import { ValidationException } from '../../../errors/validation-exception';
-import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database/implementation/in-memory.repository';
+import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { ListPaginatedPlanSubscriptionsService } from './list-paginated-plan-subscriptions.service';
 
 const setupTests = async () => {

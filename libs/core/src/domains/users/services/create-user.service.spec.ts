@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
+import { InMemoryEventsService } from '@infra/events/implementations/in-memory-events.service';
 import { ConflictException } from '@nestjs/common';
 import { ValidationException } from '../../../errors/validation-exception';
-import { InMemoryEventsService } from '../../../infra/events/implementations/in-memory-events.service';
-import { InMemoryUsersDatabaseRepository } from '../repositories/database/implementation/in-memory.repository';
-import { InMemoryUsersEventsRepository } from '../repositories/events/implementation/in-memory.repository';
+import { InMemoryUsersEventsRepository } from '../../users/repositories/events-in-memory.repository';
+import { InMemoryUsersDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { CreateUserService } from './create-user.service';
 
 const setupTests = () => {

@@ -6,8 +6,8 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { USERS_ERROR_MESSAGES } from '../errors/error-messages';
 import { UserConflictException } from '../errors/user-conflict-exception';
-import { UsersDatabaseRepository } from '../repositories/database/database.repository';
-import { UsersEventsRepository } from '../repositories/events/events.repository';
+import { UsersDatabaseRepository } from '../repositories/database.repository';
+import { UsersEventsRepository } from '../repositories/events.repository';
 
 @Injectable()
 export class CreateUserService {

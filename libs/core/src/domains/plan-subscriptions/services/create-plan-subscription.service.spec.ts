@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { ConflictException } from '@nestjs/common';
 import { ValidationException } from '../../../errors/validation-exception';
-import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database/implementation/in-memory.repository';
+import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
 
 const setupTests = () => {

@@ -1,10 +1,10 @@
-import { ListPaginatedPlanSubscriptionsDto } from '@adapters/plan-subscriptions/list-paginated-plan-subscriptions.dto';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
 import { ValidationException } from '../../../errors/validation-exception';
+import { ListPaginatedPlanSubscriptionsDto } from '../entities/list-paginated-plan-subscriptions.dto';
 import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
-import { PlanSubscriptionsDatabaseRepository } from '../repositories/database/database.repository';
+import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
 
 @Injectable()
 export class ListPaginatedPlanSubscriptionsService {

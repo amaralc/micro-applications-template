@@ -1,11 +1,11 @@
+import { PlanSubscriptionConsumerModule } from '@adapters/plan-subscriptions/plan-subscriptions-consumer.module';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { MainModule } from './main.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    MainModule,
+    PlanSubscriptionConsumerModule,
     {
       transport: Transport.KAFKA,
       options: {

@@ -1,4 +1,3 @@
-import { PlanSubscriptionCreatedMessageDto } from '@core/domains/plan-subscriptions/entities/plan-subscription-created-message/dto';
 import { faker } from '@faker-js/faker';
 import axios, { AxiosError } from 'axios';
 import { randomUUID } from 'crypto';
@@ -10,11 +9,11 @@ const setupTest = async () => {
     clientId: 'api-only-e2e',
   });
 
-  const planSubscriptionMessages: PlanSubscriptionCreatedMessageDto[] = [];
+  const planSubscriptionMessages = [];
   const producer = kafkaClient.producer({ createPartitioner: Partitioners.DefaultPartitioner });
   await producer.connect();
   for (let i = 0; i < 10; i++) {
-    const planSubscriptionCreatedMessage: PlanSubscriptionCreatedMessageDto = {
+    const planSubscriptionCreatedMessage = {
       id: randomUUID(),
       email: faker.internet.email(),
       plan: faker.lorem.slug(1),

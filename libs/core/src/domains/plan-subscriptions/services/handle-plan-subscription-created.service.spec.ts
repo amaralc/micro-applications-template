@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
-import { makeEachMessagePayloadMock } from '../../../infra/events/tests/factories/each-message-payload.factory';
+import { makeEachMessagePayloadMock } from '@infra/events/tests/factories/each-message-payload.factory';
 import { PlanSubscriptionCreatedMessageEntity } from '../entities/plan-subscription-created-message/entity';
-import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database/implementation/in-memory.repository';
-import { PLAN_SUBSCRIPTIONS_TOPICS } from '../repositories/events/topics';
+import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
+import { PLAN_SUBSCRIPTIONS_TOPICS } from '../topics';
 import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
 import { HandlePlanSubscriptionCreatedService } from './handle-plan-subscription-created.service';
 
