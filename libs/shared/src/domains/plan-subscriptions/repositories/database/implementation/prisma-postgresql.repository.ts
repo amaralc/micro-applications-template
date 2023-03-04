@@ -1,9 +1,9 @@
 // users.repository.ts
 import { ListPaginatedPlanSubscriptionsDto } from '@adapters/plan-subscriptions/list-paginated-plan-subscriptions.dto';
 import { ConflictException, Injectable } from '@nestjs/common';
+import { CreatePlanSubscriptionDto } from '../../../../../../../adapters/src/plan-subscriptions/create-plan-subscription.dto';
 import { pagination } from '../../../../../config';
 import { PrismaService } from '../../../../../infra/storage/prisma/prisma.service';
-import { CreatePlanSubscriptionDto } from '../../../dto/create-plan-subscription.dto';
 import { PlanSubscription } from '../../../entities/plan-subscription.entity';
 import { PlanSubscriptionEntity } from '../../../entities/plan-subscription/entity';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../../../errors/error-messages';

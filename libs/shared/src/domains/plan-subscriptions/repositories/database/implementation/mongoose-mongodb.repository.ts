@@ -3,8 +3,8 @@ import { ListPaginatedPlanSubscriptionsDto } from '@adapters/plan-subscriptions/
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { CreatePlanSubscriptionDto } from '../../../../../../../adapters/src/plan-subscriptions/create-plan-subscription.dto';
 import { pagination } from '../../../../../config';
-import { CreatePlanSubscriptionDto } from '../../../dto/create-plan-subscription.dto';
 import { MongoosePlanSubscription, PlanSubscription } from '../../../entities/plan-subscription.entity';
 import { PlanSubscriptionEntity } from '../../../entities/plan-subscription/entity';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../../../errors/error-messages';
