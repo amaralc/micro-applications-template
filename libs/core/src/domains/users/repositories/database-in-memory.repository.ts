@@ -1,8 +1,8 @@
 // users.repository.ts
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
 import { UserEntity } from '../entities/user.entity';
 import { USERS_ERROR_MESSAGES } from '../errors/error-messages';
+import { CreateUserDto } from '../services/create-user.dto';
 import { UsersDatabaseRepository } from './database.repository';
 
 const className = 'InMemoryUsersDatabaseRepository';

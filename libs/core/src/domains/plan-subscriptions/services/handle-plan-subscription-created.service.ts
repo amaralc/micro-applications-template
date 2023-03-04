@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
 import { ValidationException } from '../../../errors/validation-exception';
-import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message/dto';
+import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message.dto';
 import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
 
 @Injectable()

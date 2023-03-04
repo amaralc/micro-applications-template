@@ -1,4 +1,4 @@
-import { CreateUserDto } from '@core/domains/users/dto/create-user.dto';
+import { CreateUserDto } from '@core/domains/users/services/create-user.dto';
 import { CreateUserService } from '@core/domains/users/services/create-user.service';
 import { GlobalAppHttpException } from '@core/errors/global-app-http-exception';
 import { Body, Controller, Post } from '@nestjs/common';

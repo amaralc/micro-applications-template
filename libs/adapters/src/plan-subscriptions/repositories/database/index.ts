@@ -2,8 +2,8 @@ import { InMemoryPlanSubscriptionsDatabaseRepository } from '@core/domains/plan-
 import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
 import { featureFlags } from '@infra/config';
 import { Logger } from '@nestjs/common';
-import { PrismaPostgreSqlPlanSubscriptionsDatabaseRepository } from './implementation/prisma-postgresql.repository';
-import { MongooseMongoDbPlanSubscriptionsDatabaseRepository } from './mongoose-mongodb/repository';
+import { MongooseMongoDbPlanSubscriptionsDatabaseRepository } from './mongoose-mongodb.repository';
+import { PrismaPostgreSqlPlanSubscriptionsDatabaseRepository } from './prisma-postgresql.repository';
 
 // Implementation
 const getImplementation = () => {

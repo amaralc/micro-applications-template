@@ -1,10 +1,10 @@
 // planSubscriptions.repository.ts
 import { ConflictException, Injectable } from '@nestjs/common';
 import { pagination } from '../../../config';
-import { CreatePlanSubscriptionDto } from '../dto/create-plan-subscription.dto';
-import { ListPaginatedPlanSubscriptionsDto } from '../dto/list-paginated-plan-subscriptions.dto';
-import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
+import { PlanSubscriptionEntity } from '../entities/plan-subscription.entity';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../errors/error-messages';
+import { CreatePlanSubscriptionDto } from '../services/create-plan-subscription.dto';
+import { ListPaginatedPlanSubscriptionsDto } from '../services/list-paginated-plan-subscriptions.dto';
 import { PlanSubscriptionsDatabaseRepository } from './database.repository';
 
 @Injectable()

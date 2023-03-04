@@ -1,4 +1,3 @@
-import { MongooseUser, MongooseUserSchema } from '@core/domains/users/entities/user.entity';
 import { UsersDatabaseRepository } from '@core/domains/users/repositories/database.repository';
 import { UsersEventsRepository } from '@core/domains/users/repositories/events.repository';
 import { CreateUserService } from '@core/domains/users/services/create-user.service';
@@ -6,8 +5,9 @@ import { InfraModule } from '@infra/infra.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersDatabaseRepositoryImplementation } from './repositories/database/repository';
-import { UsersEventsRepositoryImplementation } from './repositories/events/events.repository';
+import { UsersDatabaseRepositoryImplementation } from './repositories/database';
+import { MongooseUser, MongooseUserSchema } from './repositories/database/mongoose-mongodb.entity';
+import { UsersEventsRepositoryImplementation } from './repositories/events';
 import { UsersController } from './users.controller';
 
 @Module({

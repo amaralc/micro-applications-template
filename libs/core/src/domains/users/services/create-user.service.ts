@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
 import { ValidationException } from '../../../errors/validation-exception';
-import { CreateUserDto } from '../dto/create-user.dto';
 import { UserEntity } from '../entities/user.entity';
 import { USERS_ERROR_MESSAGES } from '../errors/error-messages';
 import { UserConflictException } from '../errors/user-conflict-exception';
 import { UsersDatabaseRepository } from '../repositories/database.repository';
 import { UsersEventsRepository } from '../repositories/events.repository';
+import { CreateUserDto } from './create-user.dto';
 
 @Injectable()
 export class CreateUserService {

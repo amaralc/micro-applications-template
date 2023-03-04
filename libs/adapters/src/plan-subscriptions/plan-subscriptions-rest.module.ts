@@ -8,12 +8,12 @@ import { InfraModule } from '@infra/infra.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MongooseUser } from '../users/repositories/database/mongoose-mongodb/entity';
-import { UsersDatabaseRepositoryImplementation } from '../users/repositories/database/repository';
-import { UsersEventsRepositoryImplementation } from '../users/repositories/events/events.repository';
+import { UsersDatabaseRepositoryImplementation } from '../users/repositories/database';
+import { MongooseUser } from '../users/repositories/database/mongoose-mongodb.entity';
+import { UsersEventsRepositoryImplementation } from '../users/repositories/events';
 import { PlanSubscriptionsRestController } from './plan-subscriptions-rest.controller';
-import { PlanSubscriptionsDatabaseRepositoryImplementation } from './repositories/database/database.repository';
-import { MongoosePlanSubscription, MongooseUserSchema } from './repositories/database/mongoose-mongodb/entity';
+import { PlanSubscriptionsDatabaseRepositoryImplementation } from './repositories/database';
+import { MongoosePlanSubscription, MongooseUserSchema } from './repositories/database/mongoose-mongodb.entity';
 
 @Module({
   imports: [

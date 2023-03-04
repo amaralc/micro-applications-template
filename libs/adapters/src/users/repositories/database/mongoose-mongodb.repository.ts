@@ -1,12 +1,12 @@
 // users.repository.ts
-import { CreateUserDto } from '@core/domains/users/dto/create-user.dto';
 import { UserEntity } from '@core/domains/users/entities/user.entity';
 import { USERS_ERROR_MESSAGES } from '@core/domains/users/errors/error-messages';
 import { UsersDatabaseRepository } from '@core/domains/users/repositories/database.repository';
+import { CreateUserDto } from '@core/domains/users/services/create-user.dto';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { MongooseUser } from './entity';
+import { MongooseUser } from './mongoose-mongodb.entity';
 
 @Injectable()
 export class MongooseMongodbUsersDatabaseRepository implements UsersDatabaseRepository {

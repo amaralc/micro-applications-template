@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { makeEachMessagePayloadMock } from '@infra/events/tests/factories/each-message-payload.factory';
-import { PlanSubscriptionCreatedMessageEntity } from '../entities/plan-subscription-created-message/entity';
+import { randomUUID } from 'crypto';
+import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message.dto';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../topics';
 import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
@@ -37,10 +38,12 @@ describe('[plan-subscriptions] Handle plan subscription created', () => {
   it('should create plan subscription if payload is valid', async () => {
     const { handlePlanSubscriptionCreatedService, execute } = setupTests();
 
-    const entity = new PlanSubscriptionCreatedMessageEntity({
+    const entity: PlanSubscriptionCreatedMessageDto = {
+      id: randomUUID(),
+      isActive: faker.datatype.boolean(),
       email: faker.internet.email(),
       plan: faker.lorem.slug(1),
-    });
+    };
     const jsonMessage = JSON.parse(JSON.stringify(entity));
 
     await expect(handlePlanSubscriptionCreatedService.execute(jsonMessage)).resolves.not.toThrow();
