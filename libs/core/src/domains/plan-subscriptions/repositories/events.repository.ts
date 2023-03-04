@@ -1,6 +1,6 @@
-import { PlanSubscription } from '../entities/plan-subscription.entity';
+import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
 
 // Abstraction
 export abstract class PlanSubscriptionsEventsRepository {
-  abstract publishPlanSubscriptionCreated(planSubscription: PlanSubscription): Promise<void>;
+  abstract publishPlanSubscriptionCreated(planSubscription: PlanSubscriptionEntity): Promise<void>;
 }

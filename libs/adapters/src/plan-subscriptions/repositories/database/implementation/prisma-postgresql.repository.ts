@@ -4,8 +4,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CreatePlanSubscriptionDto } from '../../../../../../../adapters/src/plan-subscriptions/create-plan-subscription.dto';
 import { pagination } from '../../../../../config';
 import { PrismaService } from '../../../../../infra/storage/prisma/prisma.service';
-import { PlanSubscription } from '../../../entities/plan-subscription.entity';
-import { PlanSubscriptionEntity } from '../../../entities/plan-subscription/entity';
+import { PlanSubscriptionEntity } from '../../../entities/plan-subscription.entity';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../../../errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from '../database.repository';
 
@@ -13,7 +12,7 @@ import { PlanSubscriptionsDatabaseRepository } from '../database.repository';
 export class PrismaPostgreSqlPlanSubscriptionsDatabaseRepository implements PlanSubscriptionsDatabaseRepository {
   constructor(private prismaService: PrismaService) {}
 
-  async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto): Promise<PlanSubscription> {
+  async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto): Promise<PlanSubscriptionEntity> {
     const { email, plan } = createPlanSubscriptionDto;
     const subscriptionExists = await this.findByEmail(email);
     if (subscriptionExists) {
@@ -24,7 +23,7 @@ export class PrismaPostgreSqlPlanSubscriptionsDatabaseRepository implements Plan
       data: { is_active: true, email, plan },
     });
 
-    const applicationPlanSubscription = new PlanSubscription({
+    const applicationPlanSubscription = new PlanSubscriptionEntity({
       id: prismaPlanSubscription.id,
       email: prismaPlanSubscription.email,
       plan,
@@ -33,7 +32,7 @@ export class PrismaPostgreSqlPlanSubscriptionsDatabaseRepository implements Plan
     return applicationPlanSubscription;
   }
 
-  async findByEmail(email: string): Promise<PlanSubscription | null> {
+  async findByEmail(email: string): Promise<PlanSubscriptionEntity | null> {
     const prismaPlanSubscription = await this.prismaService.plan_subscriptions.findFirst({
       where: {
         email,
@@ -43,7 +42,7 @@ export class PrismaPostgreSqlPlanSubscriptionsDatabaseRepository implements Plan
       return null;
     }
 
-    const applicationPlanSubscription = new PlanSubscription({
+    const applicationPlanSubscription = new PlanSubscriptionEntity({
       id: prismaPlanSubscription.id,
       isActive: prismaPlanSubscription.is_active,
       email: prismaPlanSubscription.email,

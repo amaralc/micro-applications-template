@@ -1,30 +1,29 @@
 // planSubscriptions.repository.ts
 import { ConflictException, Injectable } from '@nestjs/common';
 import { pagination } from '../../../config';
-import { CreatePlanSubscriptionDto } from '../entities/create-plan-subscription.dto';
-import { ListPaginatedPlanSubscriptionsDto } from '../entities/list-paginated-plan-subscriptions.dto';
-import { PlanSubscription } from '../entities/plan-subscription.entity';
+import { CreatePlanSubscriptionDto } from '../dto/create-plan-subscription.dto';
+import { ListPaginatedPlanSubscriptionsDto } from '../dto/list-paginated-plan-subscriptions.dto';
 import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from './database.repository';
 
 @Injectable()
 export class InMemoryPlanSubscriptionsDatabaseRepository implements PlanSubscriptionsDatabaseRepository {
-  private planSubscriptions: PlanSubscription[] = [];
+  private planSubscriptions: PlanSubscriptionEntity[] = [];
 
-  async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto): Promise<PlanSubscription> {
+  async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto): Promise<PlanSubscriptionEntity> {
     const { email, plan } = createPlanSubscriptionDto;
     const isExistingPlanSubscription = await this.findByEmail(email);
 
     if (isExistingPlanSubscription) {
       throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']);
     }
-    const planSubscription = new PlanSubscription({ email, plan });
+    const planSubscription = new PlanSubscriptionEntity({ email, plan });
     this.planSubscriptions.push(planSubscription);
     return planSubscription;
   }
 
-  async findByEmail(email: string): Promise<PlanSubscription | null> {
+  async findByEmail(email: string): Promise<PlanSubscriptionEntity | null> {
     return this.planSubscriptions.find((planSubscription) => planSubscription.email === email) || null;
   }
 
