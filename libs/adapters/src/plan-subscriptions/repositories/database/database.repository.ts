@@ -1,4 +1,5 @@
-import { featureFlags } from '@core/config';
+import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
+import { featureFlags } from '@infra/config';
 import { Logger } from '@nestjs/common';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../../../../../core/src/domains/plan-subscriptions/repositories/database-in-memory.repository';
 import { MongooseMongoDbPlanSubscriptionsDatabaseRepository } from './implementation/mongoose-mongodb.repository';

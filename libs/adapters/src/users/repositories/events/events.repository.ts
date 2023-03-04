@@ -1,4 +1,4 @@
-import { featureFlags } from '@core/config';
+import { featureFlags } from '@infra/config';
 import { Logger } from '@nestjs/common';
 import { InMemoryUsersEventsRepository } from '../../../../../core/src/domains/users/repositories/events-in-memory.repository';
 import { KafkaUsersEventsRepository } from './implementation/kafka.repository';
