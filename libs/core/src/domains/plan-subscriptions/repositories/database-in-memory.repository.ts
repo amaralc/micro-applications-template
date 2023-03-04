@@ -12,13 +12,13 @@ export class InMemoryPlanSubscriptionsDatabaseRepository implements PlanSubscrip
   private planSubscriptions: PlanSubscriptionEntity[] = [];
 
   async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto): Promise<PlanSubscriptionEntity> {
-    const { email, plan } = createPlanSubscriptionDto;
+    const { email } = createPlanSubscriptionDto;
     const isExistingPlanSubscription = await this.findByEmail(email);
 
     if (isExistingPlanSubscription) {
       throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']);
     }
-    const planSubscription = new PlanSubscriptionEntity({ email, plan });
+    const planSubscription = new PlanSubscriptionEntity(createPlanSubscriptionDto);
     this.planSubscriptions.push(planSubscription);
     return planSubscription;
   }

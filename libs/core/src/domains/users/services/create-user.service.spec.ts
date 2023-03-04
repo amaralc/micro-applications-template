@@ -1,66 +1,63 @@
 import { faker } from '@faker-js/faker';
-import { InMemoryEventsService } from '@infra/events/implementations/in-memory-events.service';
 import { ConflictException } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import { ValidationException } from '../../../errors/validation-exception';
-import { InMemoryUsersEventsRepository } from '../../users/repositories/events-in-memory.repository';
 import { InMemoryUsersDatabaseRepository } from '../repositories/database-in-memory.repository';
+import { UsersDatabaseRepository } from '../repositories/database.repository';
+import { InMemoryUsersEventsRepository } from '../repositories/events-in-memory.repository';
+import { UsersEventsRepository } from '../repositories/events.repository';
 import { CreateUserService } from './create-user.service';
 
-const setupTests = () => {
-  const usersDatabaseRepository = new InMemoryUsersDatabaseRepository();
-  const eventsService = new InMemoryEventsService();
-  const usersEventsRepository = new InMemoryUsersEventsRepository(eventsService);
-  const publish = jest.spyOn(usersEventsRepository, 'publishUserCreated');
-  const createUserService = new CreateUserService(usersDatabaseRepository, usersEventsRepository);
+describe('[users] CreateUserService', () => {
+  let service: CreateUserService;
+  let databaseRepository: UsersDatabaseRepository;
+  let eventsRepository: UsersEventsRepository;
+  let publishUserCreated: jest.SpyInstance;
 
-  const shouldFailIfThisFunctionIsExecuted = () => {
-    expect(true).toEqual(false);
-  };
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        CreateUserService,
+        { provide: UsersDatabaseRepository, useClass: InMemoryUsersDatabaseRepository },
+        { provide: UsersEventsRepository, useClass: InMemoryUsersEventsRepository },
+      ],
+    }).compile();
 
-  return {
-    publish,
-    createUserService,
-    shouldFailIfThisFunctionIsExecuted,
-  };
-};
+    service = module.get<CreateUserService>(CreateUserService);
+    databaseRepository = module.get<UsersDatabaseRepository>(UsersDatabaseRepository);
+    eventsRepository = module.get<UsersEventsRepository>(UsersEventsRepository);
+    publishUserCreated = jest.spyOn(eventsRepository, 'publishUserCreated');
+  });
 
-describe('[users] Create user', () => {
   it('should create and publish a new user', async () => {
-    const { createUserService, publish } = setupTests();
     const newUserEmail = faker.internet.email();
-    const { user } = await createUserService.execute({
+    const { user } = await service.execute({
       email: newUserEmail,
     });
+
+    const databaseRepositoryUser = await databaseRepository.findByEmail(newUserEmail);
+
+    expect(databaseRepositoryUser?.email).toEqual(newUserEmail);
     expect(user.email).toEqual(newUserEmail);
-    expect(publish).toHaveBeenCalledTimes(1);
-    expect(publish).toHaveBeenCalledWith(user);
+    expect(publishUserCreated).toHaveBeenCalledTimes(1);
+    expect(publishUserCreated).toHaveBeenCalledWith(user);
   });
 
   it('should throw conflict exception if e-mail is already being used', async () => {
-    const { createUserService, shouldFailIfThisFunctionIsExecuted } = setupTests();
     const newUserEmail = faker.internet.email();
-    try {
-      await createUserService.execute({
+    await service.execute({
+      email: newUserEmail,
+    });
+
+    await expect(
+      service.execute({
         email: newUserEmail,
-      });
-      await createUserService.execute({
-        email: newUserEmail,
-      });
-      shouldFailIfThisFunctionIsExecuted();
-    } catch (error) {
-      expect(error instanceof ConflictException).toEqual(true);
-    }
+      })
+    ).rejects.toThrow(ConflictException);
   });
 
   it('should throw validation exception if e-mail is not valid', async () => {
-    const { createUserService, publish } = setupTests();
     const invalidUserEmail = 'invalid-user-email';
-    try {
-      await createUserService.execute({ email: invalidUserEmail });
-      expect(true).toEqual(false);
-    } catch (error) {
-      expect(error instanceof ValidationException).toEqual(true);
-      expect(publish).not.toHaveBeenCalled();
-    }
+    await expect(service.execute({ email: invalidUserEmail })).rejects.toThrow(ValidationException);
   });
 });

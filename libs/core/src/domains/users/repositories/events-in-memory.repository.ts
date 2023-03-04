@@ -1,16 +1,20 @@
 // users.repository.ts
-import { EventsService } from '@infra/events/events.service';
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from '../entities/user.entity';
 import { USERS_TOPICS } from '../topics';
 import { UsersEventsRepository } from './events.repository';
 
+interface ISimplifiedProducerRecord {
+  topic: string;
+  messages: Array<{ key: string; value: string }>;
+}
+
 @Injectable()
 export class InMemoryUsersEventsRepository implements UsersEventsRepository {
-  constructor(private eventsService: EventsService) {}
+  private userCreatedTopicMessages: Array<ISimplifiedProducerRecord> = [];
 
   async publishUserCreated(user: UserEntity): Promise<void> {
-    this.eventsService.publish({
+    this.userCreatedTopicMessages.push({
       topic: USERS_TOPICS['USER_CREATED'],
       messages: [
         {

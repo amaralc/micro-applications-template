@@ -1,58 +1,74 @@
 import { faker } from '@faker-js/faker';
+import { Test, TestingModule } from '@nestjs/testing';
 import { pagination } from '../../../config';
 import { ValidationException } from '../../../errors/validation-exception';
+import { PlanSubscriptionEntity } from '../entities/plan-subscription.entity';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
+import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
+import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
 import { ListPaginatedPlanSubscriptionsService } from './list-paginated-plan-subscriptions.service';
 
-const setupTests = async () => {
-  const planSubscriptionsDatabaseRepository = new InMemoryPlanSubscriptionsDatabaseRepository();
-  const localPlanSubscriptions = [];
+describe('[plan-subscriptions] ListPaginatedPlanSubscriptions', () => {
+  let listPaginatedPlanSubscriptionsService: ListPaginatedPlanSubscriptionsService;
+  let databaseRepository: PlanSubscriptionsDatabaseRepository;
+  const repositoryPlanSubscriptions: PlanSubscriptionEntity[] = [];
 
-  for (let i = 0; i < 20; i++) {
-    const planSubscription = await planSubscriptionsDatabaseRepository.create({
-      email: faker.internet.email(),
-      plan: faker.random.word(),
-    });
-    localPlanSubscriptions.push(planSubscription);
-  }
+  beforeAll(async () => {
+    jest.clearAllMocks();
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        ListPaginatedPlanSubscriptionsService,
+        CreatePlanSubscriptionService,
+        { provide: PlanSubscriptionsDatabaseRepository, useClass: InMemoryPlanSubscriptionsDatabaseRepository },
+      ],
+    }).compile();
 
-  const listPaginatedPlanSubscriptionsService = new ListPaginatedPlanSubscriptionsService(
-    planSubscriptionsDatabaseRepository
-  );
+    listPaginatedPlanSubscriptionsService = module.get<ListPaginatedPlanSubscriptionsService>(
+      ListPaginatedPlanSubscriptionsService
+    );
+    databaseRepository = module.get<PlanSubscriptionsDatabaseRepository>(PlanSubscriptionsDatabaseRepository);
 
-  return { listPaginatedPlanSubscriptionsService, localPlanSubscriptions, planSubscriptionsDatabaseRepository };
-};
+    for (let i = 0; i < 20; i++) {
+      const planSubscription = await databaseRepository.create({
+        email: faker.internet.email(),
+        plan: faker.random.word(),
+      });
+      repositoryPlanSubscriptions.push(planSubscription);
+    }
+  });
 
-describe('[plan-subscriptions] List paginated plan subscriptions', () => {
-  it('should throw error if limit is invalid', async () => {
-    const { listPaginatedPlanSubscriptionsService } = await setupTests();
+  it('should throw error for invalid pagination parameters', async () => {
     await expect(listPaginatedPlanSubscriptionsService.execute({ limit: -1, page: 1 })).rejects.toThrow(
       ValidationException
     );
-  });
-  it('should throw error if page is invalid', async () => {
-    const { listPaginatedPlanSubscriptionsService } = await setupTests();
     await expect(listPaginatedPlanSubscriptionsService.execute({ limit: 1, page: 0 })).rejects.toThrow(
       ValidationException
     );
+
+    const invalidParameters = JSON.parse(JSON.stringify({ limit: 'x', page: 'y' }));
+    await expect(listPaginatedPlanSubscriptionsService.execute(invalidParameters)).rejects.toThrow(ValidationException);
   });
+
   it('should list paginated plan subscriptions with default limit and page if not specified', async () => {
-    const { listPaginatedPlanSubscriptionsService, localPlanSubscriptions } = await setupTests();
     const LIMIT = pagination.defaultLimit;
     const PAGE = pagination.defaultPage;
 
     const planSubscriptions = await listPaginatedPlanSubscriptionsService.execute({});
-    const expectedPlanSubscriptions = [...localPlanSubscriptions].slice(PAGE - 1, LIMIT);
+    const localPlanSubscriptions = [...repositoryPlanSubscriptions];
+    const expectedPlanSubscriptions = localPlanSubscriptions.slice(PAGE - 1, LIMIT);
 
     expect(planSubscriptions.length).toBeLessThanOrEqual(LIMIT);
     expect(planSubscriptions).toEqual(expectedPlanSubscriptions);
   });
+
   it('should list paginated plan subscriptions given valid page and limit values', async () => {
-    const { listPaginatedPlanSubscriptionsService } = await setupTests();
     const LIMIT = 5;
     const PAGE = 1;
 
     const planSubscriptions = await listPaginatedPlanSubscriptionsService.execute({ limit: LIMIT, page: PAGE });
+    const localPlanSubscriptions = [...repositoryPlanSubscriptions];
+    const expectedPlanSubscriptions = localPlanSubscriptions.slice(PAGE - 1, LIMIT);
+
     expect(planSubscriptions.length).toBeLessThanOrEqual(5);
     expect(planSubscriptions).toEqual(
       expect.arrayContaining([
@@ -64,5 +80,6 @@ describe('[plan-subscriptions] List paginated plan subscriptions', () => {
         }),
       ])
     );
+    expect(planSubscriptions).toEqual(expectedPlanSubscriptions);
   });
 });

@@ -6,7 +6,7 @@ import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/dat
 import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
 import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
 
-describe('CreatePlanSubscriptionService', () => {
+describe('[plan-subscriptions] CreatePlanSubscriptionService', () => {
   let service: CreatePlanSubscriptionService;
   let repository: PlanSubscriptionsDatabaseRepository;
 
@@ -20,10 +20,6 @@ describe('CreatePlanSubscriptionService', () => {
 
     service = module.get<CreatePlanSubscriptionService>(CreatePlanSubscriptionService);
     repository = module.get<PlanSubscriptionsDatabaseRepository>(PlanSubscriptionsDatabaseRepository);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
   });
 
   it('should throw conflict exception if e-mail is already being used', async () => {
