@@ -1,4 +1,4 @@
-import { PlanSubscriptionDto } from '@core/domains/plan-subscriptions/entities/plan-subscription/dto';
+import { PlanSubscriptionDto } from '@core/domains/plan-subscriptions/entities/plan-subscription.dto';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 

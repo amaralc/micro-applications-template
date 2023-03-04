@@ -1,6 +1,6 @@
 // users.repository.ts
 import { pagination } from '@core/config';
-import { PlanSubscriptionEntity } from '@core/domains/plan-subscriptions/entities/plan-subscription/entity';
+import { PlanSubscriptionEntity } from '@core/domains/plan-subscriptions/entities/plan-subscription.entity';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '@core/domains/plan-subscriptions/errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
 import { CreatePlanSubscriptionDto } from '@core/domains/plan-subscriptions/services/create-plan-subscription.dto';
