@@ -1,13 +1,14 @@
 // users.repository.ts
-import { ListPaginatedPlanSubscriptionsDto } from '@adapters/plan-subscriptions/list-paginated-plan-subscriptions.dto';
+import { pagination } from '@core/config';
+import { CreatePlanSubscriptionDto } from '@core/domains/plan-subscriptions/dto/create-plan-subscription.dto';
+import { ListPaginatedPlanSubscriptionsDto } from '@core/domains/plan-subscriptions/dto/list-paginated-plan-subscriptions.dto';
+import { PlanSubscriptionEntity } from '@core/domains/plan-subscriptions/entities/plan-subscription/entity';
+import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '@core/domains/plan-subscriptions/errors/error-messages';
+import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreatePlanSubscriptionDto } from '../../../../../../../adapters/src/plan-subscriptions/create-plan-subscription.dto';
-import { pagination } from '../../../../../config';
-import { MongoosePlanSubscription, PlanSubscriptionEntity } from '../../../entities/plan-subscription.entity';
-import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../../../errors/error-messages';
-import { PlanSubscriptionsDatabaseRepository } from '../database.repository';
+import { MongoosePlanSubscription } from './entity';
 
 @Injectable()
 export class MongooseMongoDbPlanSubscriptionsDatabaseRepository implements PlanSubscriptionsDatabaseRepository {

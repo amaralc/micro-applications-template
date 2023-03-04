@@ -1,6 +1,6 @@
-import { User } from '../entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 
 // Abstraction
 export abstract class UsersEventsRepository {
-  abstract publishUserCreated(user: User): Promise<void>;
+  abstract publishUserCreated(userEntity: UserEntity): Promise<void>;
 }

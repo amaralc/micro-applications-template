@@ -6,7 +6,7 @@ import { InfraModule } from '@infra/infra.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersDatabaseRepositoryImplementation } from './repositories/database/implementation/database.repository';
+import { UsersDatabaseRepositoryImplementation } from './repositories/database/repository';
 import { UsersEventsRepositoryImplementation } from './repositories/events/events.repository';
 import { UsersController } from './users.controller';
 

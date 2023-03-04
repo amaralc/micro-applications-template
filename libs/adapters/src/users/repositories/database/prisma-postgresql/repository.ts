@@ -1,6 +1,6 @@
 // users.repository.ts
 import { CreateUserDto } from '@core/domains/users/dto/create-user.dto';
-import { User } from '@core/domains/users/entities/user.entity';
+import { UserEntity } from '@core/domains/users/entities/user.entity';
 import { USERS_ERROR_MESSAGES } from '@core/domains/users/errors/error-messages';
 import { UsersDatabaseRepository } from '@core/domains/users/repositories/database.repository';
 import { PrismaService } from '@infra/storage/prisma/prisma.service';
@@ -10,7 +10,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 export class PrismaPostgreSqlUsersDatabaseRepository implements UsersDatabaseRepository {
   constructor(private prismaService: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const { email } = createUserDto;
     const userExists = await this.findByEmail(email);
     if (userExists) {
@@ -20,14 +20,14 @@ export class PrismaPostgreSqlUsersDatabaseRepository implements UsersDatabaseRep
     const prismaUser = await this.prismaService.users.create({
       data: { email },
     });
-    const applicationUser = new User({
+    const applicationUser = new UserEntity({
       email: prismaUser.email,
       id: prismaUser.id,
     });
     return applicationUser;
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<UserEntity | null> {
     const prismaUser = await this.prismaService.users.findFirst({
       where: {
         email,
@@ -37,7 +37,7 @@ export class PrismaPostgreSqlUsersDatabaseRepository implements UsersDatabaseRep
       return null;
     }
 
-    const applicationUser = new User({
+    const applicationUser = new UserEntity({
       email: prismaUser.email,
       id: prismaUser.id,
     });
@@ -46,7 +46,9 @@ export class PrismaPostgreSqlUsersDatabaseRepository implements UsersDatabaseRep
 
   async findAll() {
     const prismaUsers = await this.prismaService.users.findMany();
-    const applicationUsers = prismaUsers.map((prismaUser) => new User({ email: prismaUser.email, id: prismaUser.id }));
+    const applicationUsers = prismaUsers.map(
+      (prismaUser) => new UserEntity({ email: prismaUser.email, id: prismaUser.id })
+    );
     return applicationUsers;
   }
 }

@@ -1,29 +1,19 @@
+import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
+import { CreatePlanSubscriptionService } from '@core/domains/plan-subscriptions/services/create-plan-subscription.service';
+import { ListPaginatedPlanSubscriptionsService } from '@core/domains/plan-subscriptions/services/list-paginated-plan-subscriptions.service';
+import { UsersDatabaseRepository } from '@core/domains/users/repositories/database.repository';
+import { UsersEventsRepository } from '@core/domains/users/repositories/events.repository';
+import { CreateUserService } from '@core/domains/users/services/create-user.service';
+import { InfraModule } from '@infra/infra.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { InfraModule } from '../../infra/infra.module';
-import { MongooseUser, MongooseUserSchema } from '../users/entities/user.entity';
-import {
-  UsersDatabaseRepository,
-  UsersDatabaseRepositoryImplementation,
-} from '../users/repositories/database/implementation/database.repository';
-import {
-  UsersEventsRepository,
-  UsersEventsRepositoryImplementation,
-} from '../users/repositories/events/events.repository';
-import { CreateUserService } from '../users/services/create-user.service';
-import { MongoosePlanSubscription, MongoosePlanSubscriptionSchema } from './entities/plan-subscription.entity';
+import { MongooseUser } from '../users/repositories/database/mongoose-mongodb/entity';
+import { UsersDatabaseRepositoryImplementation } from '../users/repositories/database/repository';
+import { UsersEventsRepositoryImplementation } from '../users/repositories/events/events.repository';
 import { PlanSubscriptionsRestController } from './plan-subscriptions-rest.controller';
-import {
-  PlanSubscriptionsDatabaseRepository,
-  PlanSubscriptionsDatabaseRepositoryImplementation,
-} from './repositories/database/database.repository';
-import {
-  PlanSubscriptionsEventsRepository,
-  PlanSubscriptionsEventsRepositoryImplementation,
-} from './repositories/events/events.repository';
-import { CreatePlanSubscriptionService } from './services/create-plan-subscription.service';
-import { ListPaginatedPlanSubscriptionsService } from './services/list-paginated-plan-subscriptions.service';
+import { PlanSubscriptionsDatabaseRepositoryImplementation } from './repositories/database/database.repository';
+import { MongoosePlanSubscription, MongooseUserSchema } from './repositories/database/mongoose-mongodb/entity';
 
 @Module({
   imports: [
@@ -37,7 +27,7 @@ import { ListPaginatedPlanSubscriptionsService } from './services/list-paginated
     MongooseModule.forFeature([
       {
         name: MongoosePlanSubscription.name,
-        schema: MongoosePlanSubscriptionSchema,
+        schema: MongoosePlanSubscription,
       },
     ]),
     MongooseModule.forFeature([
@@ -63,10 +53,6 @@ import { ListPaginatedPlanSubscriptionsService } from './services/list-paginated
     {
       provide: PlanSubscriptionsDatabaseRepository,
       useClass: PlanSubscriptionsDatabaseRepositoryImplementation,
-    },
-    {
-      provide: PlanSubscriptionsEventsRepository,
-      useClass: PlanSubscriptionsEventsRepositoryImplementation,
     },
   ],
   exports: [],

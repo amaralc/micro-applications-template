@@ -1,11 +1,12 @@
 // users.repository.ts
 import { CreateUserDto } from '@core/domains/users/dto/create-user.dto';
-import { MongooseUser, User } from '@core/domains/users/entities/user.entity';
+import { UserEntity } from '@core/domains/users/entities/user.entity';
 import { USERS_ERROR_MESSAGES } from '@core/domains/users/errors/error-messages';
 import { UsersDatabaseRepository } from '@core/domains/users/repositories/database.repository';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { MongooseUser } from './entity';
 
 @Injectable()
 export class MongooseMongodbUsersDatabaseRepository implements UsersDatabaseRepository {
@@ -14,7 +15,7 @@ export class MongooseMongodbUsersDatabaseRepository implements UsersDatabaseRepo
     private readonly userModel: Model<MongooseUser>
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const { email } = createUserDto;
     const userExists = await this.findByEmail(email);
     if (userExists) {
@@ -25,11 +26,11 @@ export class MongooseMongodbUsersDatabaseRepository implements UsersDatabaseRepo
       email,
     });
 
-    const applicationUser = new User({ email: mongooseUser.email });
+    const applicationUser = new UserEntity({ email: mongooseUser.email });
     return applicationUser;
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<UserEntity | null> {
     const mongooseUser = await this.userModel.findOne({
       email: email,
     });
@@ -38,7 +39,7 @@ export class MongooseMongodbUsersDatabaseRepository implements UsersDatabaseRepo
       return null;
     }
 
-    const applicationUser = new User({
+    const applicationUser = new UserEntity({
       email: mongooseUser.email,
       id: mongooseUser.id,
     });
@@ -47,7 +48,7 @@ export class MongooseMongodbUsersDatabaseRepository implements UsersDatabaseRepo
 
   async findAll() {
     const mongooseUsers = await this.userModel.find();
-    const applicationUsers = mongooseUsers.map((user) => new User({ email: user.email, id: user.id }));
+    const applicationUsers = mongooseUsers.map((user) => new UserEntity({ email: user.email, id: user.id }));
     return applicationUsers;
   }
 }

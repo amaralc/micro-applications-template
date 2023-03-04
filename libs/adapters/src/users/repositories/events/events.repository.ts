@@ -1,7 +1,7 @@
+import { InMemoryUsersEventsRepository } from '@core/domains/users/repositories/events-in-memory.repository';
 import { featureFlags } from '@infra/config';
 import { Logger } from '@nestjs/common';
-import { InMemoryUsersEventsRepository } from '../../../../../core/src/domains/users/repositories/events-in-memory.repository';
-import { KafkaUsersEventsRepository } from './implementation/kafka.repository';
+import { KafkaUsersEventsRepository } from './kafka/repository';
 
 const className = 'UsersEventsRepository';
 

@@ -3,7 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
 import { ValidationException } from '../../../errors/validation-exception';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { User } from '../entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 import { USERS_ERROR_MESSAGES } from '../errors/error-messages';
 import { UserConflictException } from '../errors/user-conflict-exception';
 import { UsersDatabaseRepository } from '../repositories/database.repository';
@@ -16,7 +16,7 @@ export class CreateUserService {
     private usersEventsRepository: UsersEventsRepository
   ) {}
 
-  async execute(createUserDto: CreateUserDto): Promise<{ user: User }> {
+  async execute(createUserDto: CreateUserDto): Promise<{ user: UserEntity }> {
     // Validate or reject
     const createUserDtoInstance = plainToInstance(CreateUserDto, createUserDto);
 
