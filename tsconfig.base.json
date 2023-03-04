@@ -15,8 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@adapters/*": ["libs/adapters/src/*"],
       "@auth/shared/*": ["libs/shared/src/*"],
-      "@infra/prisma/*": ["prisma/*"]
+      "@infra/prisma/*": ["prisma/*"],
+      "@where-is-my-stuff/adapters": ["libs/adapters/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

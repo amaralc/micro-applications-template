@@ -4,10 +4,7 @@ import { ValidationError } from 'class-validator';
 export class ValidationException extends Error {
   causes: Array<Pick<ValidationError, 'property' | 'value' | 'constraints'>>;
 
-  constructor(
-    errors: Array<ValidationError> | ValidationError,
-    message?: string
-  ) {
+  constructor(errors: Array<ValidationError> | ValidationError, message?: string) {
     const exceptionMessage = message || 'Validation exception.';
     super(exceptionMessage);
 

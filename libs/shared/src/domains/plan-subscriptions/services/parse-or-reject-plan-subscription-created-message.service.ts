@@ -5,7 +5,7 @@ import { InvalidJsonString } from '../../../errors/invalid-json-exception';
 import { InvalidTopic } from '../../../errors/invalid-topic-exception';
 import { ValidationException } from '../../../errors/validation-exception';
 import { EachMessagePayload } from '../../../infra/events/types';
-import { PlanSubscriptionCreatedMessageDto } from '../dto/plan-subscription-created-message.dto';
+import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message/dto';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '../repositories/events/topics';
 
 const className = 'ParseOrRejectPlanSubscriptionCreatedMessageService';
@@ -21,20 +21,14 @@ function isJsonString(str: string) {
 
 @Injectable()
 export class ParseOrRejectPlanSubscriptionCreatedMessageService {
-  async execute({
-    message,
-    topic,
-  }: EachMessagePayload): Promise<PlanSubscriptionCreatedMessageDto> {
+  async execute({ message, topic }: EachMessagePayload): Promise<PlanSubscriptionCreatedMessageDto> {
     // Parse or reject
     if (topic !== PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED']) {
       throw new InvalidTopic();
     }
 
     if (!message.value) {
-      throw new ValidationException(
-        [new ValidationError()],
-        'No message value'
-      );
+      throw new ValidationException([new ValidationError()], 'No message value');
     }
 
     const stringMessage = message.value.toString();
@@ -44,16 +38,11 @@ export class ParseOrRejectPlanSubscriptionCreatedMessageService {
     }
 
     const jsonMessage = JSON.parse(message.value.toString());
-    const planSubscriptionCreatedMessage = plainToInstance(
-      PlanSubscriptionCreatedMessageDto,
-      jsonMessage
-    );
+    const planSubscriptionCreatedMessage = plainToInstance(PlanSubscriptionCreatedMessageDto, jsonMessage);
 
-    await validateOrReject(planSubscriptionCreatedMessage).catch(
-      (validationErrors: ValidationError[]) => {
-        throw new ValidationException(validationErrors, 'Invalid payload');
-      }
-    );
+    await validateOrReject(planSubscriptionCreatedMessage).catch((validationErrors: ValidationError[]) => {
+      throw new ValidationException(validationErrors, 'Invalid payload');
+    });
 
     return jsonMessage;
   }

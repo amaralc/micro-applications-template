@@ -36,10 +36,10 @@ The primary use case I had in mind, was manage my books. I often lend books to f
     - zookeeper
   ```
 
-## Run auth-api-only service
+## Run api-only service
 
 - (terminal) Install dependencies: `yarn install`;
-- (terminal) Run project: `yarn auth-api-only:serve`;
+- (terminal) Run project: `yarn api-only:serve`;
 
 # TODO
 
@@ -75,6 +75,17 @@ References:
 - https://upstash.com/
 - https://registry.terraform.io/providers/upstash/upstash/latest/docs
 - https://payloadcms.com/
+
+# Use cases
+
+## API
+
+- (POST /users) Create new user
+- (GET /plan-subscriptions) List all plan subscriptions
+
+# Consumer
+
+- Consume 'plan-subscription-created' topic and add a new user to the database;
 
 # References
 

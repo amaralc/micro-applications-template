@@ -7,8 +7,8 @@ import {
   MongoosePlanSubscription,
   MongoosePlanSubscriptionSchema,
 } from './entities/plan-subscription.entity';
+import { PlanSubscriptionsRestController } from './plan-subscriptions-rest.controller';
 import { PlanSubscriptionsConsumer } from './plan-subscriptions.consumer';
-import { PlanSubscriptionsController } from './plan-subscriptions.controller';
 import {
   PlanSubscriptionsDatabaseRepository,
   PlanSubscriptionsDatabaseRepositoryImplementation,
@@ -19,6 +19,7 @@ import {
 } from './repositories/events/events.repository';
 import { ConsumePlanSubscriptionCreatedService } from './services/consume-plan-subscription-created.service';
 import { CreatePlanSubscriptionService } from './services/create-plan-subscription.service';
+import { ListPaginatedPlanSubscriptionsService } from './services/list-paginated-plan-subscriptions.service';
 import { ParseOrRejectPlanSubscriptionCreatedMessageService } from './services/parse-or-reject-plan-subscription-created-message.service';
 
 @Module({
@@ -38,12 +39,13 @@ import { ParseOrRejectPlanSubscriptionCreatedMessageService } from './services/p
       },
     ]),
   ],
-  controllers: [PlanSubscriptionsController],
+  controllers: [PlanSubscriptionsRestController],
   providers: [
     PlanSubscriptionsConsumer,
     ConsumePlanSubscriptionCreatedService,
     CreatePlanSubscriptionService,
     ParseOrRejectPlanSubscriptionCreatedMessageService,
+    ListPaginatedPlanSubscriptionsService,
     {
       provide: PlanSubscriptionsDatabaseRepository,
       useClass: PlanSubscriptionsDatabaseRepositoryImplementation,

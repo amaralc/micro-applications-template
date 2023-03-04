@@ -6,5 +6,10 @@
     "source.fixAll.tslint": true
   },
   "editor.formatOnSave": true,
-  "cSpell.words": ["nestjs"]
+  "cSpell.words": [
+    "kafkajs",
+    "nestjs",
+    "Partitioner",
+    "Partitioners"
+  ]
 }

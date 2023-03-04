@@ -1,33 +1,27 @@
 // users.repository.ts
+import { ListPaginatedPlanSubscriptionsDto } from '@adapters/plan-subscriptions/list-paginated-plan-subscriptions.dto';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { pagination } from '../../../../../config';
 import { CreatePlanSubscriptionDto } from '../../../dto/create-plan-subscription.dto';
-import {
-  MongoosePlanSubscription,
-  PlanSubscription,
-} from '../../../entities/plan-subscription.entity';
+import { MongoosePlanSubscription, PlanSubscription } from '../../../entities/plan-subscription.entity';
+import { PlanSubscriptionEntity } from '../../../entities/plan-subscription/entity';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../../../errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from '../database.repository';
 
 @Injectable()
-export class MongooseMongoDbPlanSubscriptionsDatabaseRepository
-  implements PlanSubscriptionsDatabaseRepository
-{
+export class MongooseMongoDbPlanSubscriptionsDatabaseRepository implements PlanSubscriptionsDatabaseRepository {
   constructor(
     @InjectModel(MongoosePlanSubscription.name)
     private readonly planSubscriptionModel: Model<MongoosePlanSubscription>
   ) {}
 
-  async create(
-    createPlanSubscriptionDto: CreatePlanSubscriptionDto
-  ): Promise<PlanSubscription> {
+  async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto): Promise<PlanSubscription> {
     const { email, plan } = createPlanSubscriptionDto;
     const subscriptionExists = await this.findByEmail(email);
     if (subscriptionExists) {
-      throw new ConflictException(
-        PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']
-      );
+      throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']);
     }
 
     const mongoosePlanSubscription = new this.planSubscriptionModel({
@@ -65,19 +59,22 @@ export class MongooseMongoDbPlanSubscriptionsDatabaseRepository
     return applicationPlanSubscription;
   }
 
-  async findAll() {
-    const mongoosePlanSubscriptions = await this.planSubscriptionModel
-      .find()
-      .exec();
-    const applicationPlanSubscriptions = mongoosePlanSubscriptions.map(
+  async listPaginated(listPaginatedPlanSubscriptionsDto: ListPaginatedPlanSubscriptionsDto) {
+    const { limit, page } = listPaginatedPlanSubscriptionsDto;
+    const localLimit = limit || pagination.defaultLimit;
+    const localOffset = page ? page - 1 : pagination.defaultPage - 1;
+
+    const mongoosePlanSubscriptions = await this.planSubscriptionModel.find().skip(localOffset).limit(localLimit);
+
+    const planSubscriptionEntities = mongoosePlanSubscriptions.map(
       (subscription) =>
-        new PlanSubscription({
+        new PlanSubscriptionEntity({
           id: subscription.id,
           isActive: subscription.isActive,
           email: subscription.email,
           plan: subscription.plan,
         })
     );
-    return applicationPlanSubscriptions;
+    return planSubscriptionEntities;
   }
 }

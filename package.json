@@ -9,10 +9,12 @@
     "prepare": "husky install",
     "pre-commit": "yarn test:shared",
     "release": "standard-version",
-    "auth-api-only:serve": "make auth-api-only-serve",
-    "auth-consumer-only:serve": "make auth-consumer-only-serve",
-    "auth-consumer-with-api:serve": "make auth-consumer-with-api-serve",
-    "test:shared": "nx test shared"
+    "api-only:serve": "make api-only-serve",
+    "consumer-only:serve": "make consumer-only-serve",
+    "consumer-with-api:serve": "make consumer-with-api-serve",
+    "test:shared": "nx test shared",
+    "test:unit": "yarn nx run-many --target=test --all=true",
+    "start": "yarn nx run-many --target=serve --all=true"
   },
   "private": true,
   "devDependencies": {
