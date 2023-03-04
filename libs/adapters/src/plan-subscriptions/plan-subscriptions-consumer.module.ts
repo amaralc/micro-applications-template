@@ -1,32 +1,19 @@
-import {
-  MongoosePlanSubscription,
-  MongoosePlanSubscriptionSchema,
-} from '@core/domains/plan-subscriptions/entities/plan-subscription.entity';
-import {
-  PlanSubscriptionsDatabaseRepository,
-  PlanSubscriptionsDatabaseRepositoryImplementation,
-} from '@core/domains/plan-subscriptions/repositories/database/database.repository';
-import {
-  PlanSubscriptionsEventsRepository,
-  PlanSubscriptionsEventsRepositoryImplementation,
-} from '@core/domains/plan-subscriptions/repositories/events/events.repository';
+import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
 import { CreatePlanSubscriptionService } from '@core/domains/plan-subscriptions/services/create-plan-subscription.service';
 import { HandlePlanSubscriptionCreatedService } from '@core/domains/plan-subscriptions/services/handle-plan-subscription-created.service';
-import { MongooseUser, MongooseUserSchema } from '@core/domains/users/entities/user.entity';
-import {
-  UsersDatabaseRepository,
-  UsersDatabaseRepositoryImplementation,
-} from '@core/domains/users/repositories/database/database.repository';
-import {
-  UsersEventsRepository,
-  UsersEventsRepositoryImplementation,
-} from '@core/domains/users/repositories/events/events.repository';
+import { UsersDatabaseRepository } from '@core/domains/users/repositories/database.repository';
+import { UsersEventsRepository } from '@core/domains/users/repositories/events.repository';
 import { CreateUserService } from '@core/domains/users/services/create-user.service';
 import { InfraModule } from '@infra/infra.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersDatabaseRepositoryImplementation } from '../users/repositories/database';
+import { MongooseUser, MongooseUserSchema } from '../users/repositories/database/mongoose-mongodb.entity';
+import { UsersEventsRepositoryImplementation } from '../users/repositories/events';
 import { KafkaPlanSubscriptionConsumerController } from './plan-subscription-consumer.controller';
+import { PlanSubscriptionsDatabaseRepositoryImplementation } from './repositories/database';
+import { MongoosePlanSubscription } from './repositories/database/mongoose-mongodb.entity';
 
 @Module({
   imports: [
@@ -46,7 +33,7 @@ import { KafkaPlanSubscriptionConsumerController } from './plan-subscription-con
     MongooseModule.forFeature([
       {
         name: MongoosePlanSubscription.name,
-        schema: MongoosePlanSubscriptionSchema,
+        schema: MongoosePlanSubscription,
       },
     ]),
   ],
@@ -58,10 +45,6 @@ import { KafkaPlanSubscriptionConsumerController } from './plan-subscription-con
     {
       provide: PlanSubscriptionsDatabaseRepository,
       useClass: PlanSubscriptionsDatabaseRepositoryImplementation,
-    },
-    {
-      provide: PlanSubscriptionsEventsRepository,
-      useClass: PlanSubscriptionsEventsRepositoryImplementation,
     },
     {
       provide: UsersDatabaseRepository,

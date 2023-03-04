@@ -1,71 +1,65 @@
 import { faker } from '@faker-js/faker';
 import { ConflictException } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import { ValidationException } from '../../../errors/validation-exception';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
+import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
 import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
 
-const setupTests = () => {
-  const planSubscriptionsDatabaseRepository = new InMemoryPlanSubscriptionsDatabaseRepository();
-  const createPlanSubscriptionService = new CreatePlanSubscriptionService(planSubscriptionsDatabaseRepository);
-  const create = jest.spyOn(planSubscriptionsDatabaseRepository, 'create');
+describe('CreatePlanSubscriptionService', () => {
+  let service: CreatePlanSubscriptionService;
+  let repository: PlanSubscriptionsDatabaseRepository;
 
-  return {
-    create,
-    createPlanSubscriptionService,
-  };
-};
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        CreatePlanSubscriptionService,
+        { provide: PlanSubscriptionsDatabaseRepository, useClass: InMemoryPlanSubscriptionsDatabaseRepository },
+      ],
+    }).compile();
 
-describe('[plan-subscriptions] Create plan subscription', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+    service = module.get<CreatePlanSubscriptionService>(CreatePlanSubscriptionService);
+    repository = module.get<PlanSubscriptionsDatabaseRepository>(PlanSubscriptionsDatabaseRepository);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
   });
 
   it('should throw conflict exception if e-mail is already being used', async () => {
-    const { createPlanSubscriptionService } = setupTests();
     const newUserEmail = faker.internet.email();
-    try {
-      await createPlanSubscriptionService.execute({
+    await service.execute({
+      email: newUserEmail,
+      plan: 'default',
+    });
+    await expect(
+      service.execute({
         email: newUserEmail,
         plan: 'default',
-      });
-      await createPlanSubscriptionService.execute({
-        email: newUserEmail,
-        plan: 'default',
-      });
-      expect(true).toEqual(false);
-    } catch (error) {
-      expect(error instanceof ConflictException).toEqual(true);
-    }
+      })
+    ).rejects.toThrow(ConflictException);
   });
 
   it('should throw validation exception if e-mail is not valid', async () => {
-    const { createPlanSubscriptionService } = setupTests();
     const invalidUserEmail = 'invalid-user-email';
-    try {
-      await createPlanSubscriptionService.execute({
+    await expect(
+      service.execute({
         email: invalidUserEmail,
         plan: 'default',
-      });
-      expect(true).toEqual(false);
-    } catch (error) {
-      expect(error instanceof ValidationException).toEqual(true);
-    }
+      })
+    ).rejects.toThrow(ValidationException);
   });
 
   it('should create a new plan-subscription', async () => {
-    try {
-      const { createPlanSubscriptionService, create } = setupTests();
+    const email = faker.internet.email();
+    const createPlanSubscriptionDto = {
+      email,
+      plan: 'default',
+    };
 
-      const createPlanSubscriptionDto = {
-        email: faker.internet.email(),
-        plan: 'default',
-      };
-
-      await createPlanSubscriptionService.execute(createPlanSubscriptionDto);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createPlanSubscriptionDto);
-    } catch (error) {
-      expect(true).toBe(false);
-    }
+    await service.execute(createPlanSubscriptionDto);
+    const planSubscription = await repository.findByEmail(email);
+    expect(planSubscription).toBeDefined();
+    expect(planSubscription?.isActive).toEqual(true);
   });
 });
