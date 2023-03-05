@@ -1,13 +1,11 @@
-import { UsersDatabaseRepository } from '@core/domains/users/repositories/database.repository';
-import { UsersEventsRepository } from '@core/domains/users/repositories/events.repository';
 import { CreateUserService } from '@core/domains/users/services/create-user.service';
-import { InfraModule } from '@infra/infra.module';
+import { databaseConfig, eventsConfig } from '@infra/config';
+import { DatabaseModule } from '@infra/database/database.module';
+import { EventsModule } from '@infra/events/events.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { UsersDatabaseRepositoryImplementation } from './repositories/database';
-import { MongooseUser, MongooseUserSchema } from './repositories/database/mongoose-mongodb.entity';
-import { UsersEventsRepositoryImplementation } from './repositories/events';
+import { UsersDatabaseRepositoryModule } from './repositories/database/repository.module';
+import { UsersEventsRepositoryModule } from './repositories/events/repository.module';
 import { UsersController } from './users.controller';
 
 @Module({
@@ -18,26 +16,13 @@ import { UsersController } from './users.controller';
      *
      */
     ConfigModule.forRoot(),
-    InfraModule,
-    MongooseModule.forFeature([
-      {
-        name: MongooseUser.name,
-        schema: MongooseUserSchema,
-      },
-    ]),
+    DatabaseModule,
+    EventsModule,
+    UsersDatabaseRepositoryModule.forRoot({ provider: databaseConfig.databaseProvider }),
+    UsersEventsRepositoryModule.forRoot({ provider: eventsConfig.eventsProvider }),
   ],
   controllers: [UsersController],
-  providers: [
-    CreateUserService,
-    {
-      provide: UsersDatabaseRepository,
-      useClass: UsersDatabaseRepositoryImplementation,
-    },
-    {
-      provide: UsersEventsRepository,
-      useClass: UsersEventsRepositoryImplementation,
-    },
-  ],
+  providers: [CreateUserService],
   exports: [CreateUserService],
 })
 export class UsersModule {}

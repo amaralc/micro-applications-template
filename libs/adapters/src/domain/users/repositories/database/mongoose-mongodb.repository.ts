@@ -9,7 +9,7 @@ import { Model } from 'mongoose';
 import { MongooseUser } from './mongoose-mongodb.entity';
 
 @Injectable()
-export class MongooseMongodbUsersDatabaseRepository implements UsersDatabaseRepository {
+export class MongooseMongoDbUsersDatabaseRepository implements UsersDatabaseRepository {
   constructor(
     @InjectModel(MongooseUser.name)
     private readonly userModel: Model<MongooseUser>
@@ -19,7 +19,7 @@ export class MongooseMongodbUsersDatabaseRepository implements UsersDatabaseRepo
     const { email } = createUserDto;
     const userExists = await this.findByEmail(email);
     if (userExists) {
-      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']);
+      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
     }
 
     const mongooseUser = await this.userModel.create({

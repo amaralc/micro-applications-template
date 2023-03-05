@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { DatabaseModule } from './database/database.module';
-import { EventsModule } from './events/events.module';
+import { KafkaEventsService } from './kafka-events.service';
 
 @Module({
   imports: [
@@ -11,11 +10,9 @@ import { EventsModule } from './events/events.module';
      *
      */
     ConfigModule.forRoot(),
-    DatabaseModule,
-    EventsModule,
   ],
   controllers: [],
-  providers: [],
-  exports: [],
+  providers: [KafkaEventsService],
+  exports: [KafkaEventsService],
 })
-export class InfraModule {}
+export class EventsModule {}

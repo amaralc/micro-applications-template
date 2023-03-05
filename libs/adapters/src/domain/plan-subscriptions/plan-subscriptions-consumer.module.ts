@@ -1,22 +1,13 @@
-import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
 import { CreatePlanSubscriptionService } from '@core/domains/plan-subscriptions/services/create-plan-subscription.service';
 import { HandlePlanSubscriptionCreatedService } from '@core/domains/plan-subscriptions/services/handle-plan-subscription-created.service';
-import { UsersDatabaseRepository } from '@core/domains/users/repositories/database.repository';
-import { UsersEventsRepository } from '@core/domains/users/repositories/events.repository';
 import { CreateUserService } from '@core/domains/users/services/create-user.service';
-import { InfraModule } from '@infra/infra.module';
+import { databaseConfig, eventsConfig } from '@infra/config';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { UsersDatabaseRepositoryImplementation } from '../users/repositories/database';
-import { MongooseUser, MongooseUserSchema } from '../users/repositories/database/mongoose-mongodb.entity';
-import { UsersEventsRepositoryImplementation } from '../users/repositories/events';
+import { UsersDatabaseRepositoryModule } from '../users/repositories/database/repository.module';
+import { UsersEventsRepositoryModule } from '../users/repositories/events/repository.module';
 import { KafkaPlanSubscriptionConsumerController } from './plan-subscription-consumer.controller';
-import { PlanSubscriptionsDatabaseRepositoryImplementation } from './repositories/database';
-import {
-  MongoosePlanSubscription,
-  MongoosePlanSubscriptionSchema,
-} from './repositories/database/mongoose-mongodb.entity';
+import { PlanSubscriptionsDatabaseRepositoryModule } from './repositories/database/repository.module';
 
 @Module({
   imports: [
@@ -26,37 +17,11 @@ import {
      *
      */
     ConfigModule.forRoot(),
-    InfraModule,
-    MongooseModule.forFeature([
-      {
-        name: MongooseUser.name,
-        schema: MongooseUserSchema,
-      },
-    ]),
-    MongooseModule.forFeature([
-      {
-        name: MongoosePlanSubscription.name,
-        schema: MongoosePlanSubscriptionSchema,
-      },
-    ]),
+    UsersDatabaseRepositoryModule.forRoot({ provider: databaseConfig.databaseProvider }),
+    UsersEventsRepositoryModule.forRoot({ provider: eventsConfig.eventsProvider }),
+    PlanSubscriptionsDatabaseRepositoryModule.forRoot({ provider: databaseConfig.databaseProvider }),
   ],
   controllers: [KafkaPlanSubscriptionConsumerController],
-  providers: [
-    CreateUserService,
-    CreatePlanSubscriptionService,
-    HandlePlanSubscriptionCreatedService,
-    {
-      provide: PlanSubscriptionsDatabaseRepository,
-      useClass: PlanSubscriptionsDatabaseRepositoryImplementation,
-    },
-    {
-      provide: UsersDatabaseRepository,
-      useClass: UsersDatabaseRepositoryImplementation,
-    },
-    {
-      provide: UsersEventsRepository,
-      useClass: UsersEventsRepositoryImplementation,
-    },
-  ],
+  providers: [CreateUserService, CreatePlanSubscriptionService, HandlePlanSubscriptionCreatedService],
 })
 export class PlanSubscriptionConsumerModule {}

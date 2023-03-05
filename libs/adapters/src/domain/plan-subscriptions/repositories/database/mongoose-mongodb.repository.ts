@@ -21,7 +21,7 @@ export class MongooseMongoDbPlanSubscriptionsDatabaseRepository implements PlanS
     const { email, plan } = createPlanSubscriptionDto;
     const subscriptionExists = await this.findByEmail(email);
     if (subscriptionExists) {
-      throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']);
+      throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
     }
 
     const mongoosePlanSubscription = new this.planSubscriptionModel({
@@ -29,6 +29,7 @@ export class MongooseMongoDbPlanSubscriptionsDatabaseRepository implements PlanS
       email,
       plan,
     });
+
     mongoosePlanSubscription.save();
 
     const applicationPlanSubscription = new PlanSubscriptionEntity({

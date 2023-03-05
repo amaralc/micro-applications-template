@@ -15,7 +15,7 @@ export class PrismaPostgreSqlPlanSubscriptionsDatabaseRepository implements Plan
     const { email, plan } = createPlanSubscriptionDto;
     const subscriptionExists = await this.findByEmail(email);
     if (subscriptionExists) {
-      throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']);
+      throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
     }
 
     const prismaPlanSubscription = await this.prismaService.plan_subscriptions.create({
