@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EachMessageHandler, Kafka, logLevel, ProducerRecord } from 'kafkajs';
-import { featureFlags } from '../config';
+import { featureFlags, kafkaConfig } from '../config';
 import { EventsService } from './events.service';
 
 const isInMemoryEventsEnabled = featureFlags.inMemoryEventsEnabled === 'true';
@@ -20,8 +20,8 @@ export class KafkaEventsService implements EventsService {
     // Connect with kafka
     Logger.log('Connecting with kafka...', className);
     this.eventsManager = new Kafka({
-      clientId: 'api-only',
-      brokers: ['localhost:9092'], // replace 'kafka:9092' with your kafka host and port
+      clientId: kafkaConfig.clientId,
+      brokers: [kafkaConfig.brokers], // replace 'kafka:9092' with your kafka host and port
       logLevel: logLevel.NOTHING,
     });
   }
@@ -53,7 +53,7 @@ export class KafkaEventsService implements EventsService {
 
     Logger.log('Creating and running kafka consumer...', className);
     const consumer = this.eventsManager.consumer({
-      groupId: 'auth-new-02',
+      groupId: kafkaConfig.consumerGroupId,
     });
     await consumer.connect();
     await consumer.subscribe({

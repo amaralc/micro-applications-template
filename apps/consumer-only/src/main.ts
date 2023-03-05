@@ -1,4 +1,5 @@
 import { PlanSubscriptionConsumerModule } from '@adapters/plan-subscriptions/plan-subscriptions-consumer.module';
+import { kafkaConfig } from '@infra/config';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -10,11 +11,11 @@ async function bootstrap() {
       transport: Transport.KAFKA,
       options: {
         client: {
-          clientId: 'plan-subscription', // plan-subscription-server
-          brokers: ['localhost:9092'],
+          clientId: kafkaConfig.clientId,
+          brokers: [kafkaConfig.brokers],
         },
         consumer: {
-          groupId: 'plan-subscription',
+          groupId: kafkaConfig.consumerGroupId,
         },
       },
     }

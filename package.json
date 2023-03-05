@@ -13,6 +13,7 @@
     "consumer-only:serve": "make consumer-only-serve",
     "consumer-with-api:serve": "make consumer-with-api-serve",
     "test:unit": "yarn nx run-many --target=test --all=true",
+    "env:setup": "cp .env.example .env",
     "start": "yarn nx run-many --target=serve --all=true"
   },
   "private": true,

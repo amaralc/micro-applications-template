@@ -3,3 +3,9 @@ export const featureFlags = {
   inMemoryEventsEnabled: process.env['FLAG_IN_MEMORY_EVENTS_ENABLED'],
   useMongoDbInsteadOfPostgreSql: process.env['FLAG_USE_MONGODB_INSTEAD_OF_POSTGRESQL'],
 };
+
+export const kafkaConfig = {
+  brokers: process.env['KAFKA_BROKERS'] as string,
+  clientId: process.env['KAFKA_CLIENT_ID'] as string,
+  consumerGroupId: process.env['KAFKA_CONSUMER_GROUP_ID'] as string,
+};
