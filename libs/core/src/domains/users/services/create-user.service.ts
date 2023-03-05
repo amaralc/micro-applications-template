@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
 import { ValidationException } from '../../../errors/validation-exception';
 import { UserEntity } from '../entities/user.entity';
 import { USERS_ERROR_MESSAGES } from '../errors/error-messages';
-import { UserConflictException } from '../errors/user-conflict-exception';
 import { UsersDatabaseRepository } from '../repositories/database.repository';
 import { UsersEventsRepository } from '../repositories/events.repository';
 import { CreateUserDto } from './create-user.dto';
@@ -33,7 +32,7 @@ export class CreateUserService {
     const existingUser = await this.usersDatabaseRepository.findByEmail(createUserDto.email);
 
     if (existingUser) {
-      throw new UserConflictException(USERS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
+      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
     }
 
     // Execute

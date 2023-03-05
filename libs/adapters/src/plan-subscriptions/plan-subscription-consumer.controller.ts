@@ -1,9 +1,8 @@
 import { PlanSubscriptionCreatedMessageDto } from '@core/domains/plan-subscriptions/entities/plan-subscription-created-message.dto';
 import { HandlePlanSubscriptionCreatedService } from '@core/domains/plan-subscriptions/services/handle-plan-subscription-created.service';
 import { USERS_ERROR_MESSAGES } from '@core/domains/users/errors/error-messages';
-import { UserConflictException } from '@core/domains/users/errors/user-conflict-exception';
 import { ValidationException } from '@core/errors/validation-exception';
-import { Controller, Logger } from '@nestjs/common';
+import { ConflictException, Controller, Logger } from '@nestjs/common';
 import { Ctx, EventPattern, KafkaContext, Payload } from '@nestjs/microservices';
 
 /**
@@ -29,11 +28,8 @@ export class KafkaPlanSubscriptionConsumerController {
         return Logger.warn('Invalid message payload: ' + JSON.stringify(error));
       }
 
-      if (error instanceof UserConflictException) {
-        return Logger.warn(
-          USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS'],
-          HandlePlanSubscriptionCreatedService.name
-        );
+      if (error instanceof ConflictException) {
+        return Logger.warn(USERS_ERROR_MESSAGES['CONFLICTING_EMAIL'], HandlePlanSubscriptionCreatedService.name);
       }
 
       Logger.warn('Error while consuming message: ', JSON.stringify(error));
