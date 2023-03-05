@@ -16,7 +16,7 @@ export class InMemoryPlanSubscriptionsDatabaseRepository implements PlanSubscrip
     const isExistingPlanSubscription = await this.findByEmail(email);
 
     if (isExistingPlanSubscription) {
-      throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']);
+      throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
     }
     const planSubscription = new PlanSubscriptionEntity(createPlanSubscriptionDto);
     this.planSubscriptions.push(planSubscription);

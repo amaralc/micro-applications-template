@@ -24,7 +24,7 @@ export class CreateUserService {
       await validateOrReject(createUserDtoInstance);
     } catch (errors) {
       if (Array.isArray(errors) && errors.every((error) => error instanceof ValidationError)) {
-        throw new ValidationException(errors, USERS_ERROR_MESSAGES['VALIDATION']['INVALID_EMAIL']);
+        throw new ValidationException(errors, USERS_ERROR_MESSAGES['INVALID_EMAIL']);
       }
 
       throw errors;
@@ -33,7 +33,7 @@ export class CreateUserService {
     const existingUser = await this.usersDatabaseRepository.findByEmail(createUserDto.email);
 
     if (existingUser) {
-      throw new UserConflictException(USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']);
+      throw new UserConflictException(USERS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
     }
 
     // Execute

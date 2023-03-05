@@ -18,7 +18,7 @@ export class CreatePlanSubscriptionService {
       await validateOrReject(createPlanSubscriptionDtoInstance);
     } catch (errors) {
       if (Array.isArray(errors) && errors.every((error) => error instanceof ValidationError)) {
-        throw new ValidationException(errors, PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['VALIDATION']['INVALID_EMAIL']);
+        throw new ValidationException(errors, PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['INVALID_EMAIL']);
       }
 
       throw errors;

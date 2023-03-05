@@ -15,7 +15,7 @@ export class InMemoryUsersDatabaseRepository implements UsersDatabaseRepository 
     const { email } = createUserDto;
     const isExistingUser = await this.findByEmail(email);
     if (isExistingUser) {
-      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICT']['EMAIL_ALREADY_EXISTS']);
+      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
     }
     const user = new UserEntity({ email });
     this.users.push(user);
