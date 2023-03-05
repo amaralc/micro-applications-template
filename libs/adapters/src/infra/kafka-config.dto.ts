@@ -6,7 +6,7 @@ export class KafkaConfig {
   consumerGroupId: string;
 
   constructor() {
-    this.brokers = [kafkaConfig.brokers];
+    this.brokers = [kafkaConfig.broker];
     this.clientId = kafkaConfig.clientId;
     this.consumerGroupId = kafkaConfig.consumerGroupId;
   }

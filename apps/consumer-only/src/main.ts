@@ -1,5 +1,5 @@
-import { KafkaConfig } from '@adapters/infrastructure/events/kafka-config.dto';
-import { PlanSubscriptionConsumerModule } from '@adapters/plan-subscriptions/plan-subscriptions-consumer.module';
+import { PlanSubscriptionConsumerModule } from '@adapters/domain/plan-subscriptions/plan-subscriptions-consumer.module';
+import { KafkaConfig } from '@adapters/infra/kafka-config.dto';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';

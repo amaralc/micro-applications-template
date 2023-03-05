@@ -18,7 +18,7 @@ export class KafkaEventsService implements OnModuleInit {
     Logger.log('Connecting with kafka...', KafkaEventsService.name);
     this.eventsManager = new Kafka({
       clientId: kafkaConfig.clientId,
-      brokers: [kafkaConfig.brokers], // replace 'kafka:9092' with your kafka host and port
+      brokers: [kafkaConfig.broker], // replace 'kafka:9092' with your kafka host and port
       logLevel: logLevel.NOTHING,
     });
   }

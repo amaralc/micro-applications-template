@@ -5,7 +5,7 @@ export const featureFlags = {
 };
 
 export const kafkaConfig = {
-  brokers: process.env['KAFKA_BROKERS'] as string,
+  broker: process.env['KAFKA_BROKER'] as string,
   clientId: process.env['KAFKA_CLIENT_ID'] as string,
   consumerGroupId: process.env['KAFKA_CONSUMER_GROUP_ID'] as string,
 };
