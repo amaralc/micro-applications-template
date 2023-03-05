@@ -1,8 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Kafka, logLevel } from 'kafkajs';
-import { featureFlags } from '../../config';
-import { EventsService } from '../events.service';
-import { EachMessageHandler, ProducerRecord } from '../types';
+import { EachMessageHandler, Kafka, logLevel, ProducerRecord } from 'kafkajs';
+import { featureFlags } from '../config';
+import { EventsService } from './events.service';
 
 const isInMemoryEventsEnabled = featureFlags.inMemoryEventsEnabled === 'true';
 

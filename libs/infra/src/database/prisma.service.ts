@@ -1,6 +1,6 @@
 import { INestApplication, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { featureFlags } from '../../../config';
+import { featureFlags } from '../config';
 
 const isInMemoryDatabaseEnabled = featureFlags.inMemoryDatabaseEnabled === 'true';
 

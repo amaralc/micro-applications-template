@@ -1,11 +1,7 @@
-import { Logger, OnModuleInit } from '@nestjs/common';
+import { OnModuleInit } from '@nestjs/common';
 import { ProducerRecord } from 'kafkajs';
-import { featureFlags } from '../config';
-import { InMemoryEventsService } from './implementations/in-memory-events.service';
-import { KafkaEventsService } from './implementations/kafka.service';
-import { EachMessageHandler } from './types';
-
-const className = 'EventsService';
+import { KafkaEventsService } from './kafka-events.service';
+import { EachMessageHandler } from './kafka.types';
 
 export abstract class EventsService implements OnModuleInit {
   abstract publish(payload: ProducerRecord): Promise<void>;
@@ -14,10 +10,4 @@ export abstract class EventsService implements OnModuleInit {
 }
 
 // Implementation
-const isInMemoryEventsEnabled = featureFlags.inMemoryEventsEnabled === 'true';
-export const EventsServiceImplementation = isInMemoryEventsEnabled ? InMemoryEventsService : KafkaEventsService;
-
-Logger.log(
-  isInMemoryEventsEnabled ? 'Using in memory events service...' : 'Using persistent events service...',
-  className
-);
+export const EventsServiceImplementation = KafkaEventsService;

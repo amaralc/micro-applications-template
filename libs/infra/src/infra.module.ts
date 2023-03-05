@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PrismaService } from './database/prisma.service';
 import { EventsService, EventsServiceImplementation } from './events/events.service';
-import { PrismaService } from './storage/prisma/prisma.service';
 
 @Module({
   imports: [
