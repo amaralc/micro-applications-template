@@ -1,14 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { EachMessageHandler, Kafka, logLevel, ProducerRecord } from 'kafkajs';
 import { featureFlags, kafkaConfig } from '../config';
-import { EventsService } from './events.service';
 
 const isInMemoryEventsEnabled = featureFlags.inMemoryEventsEnabled === 'true';
 
-const className = 'KafkaEventsService';
-
 @Injectable()
-export class KafkaEventsService implements EventsService {
+export class KafkaEventsService implements OnModuleInit {
   private eventsManager: Kafka | undefined;
 
   async onModuleInit() {
@@ -18,7 +15,7 @@ export class KafkaEventsService implements EventsService {
     }
 
     // Connect with kafka
-    Logger.log('Connecting with kafka...', className);
+    Logger.log('Connecting with kafka...', KafkaEventsService.name);
     this.eventsManager = new Kafka({
       clientId: kafkaConfig.clientId,
       brokers: [kafkaConfig.brokers], // replace 'kafka:9092' with your kafka host and port
@@ -28,30 +25,30 @@ export class KafkaEventsService implements EventsService {
 
   async publish(payload: ProducerRecord) {
     if (!this.eventsManager) {
-      Logger.log('Skipping Kafka producer creation...', className);
+      Logger.log('Skipping Kafka producer creation...', KafkaEventsService.name);
       return;
     }
 
-    Logger.log('Creating kafka producer...', className);
+    Logger.log('Creating kafka producer...', KafkaEventsService.name);
     const producer = this.eventsManager.producer();
     await producer.connect();
     if (!producer) {
-      Logger.warn('Producer was not created', className);
+      Logger.warn('Producer was not created', KafkaEventsService.name);
       return;
     }
 
-    Logger.log('Publishing message: ' + JSON.stringify(payload), className);
+    Logger.log('Publishing message: ' + JSON.stringify(payload), KafkaEventsService.name);
     await producer.send(payload);
     await producer.disconnect();
   }
 
   async subscribe(topic: string, callback: EachMessageHandler): Promise<void> {
     if (!this.eventsManager) {
-      Logger.log('Skipping Kafka producer creation...', className);
+      Logger.log('Skipping Kafka producer creation...', KafkaEventsService.name);
       return;
     }
 
-    Logger.log('Creating and running kafka consumer...', className);
+    Logger.log('Creating and running kafka consumer...', KafkaEventsService.name);
     const consumer = this.eventsManager.consumer({
       groupId: kafkaConfig.consumerGroupId,
     });

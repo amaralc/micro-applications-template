@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PrismaService } from './database/prisma.service';
-import { EventsService, EventsServiceImplementation } from './events/events.service';
+import { KafkaEventsService } from './events/kafka-events.service';
 
 @Module({
   imports: [
@@ -17,19 +17,7 @@ import { EventsService, EventsServiceImplementation } from './events/events.serv
     ),
   ],
   controllers: [],
-  providers: [
-    PrismaService,
-    {
-      provide: EventsService,
-      useClass: EventsServiceImplementation,
-    },
-  ],
-  exports: [
-    PrismaService,
-    {
-      provide: EventsService,
-      useClass: EventsServiceImplementation,
-    },
-  ],
+  providers: [PrismaService, KafkaEventsService],
+  exports: [PrismaService, KafkaEventsService],
 })
 export class InfraModule {}

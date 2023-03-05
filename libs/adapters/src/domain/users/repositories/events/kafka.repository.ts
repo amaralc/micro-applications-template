@@ -2,15 +2,15 @@
 import { UserEntity } from '@core/domains/users/entities/user.entity';
 import { UsersEventsRepository } from '@core/domains/users/repositories/events.repository';
 import { USERS_TOPICS } from '@core/domains/users/topics';
-import { EventsService } from '@infra/events/events.service';
+import { KafkaEventsService } from '@infra/events/kafka-events.service';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class KafkaUsersEventsRepository implements UsersEventsRepository {
-  constructor(private eventsService: EventsService) {}
+  constructor(private kafkaEventsService: KafkaEventsService) {}
 
   async publishUserCreated(userEntity: UserEntity): Promise<void> {
-    this.eventsService.publish({
+    this.kafkaEventsService.publish({
       topic: USERS_TOPICS['USER_CREATED'],
       messages: [
         {
