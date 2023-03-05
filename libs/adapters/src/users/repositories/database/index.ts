@@ -1,6 +1,6 @@
+import { InMemoryUsersDatabaseRepository } from '@core/domains/users/repositories/database-in-memory.repository';
 import { featureFlags } from '@infra/config';
 import { Logger } from '@nestjs/common';
-import { InMemoryUsersDatabaseRepository } from '../../../../../core/src/domains/users/repositories/database-in-memory.repository';
 import { MongooseMongodbUsersDatabaseRepository } from './mongoose-mongodb.repository';
 import { PrismaPostgreSqlUsersDatabaseRepository } from './prisma-postgres.repository';
 
