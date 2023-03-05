@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { Test, TestingModule } from '@nestjs/testing';
-import { pagination } from '../../../config';
 import { ValidationException } from '../../../errors/validation-exception';
+import { pagination } from '../../../shared/config';
 import { PlanSubscriptionEntity } from '../entities/plan-subscription.entity';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
