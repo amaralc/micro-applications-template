@@ -13,7 +13,10 @@ import { MongooseUser, MongooseUserSchema } from '../users/repositories/database
 import { UsersEventsRepositoryImplementation } from '../users/repositories/events';
 import { KafkaPlanSubscriptionConsumerController } from './plan-subscription-consumer.controller';
 import { PlanSubscriptionsDatabaseRepositoryImplementation } from './repositories/database';
-import { MongoosePlanSubscription } from './repositories/database/mongoose-mongodb.entity';
+import {
+  MongoosePlanSubscription,
+  MongoosePlanSubscriptionSchema,
+} from './repositories/database/mongoose-mongodb.entity';
 
 @Module({
   imports: [
@@ -33,7 +36,7 @@ import { MongoosePlanSubscription } from './repositories/database/mongoose-mongo
     MongooseModule.forFeature([
       {
         name: MongoosePlanSubscription.name,
-        schema: MongoosePlanSubscription,
+        schema: MongoosePlanSubscriptionSchema,
       },
     ]),
   ],

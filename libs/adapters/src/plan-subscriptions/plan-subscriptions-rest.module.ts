@@ -9,11 +9,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersDatabaseRepositoryImplementation } from '../users/repositories/database';
-import { MongooseUser } from '../users/repositories/database/mongoose-mongodb.entity';
+import { MongooseUser, MongooseUserSchema } from '../users/repositories/database/mongoose-mongodb.entity';
 import { UsersEventsRepositoryImplementation } from '../users/repositories/events';
 import { PlanSubscriptionsRestController } from './plan-subscriptions-rest.controller';
 import { PlanSubscriptionsDatabaseRepositoryImplementation } from './repositories/database';
-import { MongoosePlanSubscription, MongooseUserSchema } from './repositories/database/mongoose-mongodb.entity';
+import {
+  MongoosePlanSubscription,
+  MongoosePlanSubscriptionSchema,
+} from './repositories/database/mongoose-mongodb.entity';
 
 @Module({
   imports: [
@@ -27,7 +30,7 @@ import { MongoosePlanSubscription, MongooseUserSchema } from './repositories/dat
     MongooseModule.forFeature([
       {
         name: MongoosePlanSubscription.name,
-        schema: MongoosePlanSubscription,
+        schema: MongoosePlanSubscriptionSchema,
       },
     ]),
     MongooseModule.forFeature([

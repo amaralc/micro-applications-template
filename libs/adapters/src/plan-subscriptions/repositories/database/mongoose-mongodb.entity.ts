@@ -17,4 +17,4 @@ export class MongoosePlanSubscription extends Document implements PlanSubscripti
   isActive!: boolean;
 }
 
-export const MongooseUserSchema = SchemaFactory.createForClass(MongoosePlanSubscription);
+export const MongoosePlanSubscriptionSchema = SchemaFactory.createForClass(MongoosePlanSubscription);
