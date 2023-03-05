@@ -1,9 +1,9 @@
-import { UserDto } from '@core/domains/users/entities/user.dto';
+import { UserEntity } from '@core/domains/users/entities/user.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema({ collection: 'Users' })
-export class MongooseUser extends Document implements UserDto {
+export class MongooseUser extends Document implements UserEntity {
   @Prop({ type: String })
   override id!: string;
 

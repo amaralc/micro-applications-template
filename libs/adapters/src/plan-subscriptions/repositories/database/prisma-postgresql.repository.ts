@@ -1,10 +1,10 @@
-import { pagination } from '@core/config';
 import { PlanSubscriptionEntity } from '@core/domains/plan-subscriptions/entities/plan-subscription.entity';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '@core/domains/plan-subscriptions/errors/error-messages';
 import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
 import { CreatePlanSubscriptionDto } from '@core/domains/plan-subscriptions/services/create-plan-subscription.dto';
 import { ListPaginatedPlanSubscriptionsDto } from '@core/domains/plan-subscriptions/services/list-paginated-plan-subscriptions.dto';
-import { PrismaService } from '@infra/storage/prisma/prisma.service';
+import { pagination } from '@core/shared/config';
+import { PrismaService } from '@infra/database/prisma.service';
 import { ConflictException, Injectable } from '@nestjs/common';
 
 @Injectable()

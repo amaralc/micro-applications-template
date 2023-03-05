@@ -1,4 +1,4 @@
-import { PlanSubscriptionCreatedMessageDto } from '@core/domains/plan-subscriptions/entities/plan-subscription-created-message/dto';
+import { PlanSubscriptionCreatedMessageDto } from '@core/domains/plan-subscriptions/entities/plan-subscription-created-message.dto';
 import { HandlePlanSubscriptionCreatedService } from '@core/domains/plan-subscriptions/services/handle-plan-subscription-created.service';
 import { USERS_ERROR_MESSAGES } from '@core/domains/users/errors/error-messages';
 import { UserConflictException } from '@core/domains/users/errors/user-conflict-exception';
