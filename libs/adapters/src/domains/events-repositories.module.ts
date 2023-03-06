@@ -3,13 +3,13 @@ import { UsersEventsRepository } from '@core/domains/users/repositories/events.r
 import { KafkaEventsService } from '@infra/events/kafka-events.service';
 import { IEventsProvider } from '@infra/events/types';
 import { DynamicModule, Logger, Module, Provider } from '@nestjs/common';
-import { KafkaUsersEventsRepository } from './kafka.repository';
+import { KafkaUsersEventsRepository } from './users/events/kafka.repository';
 
 @Module({})
-export class UsersEventsRepositoryModule {
+export class EventsRepositoriesModule {
   // Initialize repository
   static register({ provider }: { provider: IEventsProvider }): DynamicModule {
-    Logger.log(`Events provider: ${provider}`, UsersEventsRepositoryModule.name);
+    Logger.log(`Events provider: ${provider}`, EventsRepositoriesModule.name);
     let dynamicProviders: Array<Provider> = [];
 
     if (provider === 'kafka') {
@@ -21,7 +21,7 @@ export class UsersEventsRepositoryModule {
     }
 
     return {
-      module: UsersEventsRepositoryModule,
+      module: EventsRepositoriesModule,
       providers: [...dynamicProviders],
       exports: [...dynamicProviders],
     };

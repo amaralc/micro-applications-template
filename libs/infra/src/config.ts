@@ -7,7 +7,7 @@ export const databaseConfig = {
 
 export const mongoDbConfig = {
   databaseUrl:
-    // process.env['MONGODB_DATABASE_URL'] ||
+    process.env['MONGODB_DATABASE_URL'] ||
     'mongodb://root:example@localhost:27017/auth?ssl=false&connectTimeoutMS=5000&maxPoolSize=100&authSource=admin',
 };
 
