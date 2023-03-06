@@ -7,15 +7,12 @@ import { PrismaService } from '@infra/database/prisma.service';
 import { IDatabaseProvider } from '@infra/database/types';
 import { DynamicModule, Logger, Module, Provider } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  MongoosePlanSubscription,
-  MongoosePlanSubscriptionSchema,
-} from './plan-subscriptions/database/mongoose-mongodb.entity';
-import { MongooseMongoDbPlanSubscriptionsDatabaseRepository } from './plan-subscriptions/database/mongoose-mongodb.repository';
-import { PrismaPostgreSqlPlanSubscriptionsDatabaseRepository } from './plan-subscriptions/database/prisma-postgresql.repository';
-import { MongooseUser, MongooseUserSchema } from './users/database/mongoose-mongodb.entity';
-import { MongooseMongoDbUsersDatabaseRepository } from './users/database/mongoose-mongodb.repository';
-import { PrismaPostgreSqlUsersDatabaseRepository } from './users/database/prisma-postgres.repository';
+import { MongoosePlanSubscription, MongoosePlanSubscriptionSchema } from './plan-subscriptions/mongoose-mongodb.entity';
+import { MongooseMongoDbPlanSubscriptionsDatabaseRepository } from './plan-subscriptions/mongoose-mongodb.repository';
+import { PrismaPostgreSqlPlanSubscriptionsDatabaseRepository } from './plan-subscriptions/prisma-postgresql.repository';
+import { MongooseUser, MongooseUserSchema } from './users/mongoose-mongodb.entity';
+import { MongooseMongoDbUsersDatabaseRepository } from './users/mongoose-mongodb.repository';
+import { PrismaPostgreSqlUsersDatabaseRepository } from './users/prisma-postgres.repository';
 
 @Module({})
 export class DatabaseRepositoriesModule {

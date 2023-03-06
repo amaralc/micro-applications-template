@@ -3,7 +3,7 @@ import { UsersEventsRepository } from '@core/domains/users/repositories/events.r
 import { KafkaEventsService } from '@infra/events/kafka-events.service';
 import { IEventsProvider } from '@infra/events/types';
 import { DynamicModule, Logger, Module, Provider } from '@nestjs/common';
-import { KafkaUsersEventsRepository } from './users/events/kafka.repository';
+import { KafkaUsersEventsRepository } from './users/kafka.repository';
 
 @Module({})
 export class EventsRepositoriesModule {

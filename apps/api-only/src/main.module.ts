@@ -1,14 +1,14 @@
-import { DatabaseRepositoriesModule } from '@adapters/domains/database-repositories.module';
-import { EventsRepositoriesModule } from '@adapters/domains/events-repositories.module';
-import { PlanSubscriptionsRestController } from '@adapters/domains/plan-subscriptions/controllers/rest.controller';
-import { UsersRestController } from '@adapters/domains/users/controllers/rest.controller';
-import { DatabaseConfigDto } from '@adapters/infra/database-config.dto';
-import { EventsConfigDto } from '@adapters/infra/events-config.dto';
+import { DatabaseConfigDto } from '@adapters/repositories/database/database-config.dto';
+import { DatabaseRepositoriesModule } from '@adapters/repositories/database/database-repositories.module';
+import { EventsConfigDto } from '@adapters/repositories/events/events-config.dto';
+import { EventsRepositoriesModule } from '@adapters/repositories/events/events-repositories.module';
 import { CreatePlanSubscriptionService } from '@core/domains/plan-subscriptions/services/create-plan-subscription.service';
 import { ListPaginatedPlanSubscriptionsService } from '@core/domains/plan-subscriptions/services/list-paginated-plan-subscriptions.service';
 import { CreateUserService } from '@core/domains/users/services/create-user.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { PlanSubscriptionsRestController } from './controllers/plan-subscriptions.controller';
+import { UsersRestController } from './controllers/users.controller';
 
 const databaseConfig = new DatabaseConfigDto();
 const eventsConfig = new EventsConfigDto();

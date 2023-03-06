@@ -1,4 +1,4 @@
-import { EventsConfigDto } from '@adapters/infra/events-config.dto';
+import { EventsConfigDto } from '@adapters/repositories/events/events-config.dto';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
