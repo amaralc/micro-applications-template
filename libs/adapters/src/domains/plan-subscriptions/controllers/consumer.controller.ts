@@ -11,7 +11,7 @@ import { Ctx, EventPattern, KafkaContext, Payload } from '@nestjs/microservices'
  */
 
 @Controller()
-export class KafkaPlanSubscriptionConsumerController {
+export class PlanSubscriptionsConsumerController {
   constructor(private readonly handlePlanSubscriptionCreatedService: HandlePlanSubscriptionCreatedService) {}
 
   @EventPattern('plan-subscription-created')
@@ -21,8 +21,8 @@ export class KafkaPlanSubscriptionConsumerController {
   ) {
     try {
       await this.handlePlanSubscriptionCreatedService.execute(data);
-      Logger.log('Message: ' + JSON.stringify(context.getMessage()), KafkaPlanSubscriptionConsumerController.name);
-      Logger.log('Message processed: ' + JSON.stringify(data), KafkaPlanSubscriptionConsumerController.name);
+      Logger.log('Message: ' + JSON.stringify(context.getMessage()), PlanSubscriptionsConsumerController.name);
+      Logger.log('Message processed: ' + JSON.stringify(data), PlanSubscriptionsConsumerController.name);
     } catch (error) {
       if (error instanceof ValidationException) {
         return Logger.warn('Invalid message payload: ' + JSON.stringify(error));
