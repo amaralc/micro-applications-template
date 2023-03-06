@@ -1,1 +1,1 @@
-export type IEventsProvider = 'kafka';
+export type IEventsProvider = 'kafka' | 'memory';

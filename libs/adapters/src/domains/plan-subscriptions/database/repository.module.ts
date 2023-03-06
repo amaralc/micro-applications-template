@@ -2,7 +2,7 @@ import { DynamicModule, Module, Provider } from '@nestjs/common';
 
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database-in-memory.repository';
 import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
-import { DatabaseModule } from '@infra/database/database.module';
+import { PrismaService } from '@infra/database/prisma.service';
 import { IDatabaseProvider } from '@infra/database/types';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongoosePlanSubscription, MongoosePlanSubscriptionSchema } from './mongoose-mongodb.entity';
@@ -26,20 +26,52 @@ export class PlanSubscriptionsDatabaseRepositoryModule {
   }
 
   // Initialize repository
-  static forRoot({ provider }: { provider: IDatabaseProvider }): DynamicModule {
-    return {
-      module: PlanSubscriptionsDatabaseRepositoryModule,
-      imports: [
-        DatabaseModule,
+  static register({ provider }: { provider: IDatabaseProvider }): DynamicModule {
+    let dynamicImports: Array<DynamicModule> = [];
+    let dynamicProviders: Array<Provider> = [];
+
+    if (provider === 'mongodb') {
+      dynamicImports = [
         MongooseModule.forFeature([
           {
             name: MongoosePlanSubscription.name,
             schema: MongoosePlanSubscriptionSchema,
           },
         ]),
-      ],
-      providers: [this.getRepositoryImplementation({ provider })],
-      exports: [this.getRepositoryImplementation({ provider })],
+      ];
+
+      dynamicProviders = [
+        {
+          provide: PlanSubscriptionsDatabaseRepository,
+          useClass: MongooseMongoDbPlanSubscriptionsDatabaseRepository,
+        },
+      ];
+    }
+
+    if (provider === 'postgresql') {
+      dynamicProviders = [
+        PrismaService,
+        {
+          provide: PlanSubscriptionsDatabaseRepository,
+          useClass: PrismaPostgreSqlPlanSubscriptionsDatabaseRepository,
+        },
+      ];
+    }
+
+    if (provider === 'memory') {
+      dynamicProviders = [
+        {
+          provide: PlanSubscriptionsDatabaseRepository,
+          useClass: InMemoryPlanSubscriptionsDatabaseRepository,
+        },
+      ];
+    }
+
+    return {
+      module: PlanSubscriptionsDatabaseRepositoryModule,
+      imports: [...dynamicImports],
+      providers: [...dynamicProviders],
+      exports: [...dynamicProviders],
     };
   }
 }

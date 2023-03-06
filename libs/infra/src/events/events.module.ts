@@ -1,18 +1,21 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { DynamicModule, Logger, Module } from '@nestjs/common';
 import { KafkaEventsService } from './kafka-events.service';
+import { IEventsProvider } from './types';
 
-@Module({
-  imports: [
-    /**
-     * Use config module to expose environment variables
-     * @see https://docs.nestjs.com/techniques/configuration
-     *
-     */
-    ConfigModule.forRoot(),
-  ],
-  controllers: [],
-  providers: [KafkaEventsService],
-  exports: [KafkaEventsService],
-})
-export class EventsModule {}
+@Module({})
+export class EventsModule {
+  static register({ provider }: { provider: IEventsProvider }): DynamicModule {
+    Logger.log(`Events provider: ${provider}`, EventsModule.name);
+    if (provider === 'kafka') {
+      return {
+        module: EventsModule,
+        imports: [],
+        controllers: [],
+        providers: [KafkaEventsService],
+        exports: [KafkaEventsService],
+      };
+    }
+
+    return { module: EventsModule };
+  }
+}

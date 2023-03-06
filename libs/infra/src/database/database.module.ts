@@ -1,22 +1,32 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { DynamicModule, Logger, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { mongoDbConfig } from '../config';
 import { PrismaService } from './prisma.service';
+import { IDatabaseProvider } from './types';
 
-@Module({
-  imports: [
-    /**
-     * Use config module to expose environment variables
-     * @see https://docs.nestjs.com/techniques/configuration
-     *
-     */
-    ConfigModule.forRoot(),
-    MongooseModule.forRoot(
-      'mongodb://root:example@localhost:27017/auth?ssl=false&connectTimeoutMS=5000&maxPoolSize=100&authSource=admin'
-    ),
-  ],
-  controllers: [],
-  providers: [PrismaService],
-  exports: [PrismaService],
-})
-export class DatabaseModule {}
+@Module({})
+export class DatabaseModule {
+  static register({ provider }: { provider: IDatabaseProvider }): DynamicModule {
+    Logger.log(`Database provider: ${provider}`, DatabaseModule.name);
+
+    if (provider === 'mongodb') {
+      return {
+        module: DatabaseModule,
+        imports: [MongooseModule.forRoot(mongoDbConfig.databaseUrl)],
+        controllers: [],
+        providers: [],
+      };
+    }
+
+    if (provider === 'postgresql') {
+      return {
+        module: DatabaseModule,
+        imports: [],
+        providers: [PrismaService],
+        exports: [PrismaService],
+      };
+    }
+
+    return { module: DatabaseModule };
+  }
+}

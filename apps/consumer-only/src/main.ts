@@ -1,23 +1,23 @@
-import { PlanSubscriptionConsumerModule } from '@adapters/domain/plan-subscriptions/plan-subscriptions-consumer.module';
-import { KafkaConfig } from '@adapters/infra/kafka-config.dto';
+import { EventsConfigDto } from '@adapters/infra/events-config.dto';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { MainModule } from './main.module';
 
-const kafkaConfig = new KafkaConfig();
+const eventsConfigDto = new EventsConfigDto();
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    PlanSubscriptionConsumerModule,
-    {
+    MainModule,
+    eventsConfigDto.kafka && {
       transport: Transport.KAFKA,
       options: {
         client: {
-          clientId: kafkaConfig.clientId,
-          brokers: kafkaConfig.brokers,
+          clientId: eventsConfigDto.kafka.clientId,
+          brokers: [eventsConfigDto.kafka.broker],
         },
         consumer: {
-          groupId: kafkaConfig.consumerGroupId,
+          groupId: eventsConfigDto.kafka.consumerGroupId,
         },
       },
     }

@@ -5,8 +5,14 @@ export const databaseConfig = {
   databaseProvider: (process.env['DATABASE_PROVIDER'] as IDatabaseProvider) || 'memory',
 };
 
+export const mongoDbConfig = {
+  databaseUrl:
+    // process.env['MONGODB_DATABASE_URL'] ||
+    'mongodb://root:example@localhost:27017/auth?ssl=false&connectTimeoutMS=5000&maxPoolSize=100&authSource=admin',
+};
+
 export const eventsConfig = {
-  eventsProvider: (process.env['EVENTS_PROVIDER'] as IEventsProvider) || 'kafka',
+  eventsProvider: (process.env['EVENTS_PROVIDER'] as IEventsProvider) || 'memory',
 };
 
 export const kafkaConfig = {
