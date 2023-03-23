@@ -15,8 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@auth/shared/*": ["libs/shared/src/*"],
-      "@infra/prisma/*": ["prisma/*"]
+      "@adapters/*": ["libs/adapters/src/*"],
+      "@core/*": ["libs/core/src/*"],
+      "@infra/*": ["libs/infra/src/*"],
+      "@system/shared": ["libs/shared/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

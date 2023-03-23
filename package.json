@@ -1,18 +1,21 @@
 {
-  "name": "where-is-my-stuff",
-  "version": "0.1.0",
+  "name": "micro-applications-template",
+  "version": "1.0.0",
   "license": "MIT",
   "author": {
     "name": "Calil Amaral"
   },
   "scripts": {
     "prepare": "husky install",
-    "pre-commit": "yarn test:shared",
-    "release": "standard-version",
-    "auth-api-only:serve": "make auth-api-only-serve",
-    "auth-consumer-only:serve": "make auth-consumer-only-serve",
-    "auth-consumer-with-api:serve": "make auth-consumer-with-api-serve",
-    "test:shared": "nx test shared"
+    "pre-commit": "yarn test:unit",
+    "release:no-push": "lerna version --yes --conventional-commits --changelog-preset ./changelog-preset.config.js --no-push",
+    "release": "lerna version --yes --conventional-commits --changelog-preset ./changelog-preset.config.js",
+    "api-only:serve": "make api-only-serve",
+    "consumer-only:serve": "make consumer-only-serve",
+    "consumer-with-api:serve": "make consumer-with-api-serve",
+    "test:unit": "yarn nx run-many --target=test --all=true",
+    "env:setup": "cp .env.example .env",
+    "start": "yarn nx run-many --target=serve --all=true"
   },
   "private": true,
   "devDependencies": {
@@ -34,6 +37,7 @@
     "husky": "^8.0.3",
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
+    "lerna": "^6.5.1",
     "nx": "15.6.3",
     "prettier": "^2.6.2",
     "ts-jest": "28.0.5",
@@ -54,12 +58,12 @@
     "axios": "^1.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "conventional-changelog-conventionalcommits": "^5.0.0",
     "kafkajs": "^2.2.3",
     "mongoose": "^6.10.0",
     "prisma": "^4.10.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
-    "standard-version": "^9.5.0",
     "tslib": "^2.3.0"
   }
 }
