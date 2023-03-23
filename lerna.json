@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "packages": ["."],
+  "version": "independent",
+  "command": {
+    "changelogPreset": {
+      "name": "conventionalcommits"
+    },
+    "version": {
+      "conventionalCommits": true,
+      "message": "chore(release): [skip ci]",
+      "changelogPreset": "./changelog-preset.config.js"
+    }
+  }
+}
