@@ -10,13 +10,13 @@
  */
 
 
-// // Customize changelog preset to use bitbucket format if needed
+// Customize changelog preset to use github format
 
-// module.exports = Promise.resolve()
-//   .then(() => require('conventional-changelog-conventionalcommits'))
-//   .then((presetPromise) => presetPromise())
-//   .then((preset) => {
-//     preset.writerOpts.commitUrlFormat = '{{host}}/{{owner}}/{{repository}}/commits/{{hash}}';
-//     preset.writerOpts.compareUrlFormat = '{{host}}/{{owner}}/{{repository}}/compare/{{currentTag}}%0D{{previousTag}}';
-//     return preset;
-//   });
+module.exports = Promise.resolve()
+  .then(() => require('conventional-changelog-conventionalcommits'))
+  .then((presetPromise) => presetPromise())
+  .then((preset) => {
+    preset.writerOpts.commitUrlFormat = '{{host}}/{{owner}}/{{repository}}/commit/{{hash}}';
+    preset.writerOpts.compareUrlFormat = '{{host}}/{{owner}}/{{repository}}/compare/{{currentTag}}...{{previousTag}}';
+    return preset;
+  });
