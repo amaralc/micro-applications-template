@@ -9,14 +9,8 @@
  * Example: yarn lerna version --yes --conventional-commits --changelog-preset ./changelog-preset.config.js
  */
 
-
-// Customize changelog preset to use github format
-
-module.exports = Promise.resolve()
-  .then(() => require('conventional-changelog-conventionalcommits'))
-  .then((presetPromise) => presetPromise())
-  .then((preset) => {
-    preset.writerOpts.commitUrlFormat = '{{host}}/{{owner}}/{{repository}}/commit/{{hash}}';
-    preset.writerOpts.compareUrlFormat = '{{host}}/{{owner}}/{{repository}}/compare/{{currentTag}}...{{previousTag}}';
-    return preset;
-  });
+const config = require('conventional-changelog-conventionalcommits');
+module.exports = config({
+   // commitUrlFormat: "{{host}}/{{owner}}/{{repository}}/commit/{{hash}}",
+   // compareUrlFormat: "{{host}}/{{owner}}/{{repository}}/branches/compare/{{currentTag}}...{{previousTag}}"
+});
