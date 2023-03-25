@@ -41,4 +41,8 @@ export class InMemoryPlanSubscriptionsDatabaseRepository implements PlanSubscrip
     );
     return planSubscriptionEntities;
   }
+
+  async deleteAll(): Promise<void> {
+    this.planSubscriptions = [];
+  }
 }

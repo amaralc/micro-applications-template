@@ -1,24 +1,24 @@
 import { faker } from '@faker-js/faker';
 import { Test, TestingModule } from '@nestjs/testing';
 import { randomUUID } from 'crypto';
+import { ApplicationLogger } from '../../../shared/logs/application-logger';
+import { NativeLogger } from '../../../shared/logs/native-logger';
 import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message/dto';
+import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
-import { CreatePlanSubscriptionService } from '../services/create-plan-subscription.service';
 import { HandlePlanSubscriptionCreatedService } from './handle-plan-subscription-created.service';
 
 describe('[plan-subscriptions] HandlePlanSubscriptionCreatedService', () => {
   let handlePlanSubscriptionCreatedService: HandlePlanSubscriptionCreatedService;
-  let createPlanSubscriptionService: CreatePlanSubscriptionService;
   let databaseRepository: PlanSubscriptionsDatabaseRepository;
-  let execute: jest.SpyInstance;
 
   beforeEach(async () => {
     jest.clearAllMocks();
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         HandlePlanSubscriptionCreatedService,
-        CreatePlanSubscriptionService,
+        { provide: ApplicationLogger, useClass: NativeLogger },
         { provide: PlanSubscriptionsDatabaseRepository, useClass: InMemoryPlanSubscriptionsDatabaseRepository },
       ],
     }).compile();
@@ -26,9 +26,11 @@ describe('[plan-subscriptions] HandlePlanSubscriptionCreatedService', () => {
     handlePlanSubscriptionCreatedService = module.get<HandlePlanSubscriptionCreatedService>(
       HandlePlanSubscriptionCreatedService
     );
-    createPlanSubscriptionService = module.get<CreatePlanSubscriptionService>(CreatePlanSubscriptionService);
     databaseRepository = module.get<PlanSubscriptionsDatabaseRepository>(PlanSubscriptionsDatabaseRepository);
-    execute = jest.spyOn(createPlanSubscriptionService, 'execute');
+  });
+
+  afterEach(async () => {
+    await databaseRepository.deleteAll();
   });
 
   it('should throw validation exception if message payload is not valid', async () => {
@@ -45,7 +47,7 @@ describe('[plan-subscriptions] HandlePlanSubscriptionCreatedService', () => {
     payload = 1;
     await expect(handlePlanSubscriptionCreatedService.execute(payload)).rejects.toThrowError();
 
-    expect(execute).not.toHaveBeenCalled();
+    await expect(databaseRepository.listPaginated({})).resolves.toEqual([]);
   });
 
   it('should create plan subscription if payload is valid', async () => {
@@ -57,7 +59,6 @@ describe('[plan-subscriptions] HandlePlanSubscriptionCreatedService', () => {
     };
 
     await expect(handlePlanSubscriptionCreatedService.execute(entity)).resolves.not.toThrow();
-    expect(execute).toHaveBeenCalledWith(entity);
-    expect(databaseRepository.findByEmail);
+    await expect(databaseRepository.listPaginated({})).resolves.toEqual([new PlanSubscriptionEntity(entity)]);
   });
 });

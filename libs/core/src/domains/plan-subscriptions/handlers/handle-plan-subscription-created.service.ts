@@ -1,25 +1,28 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { validateOrReject, ValidationError } from 'class-validator';
-import { ValidationException } from '../../../shared/errors/validation-exception';
-import { isJsonObject } from '../../../shared/helpers/is-json-object';
+import { ApplicationLogger } from '../../../shared/logs/application-logger';
+import { parseOrRejectMessage } from '../../../shared/validators/parse-or-reject-message';
+import { applicationValidateOrReject } from '../../../shared/validators/validate-or-reject';
 import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message/dto';
-import { CreatePlanSubscriptionService } from '../services/create-plan-subscription.service';
+import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
 
 @Injectable()
 export class HandlePlanSubscriptionCreatedService {
-  readonly logger: Logger = new Logger(HandlePlanSubscriptionCreatedService.name);
-  constructor(private readonly createPlanSubscriptionService: CreatePlanSubscriptionService) {}
+  constructor(
+    private readonly planSubscriptionsDatabaseRepository: PlanSubscriptionsDatabaseRepository,
+    private readonly logger: ApplicationLogger
+  ) {}
 
   async execute(message: unknown): Promise<void> {
-    const validObject = isJsonObject(message);
-    if (!validObject) {
-      throw new ValidationException([], 'Message is not json object');
-    }
-    const instance = plainToInstance(PlanSubscriptionCreatedMessageDto, message);
-    await validateOrReject(instance).catch((validationErrors: ValidationError[]) => {
-      throw new ValidationException(validationErrors, 'Invalid payload');
-    });
-    await this.createPlanSubscriptionService.execute(instance);
+    // validate
+    const parsedMessage = parseOrRejectMessage(message);
+    const planSubscriptionCreatedMessageDto = plainToInstance(PlanSubscriptionCreatedMessageDto, parsedMessage);
+    await applicationValidateOrReject(planSubscriptionCreatedMessageDto);
+
+    // Execute
+    await this.planSubscriptionsDatabaseRepository.create(planSubscriptionCreatedMessageDto);
+
+    // Log
+    this.logger.info('Plan subscription created', { ...planSubscriptionCreatedMessageDto });
   }
 }

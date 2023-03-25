@@ -9,4 +9,5 @@ export abstract class PlanSubscriptionsDatabaseRepository {
     listPaginatedPlanSubscriptionsDto: ListPaginatedPlanSubscriptionsDto
   ): Promise<Array<PlanSubscriptionEntity>>;
   abstract findByEmail(email: string): Promise<PlanSubscriptionEntity | null>;
+  abstract deleteAll(): Promise<void>;
 }
