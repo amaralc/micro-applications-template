@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import { Replace } from '../../../shared/helpers/replace';
-import { UserDto } from './user.dto';
+import { Replace } from '../../../../shared/helpers/replace';
+import { UserDto } from './dto';
 
 type IMakeUserProps = Replace<UserDto, { id?: string }>;
 

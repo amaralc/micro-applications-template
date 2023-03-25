@@ -2,7 +2,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { pagination } from '../../../shared/config';
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '../constants/error-messages';
-import { PlanSubscriptionEntity } from '../entities/plan-subscription.entity';
+import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
 import { CreatePlanSubscriptionDto } from '../services/create-plan-subscription.dto';
 import { ListPaginatedPlanSubscriptionsDto } from '../services/list-paginated-plan-subscriptions.dto';
 import { PlanSubscriptionsDatabaseRepository } from './database.repository';

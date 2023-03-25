@@ -3,7 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
 import { ValidationException } from '../../../shared/errors/validation-exception';
 import { USERS_ERROR_MESSAGES } from '../constants/error-messages';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../entities/user/entity';
 import { UsersDatabaseRepository } from '../repositories/database.repository';
 import { UsersEventsRepository } from '../repositories/events.repository';
 import { CreateUserDto } from './create-user.dto';

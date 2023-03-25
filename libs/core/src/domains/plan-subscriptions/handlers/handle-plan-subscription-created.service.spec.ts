@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
 import { Test, TestingModule } from '@nestjs/testing';
 import { randomUUID } from 'crypto';
-import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message.dto';
+import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message/dto';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
-import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
+import { CreatePlanSubscriptionService } from '../services/create-plan-subscription.service';
 import { HandlePlanSubscriptionCreatedService } from './handle-plan-subscription-created.service';
 
 describe('[plan-subscriptions] HandlePlanSubscriptionCreatedService', () => {

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { Test, TestingModule } from '@nestjs/testing';
 import { pagination } from '../../../shared/config';
 import { ValidationException } from '../../../shared/errors/validation-exception';
-import { PlanSubscriptionEntity } from '../entities/plan-subscription.entity';
+import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
 import { CreatePlanSubscriptionService } from './create-plan-subscription.service';

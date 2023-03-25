@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import { Replace } from '../../../shared/helpers/replace';
-import { PlanSubscriptionDto } from './plan-subscription.dto';
+import { Replace } from '../../../../shared/helpers/replace';
+import { PlanSubscriptionDto } from './dto';
 
 type IMakePlanSubscriptionProps = Replace<PlanSubscriptionDto, { id?: string; isActive?: boolean }>;
 

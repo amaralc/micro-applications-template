@@ -1,4 +1,4 @@
-import { PlanSubscriptionEntity } from '../entities/plan-subscription.entity';
+import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
 import { CreatePlanSubscriptionDto } from '../services/create-plan-subscription.dto';
 import { ListPaginatedPlanSubscriptionsDto } from '../services/list-paginated-plan-subscriptions.dto';
 
