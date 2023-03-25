@@ -37,14 +37,14 @@ docker-config:
 auth-prisma-postgresql-setup:
 	yarn prisma generate --schema prisma/postgresql.schema.prisma
 
-api-only-serve:
+service-rest-api-serve:
   # The .env in root folder make it possible to use env variables within .env file
-	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve api-only
+	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve service-rest-api
 
 consumer-with-api-serve:
   # The .env in root folder make it possible to use env variables within .env file
 	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve consumer-with-api
 
-consumer-only-serve:
+service-consumer-serve:
   # The .env in root folder make it possible to use env variables within .env file
-	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve consumer-only
+	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve service-consumer

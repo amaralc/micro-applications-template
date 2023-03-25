@@ -6,7 +6,7 @@ import { Kafka, Partitioners } from 'kafkajs';
 const setupTest = async () => {
   const kafkaClient = new Kafka({
     brokers: ['localhost:9092'],
-    clientId: 'api-only-e2e',
+    clientId: 'service-rest-api-e2e',
   });
 
   const planSubscriptionMessages = [];

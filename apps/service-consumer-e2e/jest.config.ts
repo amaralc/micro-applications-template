@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'api-only-e2e',
+  displayName: 'service-consumer-e2e',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -15,5 +15,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/api-only-e2e',
+  coverageDirectory: '../../coverage/service-consumer-e2e',
 };

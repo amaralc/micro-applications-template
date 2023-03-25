@@ -1,13 +1,13 @@
 {
-  "name": "consumer-only-e2e",
+  "name": "service-consumer-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": ["consumer-only"],
+  "implicitDependencies": ["service-consumer"],
   "targets": {
     "e2e": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
       "options": {
-        "jestConfig": "apps/consumer-only-e2e/jest.config.ts",
+        "jestConfig": "apps/service-consumer-e2e/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -15,7 +15,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/consumer-only-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/service-consumer-e2e/**/*.{js,ts}"]
       }
     }
   }
