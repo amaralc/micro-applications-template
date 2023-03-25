@@ -1,7 +1,7 @@
 // users.repository.ts
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
+import { USERS_ERROR_MESSAGES } from '../constants/error-messages';
 import { UserEntity } from '../entities/user.entity';
-import { USERS_ERROR_MESSAGES } from '../errors/error-messages';
 import { CreateUserDto } from '../services/create-user.dto';
 import { UsersDatabaseRepository } from './database.repository';
 
