@@ -1,3 +1,5 @@
+import { ApplicationLogger } from '@core/shared/logs/application-logger';
+import { NativeLogger } from '@core/shared/logs/native-logger';
 import { faker } from '@faker-js/faker';
 import { Test, TestingModule } from '@nestjs/testing';
 import { pagination } from '../../../shared/config';
@@ -19,6 +21,7 @@ describe('[plan-subscriptions] ListPaginatedPlanSubscriptions', () => {
       providers: [
         ListPaginatedPlanSubscriptionsService,
         CreatePlanSubscriptionService,
+        { provide: ApplicationLogger, useClass: NativeLogger },
         { provide: PlanSubscriptionsDatabaseRepository, useClass: InMemoryPlanSubscriptionsDatabaseRepository },
       ],
     }).compile();
