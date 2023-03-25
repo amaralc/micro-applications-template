@@ -1,11 +1,25 @@
 # Persistence
-persistence-setup:
+persistence-setup-postgresql:
 	cp .env.example .env \
 	&& cp .env.example ./apps/_persistence/.env \
-	&& cd apps/_persistence && docker-compose up -d && echo 'Finish setting up containers...' && sleep 2
+	&& cd apps/_persistence && docker-compose -f docker-compose-postgresql.yml up -d && echo 'Finish setting up containers...' && sleep 2
 
-persistence-cleanup:
-	cd apps/_persistence && docker-compose down
+persistence-cleanup-postgresql:
+	cd apps/_persistence && docker-compose -f docker-compose-postgresql.yml down
+
+persistence-prune-postgresql:
+	cd apps/_persistence && docker-compose -f docker-compose-postgresql.yml down -v
+
+persistence-setup-mongodb:
+	cp .env.example .env \
+	&& cp .env.example ./apps/_persistence/.env \
+	&& cd apps/_persistence && docker-compose -f docker-compose-mongodb.yml up -d && echo 'Finish setting up containers...' && sleep 2
+
+persistence-cleanup-mongodb:
+	cd apps/_persistence && docker-compose -f docker-compose-mongodb.yml down
+
+persistence-prune-mongodb:
+	cd apps/_persistence && docker-compose -f docker-compose-mongodb.yml down -v
 
 # Hasura (Dev Tool)
 hasura-console:
@@ -38,13 +52,13 @@ auth-prisma-postgresql-setup:
 	yarn prisma generate --schema prisma/postgresql.schema.prisma
 
 service-rest-api-serve:
-  # The .env in root folder make it possible to use env variables within .env file
+	# The .env in root folder make it possible to use env variables within .env file
 	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve service-rest-api
 
 consumer-with-api-serve:
-  # The .env in root folder make it possible to use env variables within .env file
+	# The .env in root folder make it possible to use env variables within .env file
 	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve consumer-with-api
 
 service-consumer-serve:
-  # The .env in root folder make it possible to use env variables within .env file
+	# The .env in root folder make it possible to use env variables within .env file
 	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve service-consumer

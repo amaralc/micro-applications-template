@@ -1,10 +1,25 @@
 version: '3'
 
+volumes:
+  micro-applications-template-zookeeper:
+    driver: local
+
+  micro-applications-template-kafka:
+    driver: local
+
+  micro-applications-template-confluent-control-center:
+    driver: local
+
+  micro-applications-template-mongo:
+    driver: local
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
     hostname: zookeeper
-    container_name: zookeeper
+    container_name: micro-applications-template-zookeeper
+    volumes:
+      - micro-applications-template-zookeeper:/var/lib/zookeeper/data
     ports:
       - '2181:2181'
     environment:
@@ -14,7 +29,9 @@ services:
   kafka:
     image: confluentinc/cp-server:7.3.0
     hostname: kafka
-    container_name: kafka
+    container_name: micro-applications-template-kafka
+    volumes:
+      - micro-applications-template-kafka:/var/lib/kafka/data
     depends_on:
       - zookeeper
     ports:
@@ -36,8 +53,10 @@ services:
 
   confluent-control-center:
     image: confluentinc/cp-enterprise-control-center:7.3.0
-    hostname: control-center
-    container_name: confluent-control-center
+    hostname: confluent-control-center
+    container_name: micro-applications-template-confluent-control-center
+    volumes:
+      - micro-applications-template-confluent-control-center:/var/lib/confluent-control-center/data
     depends_on:
       - kafka
     ports:
@@ -50,31 +69,13 @@ services:
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
 
-  postgres:
-    image: postgres:12
-    container_name: postgres
-    ports:
-      - '5432:5432'
-    restart: always
-    env_file:
-      - .env
-
-  hasura:
-    image: hasura/graphql-engine:v2.18.0
-    container_name: hasura
-    ports:
-      - '8080:8080'
-    depends_on:
-      - 'postgres'
-    restart: always
-    env_file:
-      - .env
-
   # Mongo Database container initialization (https://hub.docker.com/_/mongo)
   mongo:
     image: mongo:5.0
     restart: always
-    container_name: mongo
+    container_name: micro-applications-template-mongo
+    volumes:
+      - micro-applications-template-mongo:/var/lib/mongo/data
     ports:
       - '27017:27017'
     env_file:
