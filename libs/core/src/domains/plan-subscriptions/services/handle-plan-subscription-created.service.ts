@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
-import { ValidationException } from '../../../errors/validation-exception';
+import { ValidationException } from '../../../shared/errors/validation-exception';
 import { isJsonObject } from '../../../shared/helpers/is-json-object';
 import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message.dto';
 import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
