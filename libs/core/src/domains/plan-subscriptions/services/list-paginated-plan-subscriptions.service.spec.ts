@@ -1,13 +1,12 @@
-import { ApplicationLogger } from '@core/shared/logs/application-logger';
-import { NativeLogger } from '@core/shared/logs/native-logger';
 import { faker } from '@faker-js/faker';
 import { Test, TestingModule } from '@nestjs/testing';
 import { pagination } from '../../../shared/config';
 import { ValidationException } from '../../../shared/errors/validation-exception';
+import { ApplicationLogger } from '../../../shared/logs/application-logger';
+import { NativeLogger } from '../../../shared/logs/native-logger';
 import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { PlanSubscriptionsDatabaseRepository } from '../repositories/database.repository';
-import { CreatePlanSubscriptionService } from './create-plan-subscription.service';
 import { ListPaginatedPlanSubscriptionsService } from './list-paginated-plan-subscriptions.service';
 
 describe('[plan-subscriptions] ListPaginatedPlanSubscriptions', () => {
@@ -20,7 +19,6 @@ describe('[plan-subscriptions] ListPaginatedPlanSubscriptions', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ListPaginatedPlanSubscriptionsService,
-        CreatePlanSubscriptionService,
         { provide: ApplicationLogger, useClass: NativeLogger },
         { provide: PlanSubscriptionsDatabaseRepository, useClass: InMemoryPlanSubscriptionsDatabaseRepository },
       ],
