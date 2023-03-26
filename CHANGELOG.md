@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@1.0.0...micro-applications-template@1.1.0) (2023-03-26)
+
+### Features
+
+- add individual setups for mongodb and postgresql ([e9afa9f](https://github.com/amaralc/micro-applications-template/commit/e9afa9f8f9328b3d006a80bbe20ffe71e625f363))
+- add logger, move files and avoid interaction testing ([6b2c578](https://github.com/amaralc/micro-applications-template/commit/6b2c578cb88b81887029dd2dc2cfb7f5fd4da327))
+- add logging middleware ([49dfd17](https://github.com/amaralc/micro-applications-template/commit/49dfd17f728195bd3ad7ca7a261e84df9758a0eb))
+- add open api, guards and restructure folders ([cb8d11e](https://github.com/amaralc/micro-applications-template/commit/cb8d11e28541707ba0232fe07a3ec7925e98a4b3))
+- enhance repositories and modules ([23e97cb](https://github.com/amaralc/micro-applications-template/commit/23e97cb2dbc9fb6e26db1431adc8f3465685f0be))
+- use default kafka transport ([3034c5b](https://github.com/amaralc/micro-applications-template/commit/3034c5bcbeed1897434f603e1a39445cce86a6e2))
+- use logger and enhance test ([01a1188](https://github.com/amaralc/micro-applications-template/commit/01a1188ae31769489842c142c6ef6b16cb92b468))
+
+### Bug Fixes
+
+- adjust database provider and remove devtools (paid feature) ([8b8c3a4](https://github.com/amaralc/micro-applications-template/commit/8b8c3a449cd057675bd64f5d2f2b59ce954334f8))
+- adjust lerna changelog preset ([92f8868](https://github.com/amaralc/micro-applications-template/commit/92f88682f563a8bf14b8215bb41c9b19673781e4))
+- rename apps ([7a9768e](https://github.com/amaralc/micro-applications-template/commit/7a9768e19b0671c4ef5845a1759c105f6ac218b2))
+
 ## 1.0.0 (2023-03-23)
 
 ### Features
