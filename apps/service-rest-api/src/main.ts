@@ -3,6 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
+import { LoggingMiddleware } from '@adapters/logs/logging.middleware';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { env } from './config';
@@ -20,6 +21,8 @@ async function bootstrap() {
       },
     })
   );
+
+  app.use(LoggingMiddleware); // Use global logging middleware https://docs.nestjs.com/middleware#global-middleware
   const port = env.port;
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}`);
