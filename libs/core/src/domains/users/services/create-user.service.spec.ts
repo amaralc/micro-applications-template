@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { ConflictException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ValidationException } from '../../../errors/validation-exception';
+import { ValidationException } from '../../../shared/errors/validation-exception';
 import { InMemoryUsersDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { UsersDatabaseRepository } from '../repositories/database.repository';
 import { InMemoryUsersEventsRepository } from '../repositories/events-in-memory.repository';

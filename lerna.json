@@ -3,13 +3,8 @@
   "packages": ["."],
   "version": "independent",
   "command": {
-    "changelogPreset": {
-      "name": "conventionalcommits"
-    },
     "version": {
-      "conventionalCommits": true,
-      "message": "chore(release): [skip ci]",
-      "changelogPreset": "./changelog-preset.config.js"
+      "message": "chore(release): [skip ci]"
     }
   }
 }

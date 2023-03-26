@@ -1,7 +1,7 @@
 // users.repository.ts
 import { Injectable } from '@nestjs/common';
-import { UserEntity } from '../entities/user.entity';
-import { USERS_TOPICS } from '../topics';
+import { USERS_TOPICS } from '../constants/topics';
+import { UserEntity } from '../entities/user/entity';
 import { UsersEventsRepository } from './events.repository';
 
 interface ISimplifiedProducerRecord {

@@ -16,21 +16,21 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### ⚠ BREAKING CHANGES
 
-- **consumer-only:** use event pattern
+- **service-consumer:** use event pattern
 
 ### Features
 
-- **consumer-only:** use event pattern ([91b8238](https://github.com/amaralc/micro-applications-template/commit/91b8238fc4cdb9924bc58bf97043f59aad972780))
+- **service-consumer:** use event pattern ([91b8238](https://github.com/amaralc/micro-applications-template/commit/91b8238fc4cdb9924bc58bf97043f59aad972780))
 
 ### Bug Fixes
 
-- **consumer-only:** handle exceptions in callback ([625f8c2](https://github.com/amaralc/micro-applications-template/commit/625f8c22c51aeb249808a45b03f4b9643c879686))
+- **service-consumer:** handle exceptions in callback ([625f8c2](https://github.com/amaralc/micro-applications-template/commit/625f8c22c51aeb249808a45b03f4b9643c879686))
 
 ## 0.0.4 (2023-02-24)
 
 ### Features
 
-- **consumer-only:** 14 rename projects and add consumer example ([#15](https://github.com/amaralc/micro-applications-template/issues/15)) ([2189e9e](https://github.com/amaralc/micro-applications-template/commit/2189e9ecc726b735865641102abd406f825cdb6d))
+- **service-consumer:** 14 rename projects and add consumer example ([#15](https://github.com/amaralc/micro-applications-template/issues/15)) ([2189e9e](https://github.com/amaralc/micro-applications-template/commit/2189e9ecc726b735865641102abd406f825cdb6d))
 
 ## 0.0.3 (2023-02-24)
 
@@ -98,21 +98,21 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### ⚠ BREAKING CHANGES
 
-- **consumer-only:** use event pattern
+- **service-consumer:** use event pattern
 
 ### Features
 
-- **consumer-only:** use event pattern ([91b8238](https://github.com/amaralc/where-is-my-stuff/commit/91b8238fc4cdb9924bc58bf97043f59aad972780))
+- **service-consumer:** use event pattern ([91b8238](https://github.com/amaralc/where-is-my-stuff/commit/91b8238fc4cdb9924bc58bf97043f59aad972780))
 
 ### Bug Fixes
 
-- **consumer-only:** handle exceptions in callback ([625f8c2](https://github.com/amaralc/where-is-my-stuff/commit/625f8c22c51aeb249808a45b03f4b9643c879686))
+- **service-consumer:** handle exceptions in callback ([625f8c2](https://github.com/amaralc/where-is-my-stuff/commit/625f8c22c51aeb249808a45b03f4b9643c879686))
 
 ### [0.0.4](https://github.com/amaralc/where-is-my-stuff/compare/v0.0.3...v0.0.4) (2023-02-24)
 
 ### Features
 
-- **consumer-only:** 14 rename projects and add consumer example ([#15](https://github.com/amaralc/where-is-my-stuff/issues/15)) ([2189e9e](https://github.com/amaralc/where-is-my-stuff/commit/2189e9ecc726b735865641102abd406f825cdb6d))
+- **service-consumer:** 14 rename projects and add consumer example ([#15](https://github.com/amaralc/where-is-my-stuff/issues/15)) ([2189e9e](https://github.com/amaralc/where-is-my-stuff/commit/2189e9ecc726b735865641102abd406f825cdb6d))
 
 ### [0.0.3](https://github.com/amaralc/where-is-my-stuff/compare/v0.0.2...v0.0.3) (2023-02-24)
 

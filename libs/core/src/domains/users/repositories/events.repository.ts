@@ -1,4 +1,4 @@
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../entities/user/entity';
 
 // Abstraction
 export abstract class UsersEventsRepository {

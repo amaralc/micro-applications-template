@@ -1,4 +1,4 @@
-import { PlanSubscriptionEntity } from '../entities/plan-subscription.entity';
+import { PlanSubscriptionEntity } from '../entities/plan-subscription/entity';
 import { CreatePlanSubscriptionDto } from '../services/create-plan-subscription.dto';
 import { ListPaginatedPlanSubscriptionsDto } from '../services/list-paginated-plan-subscriptions.dto';
 
@@ -9,4 +9,5 @@ export abstract class PlanSubscriptionsDatabaseRepository {
     listPaginatedPlanSubscriptionsDto: ListPaginatedPlanSubscriptionsDto
   ): Promise<Array<PlanSubscriptionEntity>>;
   abstract findByEmail(email: string): Promise<PlanSubscriptionEntity | null>;
+  abstract deleteAll(): Promise<void>;
 }

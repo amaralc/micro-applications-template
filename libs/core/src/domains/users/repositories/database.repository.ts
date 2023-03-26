@@ -1,4 +1,4 @@
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../entities/user/entity';
 import { CreateUserDto } from '../services/create-user.dto';
 
 // Abstraction
