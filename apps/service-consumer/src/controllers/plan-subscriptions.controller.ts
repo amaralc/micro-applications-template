@@ -1,7 +1,7 @@
-import { PlanSubscriptionCreatedMessageDto } from '@core/domains/plan-subscriptions/entities/plan-subscription-created-message.dto';
-import { HandlePlanSubscriptionCreatedService } from '@core/domains/plan-subscriptions/services/handle-plan-subscription-created.service';
-import { USERS_ERROR_MESSAGES } from '@core/domains/users/errors/error-messages';
-import { ValidationException } from '@core/errors/validation-exception';
+import { PlanSubscriptionCreatedMessageDto } from '@core/domains/plan-subscriptions/entities/plan-subscription-created-message/dto';
+import { HandlePlanSubscriptionCreatedService } from '@core/domains/plan-subscriptions/handlers/handle-plan-subscription-created.service';
+import { USERS_ERROR_MESSAGES } from '@core/domains/users/constants/error-messages';
+import { ValidationException } from '@core/shared/errors/validation-exception';
 import { ConflictException, Controller, Logger } from '@nestjs/common';
 import { Ctx, EventPattern, KafkaContext, Payload } from '@nestjs/microservices';
 
