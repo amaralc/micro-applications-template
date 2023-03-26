@@ -5,7 +5,7 @@ export type ITransporter =
   | 'nestjs-custom-kafka-transporter'
   | 'simple-kafka-transporter';
 
-export type IEventsProvider = 'kafka' | 'memory';
+export type IEventsProvider = 'kafka' | 'in-memory';
 
 export enum ICompressionTypes {
   None = 0,

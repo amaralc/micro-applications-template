@@ -25,7 +25,7 @@ class ConfigDto {
   kafkaTopicPlanSubscriptionCreated = PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED'];
 
   // Database
-  databaseProvider = (process.env['DATABASE_PROVIDER'] as IDatabaseProvider) || 'memory';
+  databaseProvider = (process.env['DATABASE_PROVIDER'] as IDatabaseProvider) || 'in-memory';
   mongoDbDatabaseUrl =
     process.env['MONGODB_DATABASE_URL'] ||
     'mongodb://root:example@localhost:27017/auth?ssl=false&connectTimeoutMS=5000&maxPoolSize=100&authSource=admin';

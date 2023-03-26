@@ -6,7 +6,7 @@ import { NativeLogger } from '@core/shared/logs/native-logger';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { configDto } from '../../config.dto';
-import { DatabaseRepositoriesModule } from '../../database/repositories/repositories.module';
+import { DatabaseRepositoriesModule } from '../../database/repositories.module';
 import { EventsRepositoriesModule } from '../../events/repositories/repositories.module';
 import { LoggingMiddleware } from '../../logs/logging.middleware';
 import { PlanSubscriptionsRestController } from './plan-subscriptions.controller';

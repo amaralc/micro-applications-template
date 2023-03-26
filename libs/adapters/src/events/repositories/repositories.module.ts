@@ -16,7 +16,7 @@ export class EventsRepositoriesModule {
       dynamicProviders = [KafkaEventsService, { provide: UsersEventsRepository, useClass: KafkaUsersEventsRepository }];
     }
 
-    if (provider === 'memory') {
+    if (provider === 'in-memory') {
       dynamicProviders = [{ provide: UsersEventsRepository, useClass: InMemoryUsersEventsRepository }];
     }
 

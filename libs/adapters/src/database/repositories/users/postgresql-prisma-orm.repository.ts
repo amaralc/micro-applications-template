@@ -8,7 +8,7 @@ import { PostgreSqlPrismaOrmService } from '../../infra/prisma/postgresql-prisma
 import { ConflictException, Injectable } from '@nestjs/common';
 
 @Injectable()
-export class PrismaPostgreSqlUsersDatabaseRepository implements UsersDatabaseRepository {
+export class PostgreSqlPrismaOrmUsersDatabaseRepository implements UsersDatabaseRepository {
   constructor(private postgreSqlPrismaOrmService: PostgreSqlPrismaOrmService) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {

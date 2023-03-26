@@ -1,4 +1,3 @@
-// users.repository.ts
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '@core/domains/plan-subscriptions/constants/error-messages';
 import { PlanSubscriptionEntity } from '@core/domains/plan-subscriptions/entities/plan-subscription/entity';
 import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
@@ -6,16 +5,11 @@ import { CreatePlanSubscriptionDto } from '@core/domains/plan-subscriptions/serv
 import { ListPaginatedPlanSubscriptionsDto } from '@core/domains/plan-subscriptions/services/list-paginated-plan-subscriptions.dto';
 import { pagination } from '@core/shared/config';
 import { ConflictException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { MongoosePlanSubscription } from './mongoose-mongodb.entity';
+import { PostgreSqlPrismaOrmService } from '../../infra/prisma/postgresql-prisma-orm.service';
 
 @Injectable()
-export class MongooseMongoDbPlanSubscriptionsDatabaseRepository implements PlanSubscriptionsDatabaseRepository {
-  constructor(
-    @InjectModel(MongoosePlanSubscription.name)
-    private readonly planSubscriptionModel: Model<MongoosePlanSubscription>
-  ) {}
+export class PostgreSqlPrismaOrmPlanSubscriptionsDatabaseRepository implements PlanSubscriptionsDatabaseRepository {
+  constructor(private readonly postgreSqlPrismaOrmService: PostgreSqlPrismaOrmService) {}
 
   async create(createPlanSubscriptionDto: CreatePlanSubscriptionDto): Promise<PlanSubscriptionEntity> {
     const { email, plan } = createPlanSubscriptionDto;
@@ -24,38 +18,34 @@ export class MongooseMongoDbPlanSubscriptionsDatabaseRepository implements PlanS
       throw new ConflictException(PLAN_SUBSCRIPTIONS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
     }
 
-    const mongoosePlanSubscription = new this.planSubscriptionModel({
-      isActive: true,
-      email,
-      plan,
+    const prismaPlanSubscription = await this.postgreSqlPrismaOrmService.plan_subscriptions.create({
+      data: { is_active: true, email, plan },
     });
 
-    mongoosePlanSubscription.save();
-
     const applicationPlanSubscription = new PlanSubscriptionEntity({
-      id: mongoosePlanSubscription.id,
-      email: mongoosePlanSubscription.email,
-      isActive: mongoosePlanSubscription.isActive,
+      id: prismaPlanSubscription.id,
+      email: prismaPlanSubscription.email,
       plan,
+      isActive: prismaPlanSubscription.is_active,
     });
     return applicationPlanSubscription;
   }
 
   async findByEmail(email: string): Promise<PlanSubscriptionEntity | null> {
-    const mongoosePlanSubscription = await this.planSubscriptionModel
-      .findOne({
+    const prismaPlanSubscription = await this.postgreSqlPrismaOrmService.plan_subscriptions.findFirst({
+      where: {
         email,
-      })
-      .exec();
-    if (!mongoosePlanSubscription) {
+      },
+    });
+    if (!prismaPlanSubscription) {
       return null;
     }
 
     const applicationPlanSubscription = new PlanSubscriptionEntity({
-      id: mongoosePlanSubscription.id,
-      isActive: mongoosePlanSubscription.isActive,
-      email: mongoosePlanSubscription.email,
-      plan: mongoosePlanSubscription.plan,
+      id: prismaPlanSubscription.id,
+      isActive: prismaPlanSubscription.is_active,
+      email: prismaPlanSubscription.email,
+      plan: prismaPlanSubscription.plan,
     });
     return applicationPlanSubscription;
   }
@@ -65,13 +55,15 @@ export class MongooseMongoDbPlanSubscriptionsDatabaseRepository implements PlanS
     const localLimit = limit || pagination.defaultLimit;
     const localOffset = page ? page - 1 : pagination.defaultPage - 1;
 
-    const mongoosePlanSubscriptions = await this.planSubscriptionModel.find().skip(localOffset).limit(localLimit);
-
-    const planSubscriptionEntities = mongoosePlanSubscriptions.map(
+    const prismaPlanSubscriptions = await this.postgreSqlPrismaOrmService.plan_subscriptions.findMany({
+      skip: localOffset,
+      take: localLimit,
+    });
+    const planSubscriptionEntities = prismaPlanSubscriptions.map(
       (subscription) =>
         new PlanSubscriptionEntity({
           id: subscription.id,
-          isActive: subscription.isActive,
+          isActive: subscription.is_active,
           email: subscription.email,
           plan: subscription.plan,
         })
