@@ -1,5 +1,6 @@
+import { ITopicSubscribers } from '@core/shared/infra/events.types';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { EachMessageHandler, Kafka, logLevel, Partitioners, ProducerRecord } from 'kafkajs';
+import { Kafka, logLevel, Partitioners, ProducerRecord } from 'kafkajs';
 import { configDto } from '../../config.dto';
 
 @Injectable()
@@ -7,6 +8,7 @@ export class KafkaEventsService implements OnModuleInit {
   private eventsManager: Kafka;
 
   constructor() {
+    // Create client
     this.eventsManager = new Kafka({
       clientId: configDto.kafkaClientId,
       brokers: [configDto.kafkaBroker], // replace 'kafka:9092' with your kafka host and port
@@ -29,18 +31,30 @@ export class KafkaEventsService implements OnModuleInit {
     await producer.disconnect();
   }
 
-  async subscribe(topic: string, callback: EachMessageHandler): Promise<void> {
-    Logger.log('Creating and running kafka consumer...', KafkaEventsService.name);
+  async subscribeToTopics(topicSubscribers: ITopicSubscribers) {
+    // Create consumer
     const consumer = this.eventsManager.consumer({
       groupId: configDto.kafkaGroupId,
     });
+
+    // Connect consumer
     await consumer.connect();
-    await consumer.subscribe({
-      topics: [topic],
-      fromBeginning: true,
-    });
+
+    // Subscribe to topics
+    const addSubcriberTopics = async () => {
+      const promises = Object.entries(topicSubscribers).map(async (item) => {
+        const [topic] = item;
+        return consumer.subscribe({ topic, fromBeginning: true });
+      });
+      return Promise.all(promises);
+    };
+
+    await addSubcriberTopics();
+
     await consumer.run({
-      eachMessage: callback,
+      eachMessage: async ({ topic, partition, message }) => {
+        await topicSubscribers[topic]({ topic, partition, message });
+      },
     });
   }
 }

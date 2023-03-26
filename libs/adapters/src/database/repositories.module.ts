@@ -32,11 +32,11 @@ export class DatabaseRepositoriesModule {
 
     if (provider === 'postgresql-prisma-orm') {
       dynamicProviders = [
+        PostgreSqlPrismaOrmService,
         {
           provide: ApplicationLogger,
           useClass: NativeLogger,
         },
-        PostgreSqlPrismaOrmService,
         {
           provide: UsersDatabaseRepository,
           useClass: PostgreSqlPrismaOrmUsersDatabaseRepository,
@@ -67,6 +67,10 @@ export class DatabaseRepositoriesModule {
 
       dynamicProviders = [
         {
+          provide: ApplicationLogger,
+          useClass: NativeLogger,
+        },
+        {
           provide: UsersDatabaseRepository,
           useClass: MongoDbMongooseOrmUsersDatabaseRepository,
         },
@@ -79,6 +83,10 @@ export class DatabaseRepositoriesModule {
 
     if (provider === 'in-memory') {
       dynamicProviders = [
+        {
+          provide: ApplicationLogger,
+          useClass: NativeLogger,
+        },
         {
           provide: UsersDatabaseRepository,
           useClass: InMemoryUsersDatabaseRepository,

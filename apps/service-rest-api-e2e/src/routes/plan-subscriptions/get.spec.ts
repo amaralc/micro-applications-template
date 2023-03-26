@@ -1,3 +1,4 @@
+import { configDto } from '@adapters/config.dto';
 import { faker } from '@faker-js/faker';
 import axios, { AxiosError } from 'axios';
 import { randomUUID } from 'crypto';
@@ -5,8 +6,8 @@ import { Kafka, Partitioners } from 'kafkajs';
 
 const setupTest = async () => {
   const kafkaClient = new Kafka({
-    brokers: ['localhost:9092'],
-    clientId: 'service-rest-api-e2e',
+    brokers: [configDto.kafkaBroker],
+    clientId: configDto.kafkaClientId,
   });
 
   const planSubscriptionMessages = [];

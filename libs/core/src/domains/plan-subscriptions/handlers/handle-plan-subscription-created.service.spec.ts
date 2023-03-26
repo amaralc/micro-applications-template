@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { Test, TestingModule } from '@nestjs/testing';
 import { randomUUID } from 'crypto';
+import { IKafkaMessage } from '../../../shared/infra/events.types';
 import { ApplicationLogger } from '../../../shared/logs/application-logger';
 import { NativeLogger } from '../../../shared/logs/native-logger';
 import { PlanSubscriptionCreatedMessageDto } from '../entities/plan-subscription-created-message/dto';
@@ -12,9 +13,19 @@ import { HandlePlanSubscriptionCreatedService } from './handle-plan-subscription
 describe('[plan-subscriptions] HandlePlanSubscriptionCreatedService', () => {
   let handlePlanSubscriptionCreatedService: HandlePlanSubscriptionCreatedService;
   let databaseRepository: PlanSubscriptionsDatabaseRepository;
+  let partialMessage: Pick<IKafkaMessage, 'key' | 'attributes' | 'offset' | 'timestamp'>;
+  const topic = 'my-topic';
+  const partition = 0;
 
   beforeEach(async () => {
     jest.clearAllMocks();
+    partialMessage = {
+      key: Buffer.from('0'),
+      attributes: 1,
+      offset: '0',
+      timestamp: new Date().toISOString(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         HandlePlanSubscriptionCreatedService,
@@ -33,19 +44,46 @@ describe('[plan-subscriptions] HandlePlanSubscriptionCreatedService', () => {
     await databaseRepository.deleteAll();
   });
 
-  it('should throw validation exception if message payload is not valid', async () => {
-    let payload;
-    payload = { key: 'value' };
-    await expect(handlePlanSubscriptionCreatedService.execute(payload)).rejects.toThrowError();
+  it('should log validation exception if message payload is not valid', async () => {
+    let messageValue;
+    messageValue = Buffer.from(JSON.stringify({ key: 'value' }));
+    await expect(
+      handlePlanSubscriptionCreatedService.execute({
+        topic,
+        partition,
+        message: {
+          ...partialMessage,
+          value: messageValue,
+          headers: {},
+        },
+      })
+    ).resolves.toEqual(undefined);
 
-    payload = 'x';
-    await expect(handlePlanSubscriptionCreatedService.execute(payload)).rejects.toThrowError();
+    messageValue = null;
+    await expect(
+      handlePlanSubscriptionCreatedService.execute({
+        topic,
+        partition,
+        message: {
+          ...partialMessage,
+          value: messageValue,
+          headers: {},
+        },
+      })
+    ).resolves.toEqual(undefined);
 
-    payload = '{"key":"value"}';
-    await expect(handlePlanSubscriptionCreatedService.execute(payload)).rejects.toThrowError();
-
-    payload = 1;
-    await expect(handlePlanSubscriptionCreatedService.execute(payload)).rejects.toThrowError();
+    messageValue = Buffer.from('1');
+    await expect(
+      handlePlanSubscriptionCreatedService.execute({
+        topic,
+        partition,
+        message: {
+          ...partialMessage,
+          value: messageValue,
+          headers: {},
+        },
+      })
+    ).resolves.toEqual(undefined);
 
     await expect(databaseRepository.listPaginated({})).resolves.toEqual([]);
   });
@@ -58,7 +96,18 @@ describe('[plan-subscriptions] HandlePlanSubscriptionCreatedService', () => {
       plan: faker.lorem.slug(1),
     };
 
-    await expect(handlePlanSubscriptionCreatedService.execute(entity)).resolves.not.toThrow();
+    const messageValue = Buffer.from(JSON.stringify(entity));
+    await expect(
+      handlePlanSubscriptionCreatedService.execute({
+        topic,
+        partition,
+        message: {
+          ...partialMessage,
+          value: messageValue,
+          headers: {},
+        },
+      })
+    ).resolves.not.toThrow();
     await expect(databaseRepository.listPaginated({})).resolves.toEqual([new PlanSubscriptionEntity(entity)]);
   });
 });

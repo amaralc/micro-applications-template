@@ -2,15 +2,15 @@ import { ApplicationLogger } from './application-logger';
 
 export class NativeLogger implements ApplicationLogger {
   info(message: string, metadata: Record<string, unknown>): void {
-    console.log(message, metadata);
+    console.info(JSON.stringify({ message, metadata }));
   }
   warn(message: string, metadata: Record<string, unknown>): void {
-    console.log(message, metadata);
+    console.warn(JSON.stringify({ message, metadata }));
   }
   error(message: string, metadata: Record<string, unknown>): void {
-    console.log(message, metadata);
+    console.error(JSON.stringify({ message, metadata }));
   }
   debug(message: string, metadata: Record<string, unknown>): void {
-    console.log(message, metadata);
+    console.debug(JSON.stringify({ message, metadata }));
   }
 }

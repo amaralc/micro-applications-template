@@ -1,8 +1,8 @@
 import { InMemoryUsersEventsRepository } from '@core/domains/users/repositories/events-in-memory.repository';
 import { UsersEventsRepository } from '@core/domains/users/repositories/events.repository';
+import { IEventsProvider } from '@core/shared/infra/events.types';
 import { DynamicModule, Logger, Module, Provider } from '@nestjs/common';
 import { KafkaEventsService } from '../infra/kafka-events.service';
-import { IEventsProvider } from '../types';
 import { KafkaUsersEventsRepository } from './users/kafka.repository';
 
 @Module({})

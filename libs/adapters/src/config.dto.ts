@@ -1,12 +1,12 @@
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '@core/domains/plan-subscriptions/constants/topics';
 import { USERS_TOPICS } from '@core/domains/users/constants/topics';
+import { IEventsProvider, ITransporter } from '@core/shared/infra/events.types';
 import { Logger } from '@nestjs/common';
 import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-application-context-options.interface';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { randomUUID } from 'crypto';
 import { IDatabaseProvider } from './database/types';
 import { KafkaCustomTransport } from './events/infra/kafka-custom.transport';
-import { IEventsProvider, ITransporter } from './events/types';
 
 class ConfigDto {
   // Events
