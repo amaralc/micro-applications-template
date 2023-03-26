@@ -1,9 +1,9 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
-import { ValidationException } from '../../../errors/validation-exception';
-import { UserEntity } from '../entities/user.entity';
-import { USERS_ERROR_MESSAGES } from '../errors/error-messages';
+import { ValidationException } from '../../../shared/errors/validation-exception';
+import { USERS_ERROR_MESSAGES } from '../constants/error-messages';
+import { UserEntity } from '../entities/user/entity';
 import { UsersDatabaseRepository } from '../repositories/database.repository';
 import { UsersEventsRepository } from '../repositories/events.repository';
 import { CreateUserDto } from './create-user.dto';
