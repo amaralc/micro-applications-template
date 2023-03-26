@@ -17,9 +17,16 @@ import { UsersRestController } from './users.controller';
     /**
      * Use config module to expose environment variables
      * @see https://docs.nestjs.com/techniques/configuration
-     *
      */
     ConfigModule.forRoot(),
+    // /**
+    //  * Use devtools module to expose devtools
+    //  * @see https://docs.nestjs.com/devtools/overview
+    //  */
+    // DevtoolsModule.register({
+    //   http: process.env['NODE_ENV'] !== 'production',
+    //   port: 8000,
+    // }),
     DatabaseRepositoriesModule.register({
       provider: configDto.databaseProvider,
     }),
