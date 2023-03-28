@@ -13,7 +13,7 @@ class ConfigDto {
   nestJsMicroservicesOptions?: NestApplicationContextOptions & MicroserviceOptions;
   eventsConsumerPort = 3001; // Specify process to avoid conflicts with rest-api port (nestjs default port is 3000)
   eventsProvider = (process.env['EVENTS_PROVIDER'] as IEventsProvider) || 'kafka';
-  eventsTransporter = (process.env['EVENTS_TRANSPORTER'] as ITransporter) || 'dyna-kafka-js';
+  eventsTransporter = (process.env['EVENTS_TRANSPORTER'] as ITransporter) || 'simple-kafka-transporter';
   kafkaBroker = process.env['KAFKA_BROKER'] || 'localhost:9092';
   kafkaClientId = process.env['KAFKA_CLIENT_ID'] || 'nestjs-service-template-client-id';
   kafkaGroupId = process.env['KAFKA_CONSUMER_GROUP_ID'] || 'nestjs-service-template-group-id';
@@ -64,8 +64,8 @@ class ConfigDto {
           break;
 
         case 'nestjs-custom-kafka-transporter':
-          // Custom nestjs dyna-kafka-js transporter
-          Logger.log('Using dynamox kafka transporter', ConfigDto.name);
+          // Custom nestjs transporter
+          Logger.log('Using custom kafka transporter', ConfigDto.name);
           this.nestJsMicroservicesOptions = {
             strategy: new KafkaCustomTransport({
               client: { clientId: this.kafkaClientId, brokers: [this.kafkaBroker] },
