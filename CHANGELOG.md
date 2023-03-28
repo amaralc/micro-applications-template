@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@1.1.0...micro-applications-template@1.1.1) (2023-03-28)
+
+### Bug Fixes
+
+- adjust logs and names ([38a8e0f](https://github.com/amaralc/micro-applications-template/commit/38a8e0f3becf96ce0a03cdd7107e0f0309ce0cc4))
+
 ## [1.1.0](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@1.0.0...micro-applications-template@1.1.0) (2023-03-26)
 
 ### Features
