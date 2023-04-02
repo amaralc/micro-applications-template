@@ -13,8 +13,22 @@
         "outputPath": "dist/apps/service-rest-api",
         "main": "apps/service-rest-api/src/main.ts",
         "tsConfig": "apps/service-rest-api/tsconfig.app.json",
+        "tsPlugins": [
+          {
+            "name": "@nestjs/swagger/plugin",
+            "options": {
+              "dtoFileNameSuffix": ["entity.ts", "dto.ts"],
+              "controllerFileNameSuffix": ["controller.ts"],
+              "classValidatorShim": true,
+              "dtoKeyOfComment": "description",
+              "controllerKeyOfComment": "description",
+              "introspectComments": true
+            }
+          }
+        ],
         "assets": ["apps/service-rest-api/src/assets"],
-        "webpackConfig": "apps/service-rest-api/webpack.config.js"
+        "webpackConfig": "apps/service-rest-api/webpack.config.js",
+        "babelUpwardRootMode": true
       },
       "configurations": {
         "production": {

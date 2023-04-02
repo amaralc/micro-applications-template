@@ -1,0 +1,9 @@
+{
+  "name": "service-mfe",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Calil Amaral",
+    "email": "amaral.calil@gmail.com"
+  }
+}

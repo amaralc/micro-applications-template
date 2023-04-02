@@ -1,3 +1,4 @@
+import { HandleUserCreatedService } from '@core/domains/peers/handlers/handle-user-created.service';
 import { HandlePlanSubscriptionCreatedService } from '@core/domains/plan-subscriptions/handlers/handle-plan-subscription-created.service';
 import { ApplicationLogger } from '@core/shared/logs/application-logger';
 import { NativeLogger } from '@core/shared/logs/native-logger';
@@ -5,7 +6,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { configDto } from '../../config.dto';
 import { DatabaseRepositoriesModule } from '../../database/repositories.module';
-import { PlanSubscriptionsConsumerController } from './plan-subscriptions.controller';
+import { PlanSubscriptionsCreatedController } from './plan-subscriptions-created.controller';
+import { UserCreatedController } from './user-created.controller';
 
 @Module({
   imports: [
@@ -19,13 +21,14 @@ import { PlanSubscriptionsConsumerController } from './plan-subscriptions.contro
       provider: configDto.databaseProvider,
     }),
   ],
-  controllers: [PlanSubscriptionsConsumerController],
+  controllers: [PlanSubscriptionsCreatedController, UserCreatedController],
   providers: [
     {
       provide: ApplicationLogger,
       useClass: NativeLogger,
     },
     HandlePlanSubscriptionCreatedService,
+    HandleUserCreatedService,
   ],
 })
 export class ConsumerModule {}

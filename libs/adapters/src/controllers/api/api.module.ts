@@ -1,6 +1,8 @@
+import { CreatePeerService } from '@core/domains/peers/services/create-peer.service';
+import { DeleteAllPeersService } from '@core/domains/peers/services/delete-all-peers.service';
+import { ListPaginatedPeersService } from '@core/domains/peers/services/list-paginated-peers.service';
 import { CreatePlanSubscriptionService } from '@core/domains/plan-subscriptions/services/create-plan-subscription.service';
 import { ListPaginatedPlanSubscriptionsService } from '@core/domains/plan-subscriptions/services/list-paginated-plan-subscriptions.service';
-import { CreateUserService } from '@core/domains/users/services/create-user.service';
 import { ApplicationLogger } from '@core/shared/logs/application-logger';
 import { NativeLogger } from '@core/shared/logs/native-logger';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
@@ -9,8 +11,8 @@ import { configDto } from '../../config.dto';
 import { DatabaseRepositoriesModule } from '../../database/repositories.module';
 import { EventsRepositoriesModule } from '../../events/repositories/repositories.module';
 import { LoggingMiddleware } from '../../logs/logging.middleware';
-import { PlanSubscriptionsRestController } from './plan-subscriptions.controller';
-import { UsersRestController } from './users.controller';
+import { PeersRestController } from './routes/peers/controller';
+import { PlanSubscriptionsRestController } from './routes/plan-subscriptions/controller';
 
 @Module({
   imports: [
@@ -34,13 +36,15 @@ import { UsersRestController } from './users.controller';
       provider: configDto.eventsProvider,
     }),
   ],
-  controllers: [PlanSubscriptionsRestController, UsersRestController],
+  controllers: [PlanSubscriptionsRestController, PeersRestController],
   providers: [
     {
       provide: ApplicationLogger,
       useClass: NativeLogger,
     },
-    CreateUserService,
+    CreatePeerService,
+    ListPaginatedPeersService,
+    DeleteAllPeersService,
     CreatePlanSubscriptionService,
     ListPaginatedPlanSubscriptionsService,
   ],

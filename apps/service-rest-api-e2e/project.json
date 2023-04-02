@@ -3,6 +3,13 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": ["service-rest-api"],
   "targets": {
+    "serve-back-end": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["yarn nx run-many --target=serve --projects=service-rest-api,service-consumer"],
+        "readyWhen": "🚀 Service API is running on: http://localhost:3001"
+      }
+    },
     "e2e": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
