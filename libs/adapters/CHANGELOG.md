@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/amaralc/micro-applications-template/compare/adapters@0.1.0...adapters@0.1.1) (2023-04-03)
+
+### Bug Fixes
+
+- rename services ([3486435](https://github.com/amaralc/micro-applications-template/commit/348643599466468f39a921a6e55bead1bd4dddf2))
+
 ## 0.1.0 (2023-04-03)
 
 ### Features
