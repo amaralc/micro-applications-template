@@ -40,8 +40,8 @@ infra-setup:
 # Docker
 
 sudo-docker-image-build:
-# sudo docker build -t knowledge-network:latest --build-arg SSH_PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
-	sudo docker build -t knowledge-network:latest --build-arg SSH_PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
+# sudo docker build -t micro-applications-template:latest --build-arg SSH_PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
+	sudo docker build -t micro-applications-template:latest --build-arg SSH_PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
 
 docker-prune:
 	make persistence-cleanup \

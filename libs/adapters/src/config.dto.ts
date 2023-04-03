@@ -15,8 +15,8 @@ class ConfigDto {
   eventsProvider = (process.env['EVENTS_PROVIDER'] as IEventsProvider) || 'kafka';
   eventsTransporter = (process.env['EVENTS_TRANSPORTER'] as ITransporter) || 'simple-kafka-transporter';
   kafkaBroker = process.env['KAFKA_BROKER'] || 'localhost:9092';
-  kafkaClientId = process.env['KAFKA_CLIENT_ID'] || 'knowledge-network-client-id';
-  kafkaGroupId = process.env['KAFKA_CONSUMER_GROUP_ID'] || 'knowledge-network-group-id';
+  kafkaClientId = process.env['KAFKA_CLIENT_ID'] || 'micro-applications-template-client-id';
+  kafkaGroupId = process.env['KAFKA_CONSUMER_GROUP_ID'] || 'micro-applications-template-group-id';
   kafkaTransactionalId = process.env['KAFKA_TRANSACTIONAL_ID'] || randomUUID();
   kafkaUsername = process.env['KAFKA_SASL_USERNAME'];
   kafkaPassword = process.env['KAFKA_SASL_PASSWORD'];
