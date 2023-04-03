@@ -1,5 +1,5 @@
+import { PEERS_TOPICS } from '@core/domains/peers/constants/topics';
 import { PLAN_SUBSCRIPTIONS_TOPICS } from '@core/domains/plan-subscriptions/constants/topics';
-import { USERS_TOPICS } from '@core/domains/users/constants/topics';
 import { IEventsProvider, ITransporter } from '@core/shared/infra/events.types';
 import { Logger } from '@nestjs/common';
 import { NestApplicationContextOptions } from '@nestjs/common/interfaces/nest-application-context-options.interface';
@@ -11,17 +11,17 @@ import { KafkaCustomTransport } from './events/infra/kafka-custom.transport';
 class ConfigDto {
   // Events
   nestJsMicroservicesOptions?: NestApplicationContextOptions & MicroserviceOptions;
-  eventsConsumerPort = 3001; // Specify process to avoid conflicts with rest-api port (nestjs default port is 3000)
+  eventsConsumerPort = 3000; // Specify process to avoid conflicts with rest-api port (nestjs default port is 3000)
   eventsProvider = (process.env['EVENTS_PROVIDER'] as IEventsProvider) || 'kafka';
   eventsTransporter = (process.env['EVENTS_TRANSPORTER'] as ITransporter) || 'simple-kafka-transporter';
   kafkaBroker = process.env['KAFKA_BROKER'] || 'localhost:9092';
-  kafkaClientId = process.env['KAFKA_CLIENT_ID'] || 'nestjs-service-template-client-id';
-  kafkaGroupId = process.env['KAFKA_CONSUMER_GROUP_ID'] || 'nestjs-service-template-group-id';
+  kafkaClientId = process.env['KAFKA_CLIENT_ID'] || 'knowledge-network-client-id';
+  kafkaGroupId = process.env['KAFKA_CONSUMER_GROUP_ID'] || 'knowledge-network-group-id';
   kafkaTransactionalId = process.env['KAFKA_TRANSACTIONAL_ID'] || randomUUID();
   kafkaUsername = process.env['KAFKA_SASL_USERNAME'];
   kafkaPassword = process.env['KAFKA_SASL_PASSWORD'];
   kafkaUseSasl = this.kafkaUsername !== '' && this.kafkaPassword !== '';
-  kafkaTopicUserCreated = USERS_TOPICS['USER_CREATED'];
+  kafkaTopicUserCreated = PEERS_TOPICS['PEER_CREATED'];
   kafkaTopicPlanSubscriptionCreated = PLAN_SUBSCRIPTIONS_TOPICS['PLAN_SUBSCRIPTION_CREATED'];
 
   // Database
@@ -37,7 +37,7 @@ class ConfigDto {
 
   // Application
   applicationNodeEnv = process.env['NODE_ENV'] || 'development';
-  applicationPort = process.env['PORT'] || 3000;
+  applicationPort = process.env['PORT'] || 3001;
 
   // Initialization
   constructor() {

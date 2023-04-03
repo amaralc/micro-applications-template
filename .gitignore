@@ -45,3 +45,6 @@ Thumbs.db
 
 # Generated
 prisma/generated
+
+# Next.js
+.next

@@ -1,4 +1,4 @@
-# WhereIsMyStuff
+# Knowledge Network
 
 This is a side project meant to practice software development skills with TypeScript, Node.js and React, while delivering a real product that could help people to manage their own stuff.
 
@@ -86,6 +86,10 @@ References:
 # Consumer
 
 - Consume 'plan-subscription-created' topic and add a new user to the database;
+
+# Lessons Learned
+
+- Use nx migrate; Use commit prefix option; It is worth it.
 
 # References
 

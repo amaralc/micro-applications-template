@@ -1,4 +1,3 @@
-import { configDto } from '@adapters/config.dto';
 import { faker } from '@faker-js/faker';
 import axios, { AxiosError } from 'axios';
 import { randomUUID } from 'crypto';
@@ -6,8 +5,8 @@ import { Kafka, Partitioners } from 'kafkajs';
 
 const setupTest = async () => {
   const kafkaClient = new Kafka({
-    brokers: [configDto.kafkaBroker],
-    clientId: configDto.kafkaClientId,
+    brokers: ['localhost:9092'],
+    clientId: 'service-rest-api-e2e',
   });
 
   const planSubscriptionMessages = [];
@@ -28,6 +27,7 @@ const setupTest = async () => {
     });
   }
   await producer.disconnect();
+  return { planSubscriptionMessages };
 };
 
 describe('[GET] /plan-subscriptions', () => {
@@ -40,7 +40,11 @@ describe('[GET] /plan-subscriptions', () => {
 
     // Dispatch get request
     try {
-      const res = await axios.get(`/plan-subscriptions?page=${PAGE}&limit=${LIMIT}`);
+      const res = await axios.get(`/plan-subscriptions?page=${PAGE}&limit=${LIMIT}`, {
+        headers: {
+          Authorization: 'my-secret-api-key',
+        },
+      });
       // Assert that the response status is 200
       expect(res.status).toBe(200);
 
@@ -68,7 +72,11 @@ describe('[GET] /plan-subscriptions', () => {
     let PAGE = -1;
     let LIMIT = 1;
     try {
-      await axios.get(`/plan-subscriptions?page=${PAGE}&limit=${LIMIT}`);
+      await axios.get(`/plan-subscriptions?page=${PAGE}&limit=${LIMIT}`, {
+        headers: {
+          Authorization: 'my-secret-api-key',
+        },
+      });
       expect(true).toEqual(false);
     } catch (e) {
       expect(e).toBeInstanceOf(AxiosError);
@@ -80,7 +88,11 @@ describe('[GET] /plan-subscriptions', () => {
     PAGE = 1;
     LIMIT = -1;
     try {
-      await axios.get(`/plan-subscriptions?page=${PAGE}&limit=${LIMIT}`);
+      await axios.get(`/plan-subscriptions?page=${PAGE}&limit=${LIMIT}`, {
+        headers: {
+          Authorization: 'my-secret-api-key',
+        },
+      });
       expect(true).toEqual(false);
     } catch (e) {
       expect(e).toBeInstanceOf(AxiosError);

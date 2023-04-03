@@ -1,9 +1,9 @@
-import { InMemoryUsersEventsRepository } from '@core/domains/users/repositories/events-in-memory.repository';
-import { UsersEventsRepository } from '@core/domains/users/repositories/events.repository';
+import { InMemoryUsersEventsRepository } from '@core/domains/peers/repositories/events-in-memory.repository';
+import { PeersEventsRepository } from '@core/domains/peers/repositories/events.repository';
 import { IEventsProvider } from '@core/shared/infra/events.types';
 import { DynamicModule, Logger, Module, Provider } from '@nestjs/common';
 import { KafkaEventsService } from '../infra/kafka-events.service';
-import { KafkaUsersEventsRepository } from './users/kafka.repository';
+import { KafkaUsersEventsRepository } from './peers/kafka.repository';
 
 @Module({})
 export class EventsRepositoriesModule {
@@ -13,11 +13,11 @@ export class EventsRepositoriesModule {
     let dynamicProviders: Array<Provider> = [];
 
     if (provider === 'kafka') {
-      dynamicProviders = [KafkaEventsService, { provide: UsersEventsRepository, useClass: KafkaUsersEventsRepository }];
+      dynamicProviders = [KafkaEventsService, { provide: PeersEventsRepository, useClass: KafkaUsersEventsRepository }];
     }
 
     if (provider === 'in-memory') {
-      dynamicProviders = [{ provide: UsersEventsRepository, useClass: InMemoryUsersEventsRepository }];
+      dynamicProviders = [{ provide: PeersEventsRepository, useClass: InMemoryUsersEventsRepository }];
     }
 
     return {

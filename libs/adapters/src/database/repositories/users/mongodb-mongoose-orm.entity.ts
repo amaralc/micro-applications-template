@@ -1,14 +1,20 @@
-import { UserEntity } from '@core/domains/users/entities/user/entity';
+import { PeerEntity } from '@core/domains/peers/entities/peer/entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema({ collection: 'Users' })
-export class MongooseUser extends Document implements UserEntity {
+@Schema({ collection: 'peers' })
+export class MongoosePeer extends Document implements PeerEntity {
   @Prop({ type: String })
   override id!: string;
 
   @Prop({ type: String })
-  email!: string;
+  name!: string;
+
+  @Prop({ type: String })
+  username!: string;
+
+  @Prop({ type: Array<string> })
+  subjects!: string[];
 }
 
-export const MongooseUserSchema = SchemaFactory.createForClass(MongooseUser);
+export const MongoosePeerSchema = SchemaFactory.createForClass(MongoosePeer);

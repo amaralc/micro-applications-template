@@ -1,0 +1,6 @@
+DELETE http://localhost:3001/peers HTTP/1.1
+content-type: application/json
+Authorization: my-secret-api-key
+
+
+

@@ -1,55 +1,67 @@
-// users.repository.ts
-import { USERS_ERROR_MESSAGES } from '@core/domains/users/constants/error-messages';
-import { UserEntity } from '@core/domains/users/entities/user/entity';
-import { UsersDatabaseRepository } from '@core/domains/users/repositories/database.repository';
-import { CreateUserDto } from '@core/domains/users/services/create-user.dto';
+import { USERS_ERROR_MESSAGES } from '@core/domains/peers/constants/error-messages';
+import { PeerEntity } from '@core/domains/peers/entities/peer/entity';
+import { PeersDatabaseRepository } from '@core/domains/peers/repositories/database.repository';
+import { CreatePeerDto } from '@core/domains/peers/services/create-peer.dto';
+import { ListPaginatedPeersDto } from '@core/domains/peers/services/list-paginated-peers.dto';
+import { pagination } from '@core/shared/config';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { configDto } from '../../../config.dto';
 import { PostgreSqlPrismaOrmService } from '../../infra/prisma/postgresql-prisma-orm.service';
 
-import { ConflictException, Injectable } from '@nestjs/common';
-
 @Injectable()
-export class PostgreSqlPrismaOrmUsersDatabaseRepository implements UsersDatabaseRepository {
+export class PostgreSqlPrismaOrmUsersDatabaseRepository implements PeersDatabaseRepository {
   constructor(private postgreSqlPrismaOrmService: PostgreSqlPrismaOrmService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const { email } = createUserDto;
-    const userExists = await this.findByEmail(email);
-    if (userExists) {
-      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICTING_EMAIL']);
-    }
-
-    const prismaUser = await this.postgreSqlPrismaOrmService.users.create({
-      data: { email },
-    });
-    const applicationUser = new UserEntity({
-      email: prismaUser.email,
-      id: prismaUser.id,
-    });
-    return applicationUser;
-  }
-
-  async findByEmail(email: string): Promise<UserEntity | null> {
-    const prismaUser = await this.postgreSqlPrismaOrmService.users.findFirst({
+  async findByUsername(username: string): Promise<PeerEntity | null> {
+    const prismaEntity = await this.postgreSqlPrismaOrmService.peers.findFirst({
       where: {
-        email,
+        username,
       },
     });
-    if (!prismaUser) {
+    if (!prismaEntity) {
       return null;
     }
 
-    const applicationUser = new UserEntity({
-      email: prismaUser.email,
-      id: prismaUser.id,
+    const applicationEntity = new PeerEntity({
+      id: prismaEntity.id,
+      name: prismaEntity.name,
+      username: prismaEntity.username,
+      subjects: [],
     });
-    return applicationUser;
+
+    return applicationEntity;
   }
 
-  async findAll() {
-    const prismaUsers = await this.postgreSqlPrismaOrmService.users.findMany();
-    const applicationUsers = prismaUsers.map(
-      (prismaUser) => new UserEntity({ email: prismaUser.email, id: prismaUser.id })
-    );
-    return applicationUsers;
+  async create(createPeerDto: CreatePeerDto): Promise<PeerEntity> {
+    const { username } = createPeerDto;
+    const entityExists = await this.findByUsername(username);
+    if (entityExists) {
+      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICTING_USERNAME']);
+    }
+
+    const prismaEntity = await this.postgreSqlPrismaOrmService.peers.create({
+      data: { ...createPeerDto },
+    });
+    const applicationEntity = new PeerEntity({ ...prismaEntity });
+    return applicationEntity;
+  }
+
+  async listPaginated(listPaginatedPlanSubscriptionsDto: ListPaginatedPeersDto) {
+    const { limit, page } = listPaginatedPlanSubscriptionsDto;
+    const localLimit = limit || pagination.defaultLimit;
+    const localOffset = page ? page - 1 : pagination.defaultPage - 1;
+
+    const prismaEntities = await this.postgreSqlPrismaOrmService.peers.findMany({
+      skip: localOffset,
+      take: localLimit,
+    });
+    const applicationEntities = prismaEntities.map((entity) => new PeerEntity({ ...entity }));
+    return applicationEntities;
+  }
+
+  async deleteAll(): Promise<void> {
+    if (configDto.applicationNodeEnv === 'development') {
+      await this.postgreSqlPrismaOrmService.peers.deleteMany();
+    }
   }
 }

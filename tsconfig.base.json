@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@adapters/*": ["libs/adapters/src/*"],
-      "@core/*": ["libs/core/src/*"],
+      "@core/*": ["libs/core/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
