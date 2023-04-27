@@ -41,7 +41,10 @@ ENV ENV_SILENT=true
 COPY . .
 
 # Creates a "dist" folder with the production build
-RUN yarn nx build service-rest-api
+RUN yarn build:service-rest-api
 
 # Expose the service api port
 EXPOSE 8080
+
+# Start the service
+CMD ["yarn", "serve:service-rest-api:production"]
