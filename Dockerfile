@@ -1,12 +1,15 @@
 # Start recipe from base image
-FROM node:16.19
+FROM node:16.20-slim
 
-# Local SSH key in PEM format
+# Local SSH key in PEM format <--------- IMPORTANT!
 # To convert your local private key from OPENSSH to PEM format, use the following command: ssh-keygen -p -N "" -m pem -f /path/to/key
 # Example usage:
 # ssh-keygen -p -N "" -m pem -f /path/to/key
-# sudo docker build -t micro-applications-template:latest --build-arg SSH__PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
-ARG SSH_PEM_PRIVATE_KEY
+# sudo docker build -t predict-instrumented-spots:latest --build-arg SSH__PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
+ARG SSH_PRIVATE_KEY
+
+# Install ssh tools and git
+RUN apt-get -yq update && apt-get -yqq install ssh && apt-get -yqq install git
 
 # Authorize SSH Host
 ## References: https://chmod-calculator.com/
@@ -15,7 +18,7 @@ RUN mkdir -p /root/.ssh && \
   ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
 
 # Add the keys and set permissions
-RUN echo "$SSH_PEM_PRIVATE_KEY" > /root/.ssh/id_rsa && \
+RUN echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa && \
   chmod 600 /root/.ssh/id_rsa
 
 # Avoid cache purge by adding requirements first
@@ -38,7 +41,7 @@ ENV ENV_SILENT=true
 COPY . .
 
 # Creates a "dist" folder with the production build
-RUN yarn nx run-many --target=build --all=true
+RUN yarn nx build service-rest-api
 
 # Expose the service api port
-EXPOSE 3000
+EXPOSE 8080

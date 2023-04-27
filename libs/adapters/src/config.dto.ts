@@ -37,7 +37,7 @@ class ConfigDto {
 
   // Application
   applicationNodeEnv = process.env['NODE_ENV'] || 'development';
-  applicationPort = process.env['PORT'] || 3001;
+  applicationPort = process.env['PORT'] || 8080;
 
   // Initialization
   constructor() {
