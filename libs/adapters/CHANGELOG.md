@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/amaralc/micro-applications-template/compare/adapters@0.1.1...adapters@0.1.2) (2023-04-28)
+
+### Bug Fixes
+
+- **docker:** make adjustments to docker file ([47425d0](https://github.com/amaralc/micro-applications-template/commit/47425d07ba1bfcf66cf9942a8f6fdc42f08c429f))
+
 ## [0.1.1](https://github.com/amaralc/micro-applications-template/compare/adapters@0.1.0...adapters@0.1.1) (2023-04-03)
 
 ### Bug Fixes

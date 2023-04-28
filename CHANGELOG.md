@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@0.2.0...micro-applications-template@0.3.0) (2023-04-28)
+
+### Features
+
+- **fly:** add fly config and docker ignore ([621f9e5](https://github.com/amaralc/micro-applications-template/commit/621f9e5e3076c0e0487e987071a698431f9e391e))
+
+### Bug Fixes
+
+- **docker:** adjust dockerfile ([23eb2b2](https://github.com/amaralc/micro-applications-template/commit/23eb2b2c64d7860f1afd6db61492d1018fca73b6))
+- **docker:** make adjustments to docker file ([47425d0](https://github.com/amaralc/micro-applications-template/commit/47425d07ba1bfcf66cf9942a8f6fdc42f08c429f))
+
 ## 0.2.0 (2023-04-03)
 
 ### ⚠ BREAKING CHANGES
