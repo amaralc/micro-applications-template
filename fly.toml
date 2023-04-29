@@ -1,0 +1,13 @@
+# fly.toml app configuration file generated for crimson-meadow-60 on 2023-04-29T13:56:03-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "crimson-meadow-60"
+primary_region = "gru"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true

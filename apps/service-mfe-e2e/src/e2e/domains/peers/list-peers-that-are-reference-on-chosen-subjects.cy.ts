@@ -7,7 +7,7 @@ describe('List peers that are reference on chosen subjects', () => {
     cy.visit(`/peers?subjects[]=${subjectsSlugs[0]}&subjects[]=${subjectsSlugs[1]}`);
 
     cy.fixture('routes/peers/get.json').then((json) => {
-      cy.intercept('GET', 'http://localhost:3001/peers**', json).as('get-peers');
+      cy.intercept('GET', 'http://localhost:8080/peers**', json).as('get-peers');
     });
     cy.wait('@get-peers');
   });

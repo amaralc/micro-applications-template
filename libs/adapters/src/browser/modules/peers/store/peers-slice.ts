@@ -26,7 +26,7 @@ export const peersAdapter = createEntityAdapter<PeerEntity>({
 
 export const fetchPeers = createAsyncThunk<PeerEntity[]>('peers/fetchStatus', async (_, thunkAPI) => {
   const getPeersResponse = await axios.request<GetPeersResponseDto>({
-    baseURL: 'http://localhost:3001',
+    baseURL: 'http://localhost:8080',
     method: 'GET',
     url: `/peers?page=${1}&limit=${10}`,
     headers: { Authorization: 'my-secret-api-key' },

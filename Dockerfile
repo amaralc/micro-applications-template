@@ -33,9 +33,22 @@ RUN yarn install --frozen-lockfile
 # # Remove SSH keys
 # RUN rm -rf /root/.ssh/
 
-# Set production
+## Environment
 ENV NODE_ENV=production
+ENV PORT=8080
 ENV ENV_SILENT=true
+
+## Database provider ("mongodb-mongoose-orm" | "postgresql-prisma-orm" | "postgresql-type-orm" |  "in-memory")
+ENV DATABASE_PROVIDER=postgresql-prisma-orm
+
+## Events provider ('kafka' | 'in-memory')
+ENV EVENTS_PROVIDER=in-memory
+
+## Transporter ('nestjs-default-kafka-transporter' | 'nestjs-custom-kafka-transporter' | 'simple-kafka-transporter')
+ENV EVENTS_TRANSPORTER=nestjs-default-kafka-transporter
+
+## Auth
+ENV API_KEY=my-secret-api-key
 
 # Add the rest of the files
 COPY . .
@@ -43,7 +56,7 @@ COPY . .
 RUN echo 'Generating Prisma Client...'
 
 # Setup client and environment variables
-RUN yarn env:setup && yarn prisma:generate:postgres
+RUN yarn prisma:generate:postgres
 
 # Build the service api
 # Creates a "dist" folder with the production build
@@ -53,4 +66,4 @@ RUN yarn build:service-rest-api
 EXPOSE 8080
 
 # Start the service
-CMD ["node", "dist/apps/service-rest-api/main.js"]
+CMD ["bash", "entrypoints/run-rest-api.sh"]
