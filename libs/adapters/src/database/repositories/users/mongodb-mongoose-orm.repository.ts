@@ -1,5 +1,4 @@
-// users.repository.ts
-import { USERS_ERROR_MESSAGES } from '@core/domains/peers/constants/error-messages';
+import { PEERS_ERROR_MESSAGES } from '@core/domains/peers/constants/error-messages';
 import { PeerEntity } from '@core/domains/peers/entities/peer/entity';
 import { PeersDatabaseRepository } from '@core/domains/peers/repositories/database.repository';
 import { CreatePeerDto } from '@core/domains/peers/services/create-peer.dto';
@@ -22,7 +21,7 @@ export class MongoDbMongooseOrmPeersDatabaseRepository implements PeersDatabaseR
     const { username } = createUserDto;
     const userExists = await this.findByUsername(username);
     if (userExists) {
-      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICTING_USERNAME']);
+      throw new ConflictException(PEERS_ERROR_MESSAGES['CONFLICTING_USERNAME']);
     }
 
     const mongooseEntity = await this.peerModel.create({

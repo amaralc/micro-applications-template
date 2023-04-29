@@ -1,7 +1,6 @@
-// users.repository.ts
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { pagination } from '../../../shared/config';
-import { USERS_ERROR_MESSAGES } from '../constants/error-messages';
+import { PEERS_ERROR_MESSAGES } from '../constants/error-messages';
 import { PeerEntity } from '../entities/peer/entity';
 import { CreatePeerDto } from '../services/create-peer.dto';
 import { ListPaginatedPeersDto } from '../services/list-paginated-peers.dto';
@@ -17,7 +16,7 @@ export class InMemoryPeersDatabaseRepository implements PeersDatabaseRepository 
     const { username } = createPeerDto;
     const isExistingUser = await this.findByUsername(username);
     if (isExistingUser) {
-      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICTING_USERNAME']);
+      throw new ConflictException(PEERS_ERROR_MESSAGES['CONFLICTING_USERNAME']);
     }
     const user = new PeerEntity(createPeerDto);
     this.peers.push(user);

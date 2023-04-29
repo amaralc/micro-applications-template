@@ -1,4 +1,3 @@
-// users.repository.ts
 import { Injectable } from '@nestjs/common';
 import { PEERS_TOPICS } from '../constants/topics';
 import { PeerEntity } from '../entities/peer/entity';
@@ -10,7 +9,7 @@ interface ISimplifiedProducerRecord {
 }
 
 @Injectable()
-export class InMemoryUsersEventsRepository implements PeersEventsRepository {
+export class InMemoryPeersEventsRepository implements PeersEventsRepository {
   private userCreatedTopicMessages: Array<ISimplifiedProducerRecord> = [];
 
   async publishPeerCreated(entity: PeerEntity): Promise<void> {

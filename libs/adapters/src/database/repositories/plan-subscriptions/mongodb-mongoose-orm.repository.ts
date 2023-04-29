@@ -1,4 +1,3 @@
-// users.repository.ts
 import { PLAN_SUBSCRIPTIONS_ERROR_MESSAGES } from '@core/domains/plan-subscriptions/constants/error-messages';
 import { PlanSubscriptionEntity } from '@core/domains/plan-subscriptions/entities/plan-subscription/entity';
 import { PlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database.repository';
