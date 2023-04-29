@@ -74,3 +74,43 @@ consumer-with-api-serve:
 service-consumer-serve:
 	# The .env in root folder make it possible to use env variables within .env file
 	cp .env.example .env && make auth-prisma-postgresql-setup && nx serve service-consumer
+
+# Fly
+fly-launch:
+	fly launch
+
+fly-deploy:
+	fly deploy
+
+fly-logs:
+	fly logs
+
+fly-status:
+	fly status
+
+fly-status-watch:
+	fly status --watch
+
+fly-open:
+	fly open
+
+fly-volume-create-data:
+	fly vol create data --region gru --size 1
+
+fly-volumes-list:
+	fly volumes list
+
+fly-apps-list:
+	fly apps list
+
+fly-apps-destroy:
+	fly apps destroy black-fog-4181
+
+fly-mount-volume:
+	fly m run . -v vol_xme149kwxy3vowpl:/data
+
+fly-secrets-set:
+	fly secrets set
+
+fly-secrets-list:
+	fly secrets list
