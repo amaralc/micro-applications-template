@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@0.4.0...micro-applications-template@0.4.1) (2023-04-29)
+
+**Note:** Version bump only for package micro-applications-template
+
 ## [0.4.0](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@0.3.0...micro-applications-template@0.4.0) (2023-04-29)
 
 ### Features
