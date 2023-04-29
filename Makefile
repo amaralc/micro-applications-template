@@ -39,13 +39,13 @@ infra-setup:
 
 # Docker
 
-sudo-docker-image-build:
+sudo-docker-image-build-rest-api:
 #	sudo docker build -t micro-applications-template:latest --build-arg SSH_PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
-	sudo docker build -t micro-applications-template:latest .
+	sudo docker build -t micro-applications-template:latest -f apps/service-rest-api/Dockerfile .
 
-sudo-docker-image-build-no-cache:
+sudo-docker-image-build-rest-api-no-cache:
 #	sudo docker build -t micro-applications-template:latest --build-arg SSH_PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
-	sudo docker build -t micro-applications-template:latest --no-cache .
+	sudo docker build -t micro-applications-template:latest -f apps/service-rest-api/Dockerfile --no-cache .
 
 docker-run:
 	docker run -it --rm -p 8080:8080 micro-applications-template:latest
@@ -77,40 +77,40 @@ service-consumer-serve:
 
 # Fly
 fly-launch:
-	fly launch
+	cd apps/service-rest-api && fly launch
 
 fly-deploy:
-	fly deploy
+	cd apps/service-rest-api && fly deploy
 
 fly-logs:
-	fly logs
+	cd apps/service-rest-api && fly logs
 
 fly-status:
-	fly status
+	cd apps/service-rest-api && fly status
 
 fly-status-watch:
-	fly status --watch
+	cd apps/service-rest-api && fly status --watch
 
 fly-open:
-	fly open
+	cd apps/service-rest-api && fly open
 
 fly-volume-create-data:
-	fly vol create data --region gru --size 1
+	cd apps/service-rest-api && fly vol create data --region gru --size 1
 
 fly-volumes-list:
-	fly volumes list
+	cd apps/service-rest-api && fly volumes list
 
 fly-apps-list:
-	fly apps list
+	cd apps/service-rest-api && fly apps list
 
 fly-apps-destroy:
-	fly apps destroy black-fog-4181
+	cd apps/service-rest-api && fly apps destroy black-fog-4181
 
 fly-mount-volume:
-	fly m run . -v vol_xme149kwxy3vowpl:/data
+	cd apps/service-rest-api && fly m run . -v vol_xme149kwxy3vowpl:/data
 
 fly-secrets-set:
-	fly secrets set
+	cd apps/service-rest-api && fly secrets set
 
 fly-secrets-list:
 	fly secrets list
