@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/amaralc/micro-applications-template/compare/service-rest-api@0.1.0...service-rest-api@0.2.0) (2023-04-29)
+
+### Features
+
+- deploy to fly ([c0911f8](https://github.com/amaralc/micro-applications-template/commit/c0911f8a0a25ea3526eb5aa1e6f203b7f7ab04e3))
+
+### Bug Fixes
+
+- add peers ([1bc652c](https://github.com/amaralc/micro-applications-template/commit/1bc652c5a527fa7dcfaedaa98dc1f31477a99135))
+
 ## 0.1.0 (2023-04-03)
 
 ### Features

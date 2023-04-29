@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@0.3.0...micro-applications-template@0.4.0) (2023-04-29)
+
+### Features
+
+- add fly commands and remove old config ([246b0ec](https://github.com/amaralc/micro-applications-template/commit/246b0ec631e25dc009440b990e3208a2e4c3dffe))
+- add fly config ([f3f9d64](https://github.com/amaralc/micro-applications-template/commit/f3f9d645ad37638c4ca7c8b9e88f647ac2140f2b))
+- add peers schema ([1428342](https://github.com/amaralc/micro-applications-template/commit/142834219fc834ab1ca39cf3ea6ed27dafda0089))
+- deploy to fly ([c0911f8](https://github.com/amaralc/micro-applications-template/commit/c0911f8a0a25ea3526eb5aa1e6f203b7f7ab04e3))
+
+### Bug Fixes
+
+- add peers ([1bc652c](https://github.com/amaralc/micro-applications-template/commit/1bc652c5a527fa7dcfaedaa98dc1f31477a99135))
+- **entrypoint:** adjust deploy script ([9bf8606](https://github.com/amaralc/micro-applications-template/commit/9bf86065545f344add9524217cdc7e0457ff00d1))
+- rename folder ([8952095](https://github.com/amaralc/micro-applications-template/commit/89520955ff750078c73bf7316d0ff98f08ef1552))
+
 ## [0.3.0](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@0.2.0...micro-applications-template@0.3.0) (2023-04-28)
 
 ### Features

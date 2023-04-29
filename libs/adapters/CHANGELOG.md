@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/amaralc/micro-applications-template/compare/adapters@0.1.2...adapters@0.2.0) (2023-04-29)
+
+### Features
+
+- add peers schema ([1428342](https://github.com/amaralc/micro-applications-template/commit/142834219fc834ab1ca39cf3ea6ed27dafda0089))
+- deploy to fly ([c0911f8](https://github.com/amaralc/micro-applications-template/commit/c0911f8a0a25ea3526eb5aa1e6f203b7f7ab04e3))
+
+### Bug Fixes
+
+- add peers ([1bc652c](https://github.com/amaralc/micro-applications-template/commit/1bc652c5a527fa7dcfaedaa98dc1f31477a99135))
+- rename folder ([8952095](https://github.com/amaralc/micro-applications-template/commit/89520955ff750078c73bf7316d0ff98f08ef1552))
+
 ## [0.1.2](https://github.com/amaralc/micro-applications-template/compare/adapters@0.1.1...adapters@0.1.2) (2023-04-28)
 
 ### Bug Fixes

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/amaralc/micro-applications-template/compare/core@0.1.0...core@0.1.1) (2023-04-29)
+
+### Bug Fixes
+
+- add peers ([1bc652c](https://github.com/amaralc/micro-applications-template/commit/1bc652c5a527fa7dcfaedaa98dc1f31477a99135))
+
 ## 0.1.0 (2023-04-03)
 
 ### Features
