@@ -23,7 +23,7 @@
     "start:example:prisma": "yarn env:setup && yarn prisma:generate:postgres && yarn prisma:migrate:dev && nx run-many --target=serve --all=true",
     "build:service-rest-api": "yarn prisma:generate:postgres && yarn nx run service-rest-api:build",
     "build:service-consumer": "yarn prisma:generate:postgres && yarn nx run service-consumer:build",
-    "serve:service-rest-api:production": "node dist/apps/service-rest-api/main.js",
+    "service-rest-api:serve:production": "node dist/apps/service-rest-api/main.js",
     "service-rest-api:serve": "make service-rest-api-serve",
     "service-consumer:serve": "make service-consumer-serve",
     "start": "yarn nx run-many --target=serve --all=true",

@@ -1,2 +1,2 @@
-npx prisma migrate deploy
-node dist/apps/service-rest-api/main.js
+yarn prisma:migrate:deploy
+yarn service-rest-api:serve:production
