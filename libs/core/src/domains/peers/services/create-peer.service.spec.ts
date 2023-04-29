@@ -3,7 +3,7 @@ import { ConflictException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { InMemoryPeersDatabaseRepository } from '../repositories/database-in-memory.repository';
 import { PeersDatabaseRepository } from '../repositories/database.repository';
-import { InMemoryUsersEventsRepository } from '../repositories/events-in-memory.repository';
+import { InMemoryPeersEventsRepository } from '../repositories/events-in-memory.repository';
 import { PeersEventsRepository } from '../repositories/events.repository';
 import { CreatePeerService } from './create-peer.service';
 
@@ -18,7 +18,7 @@ describe('[peers] CreatePeerService', () => {
       providers: [
         CreatePeerService,
         { provide: PeersDatabaseRepository, useClass: InMemoryPeersDatabaseRepository },
-        { provide: PeersEventsRepository, useClass: InMemoryUsersEventsRepository },
+        { provide: PeersEventsRepository, useClass: InMemoryPeersEventsRepository },
       ],
     }).compile();
 

@@ -80,7 +80,7 @@ References:
 
 ## API
 
-- (POST /users) Create new user
+- (POST /peers) Create new user
 - (GET /plan-subscriptions) List all plan subscriptions
 
 # Consumer

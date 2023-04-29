@@ -1,4 +1,4 @@
-import { USERS_ERROR_MESSAGES } from '@core/domains/peers/constants/error-messages';
+import { PEERS_ERROR_MESSAGES } from '@core/domains/peers/constants/error-messages';
 import { PeerEntity } from '@core/domains/peers/entities/peer/entity';
 import { PeersDatabaseRepository } from '@core/domains/peers/repositories/database.repository';
 import { CreatePeerDto } from '@core/domains/peers/services/create-peer.dto';
@@ -9,7 +9,7 @@ import { configDto } from '../../../config.dto';
 import { PostgreSqlPrismaOrmService } from '../../infra/prisma/postgresql-prisma-orm.service';
 
 @Injectable()
-export class PostgreSqlPrismaOrmUsersDatabaseRepository implements PeersDatabaseRepository {
+export class PostgreSqlPrismaOrmPeersDatabaseRepository implements PeersDatabaseRepository {
   constructor(private postgreSqlPrismaOrmService: PostgreSqlPrismaOrmService) {}
 
   async findByUsername(username: string): Promise<PeerEntity | null> {
@@ -36,7 +36,7 @@ export class PostgreSqlPrismaOrmUsersDatabaseRepository implements PeersDatabase
     const { username } = createPeerDto;
     const entityExists = await this.findByUsername(username);
     if (entityExists) {
-      throw new ConflictException(USERS_ERROR_MESSAGES['CONFLICTING_USERNAME']);
+      throw new ConflictException(PEERS_ERROR_MESSAGES['CONFLICTING_USERNAME']);
     }
 
     const prismaEntity = await this.postgreSqlPrismaOrmService.peers.create({

@@ -1,4 +1,3 @@
-// users.repository.ts
 import { PEERS_TOPICS } from '@core/domains/peers/constants/topics';
 import { PeerEntity } from '@core/domains/peers/entities/peer/entity';
 import { PeersEventsRepository } from '@core/domains/peers/repositories/events.repository';
@@ -6,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { KafkaEventsService } from '../../infra/kafka-events.service';
 
 @Injectable()
-export class KafkaUsersEventsRepository implements PeersEventsRepository {
+export class KafkaPeersEventsRepository implements PeersEventsRepository {
   constructor(private kafkaEventsService: KafkaEventsService) {}
 
   async publishPeerCreated(entity: PeerEntity): Promise<void> {

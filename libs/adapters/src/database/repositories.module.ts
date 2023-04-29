@@ -7,18 +7,18 @@ import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { configDto } from '../config.dto';
 import { PostgreSqlPrismaOrmService } from './infra/prisma/postgresql-prisma-orm.service';
+import { MongoDbMongooseOrmPeersDatabaseRepository } from './repositories/peers/mongodb-mongoose-orm.repository';
+import { PostgreSqlPrismaOrmPeersDatabaseRepository } from './repositories/peers/postgresql-prisma-orm.repository';
 import { MongoDbMongooseOrmPlanSubscriptionsDatabaseRepository } from './repositories/plan-subscriptions/mongodb-mongoose-orm.repository';
 import { PostgreSqlPrismaOrmPlanSubscriptionsDatabaseRepository } from './repositories/plan-subscriptions/postgresql-prisma-orm.repository';
-import { MongoDbMongooseOrmPeersDatabaseRepository } from './repositories/users/mongodb-mongoose-orm.repository';
-import { PostgreSqlPrismaOrmUsersDatabaseRepository } from './repositories/users/postgresql-prisma-orm.repository';
 import { IDatabaseProvider } from './types';
 
 import { InMemoryPlanSubscriptionsDatabaseRepository } from '@core/domains/plan-subscriptions/repositories/database-in-memory.repository';
+import { MongoosePeer, MongoosePeerSchema } from './repositories/peers/mongodb-mongoose-orm.entity';
 import {
   MongoosePlanSubscription,
   MongoosePlanSubscriptionSchema,
 } from './repositories/plan-subscriptions/mongodb-mongoose-orm.entity';
-import { MongoosePeer, MongoosePeerSchema } from './repositories/users/mongodb-mongoose-orm.entity';
 
 const logger = new NativeLogger();
 
@@ -39,7 +39,7 @@ export class DatabaseRepositoriesModule {
         },
         {
           provide: PeersDatabaseRepository,
-          useClass: PostgreSqlPrismaOrmUsersDatabaseRepository,
+          useClass: PostgreSqlPrismaOrmPeersDatabaseRepository,
         },
         {
           provide: PlanSubscriptionsDatabaseRepository,
