@@ -51,10 +51,24 @@ resource "null_resource" "build_and_push_docker_image" {
   }
 }
 
+
+
 resource "fly_app" "micro-applications-template-rest-api" {
   name = local.app_name
   org  = "personal"
 }
+
+resource "null_resource" "set_fly_secrets" {
+  provisioner "local-exec" {
+    command = <<EOF
+      echo "Settings fly secrets..." &&
+      cd ../service-rest-api/ &&
+      fly secrets set DATABASE_URL=${var.database_url} && fly secrets set DIRECT_URL=${var.direct_url}
+    EOF
+  }
+  depends_on = [fly_app.micro-applications-template-rest-api]
+}
+
 
 resource "fly_ip" "ip_v4" {
   app        = local.app_name
