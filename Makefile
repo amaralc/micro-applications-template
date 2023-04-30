@@ -114,3 +114,15 @@ fly-secrets-set:
 
 fly-secrets-list:
 	fly secrets list
+
+terraform-init:
+	cd apps/service-iac && terraform init
+
+terraform-plan:
+	cd apps/service-iac && terraform plan
+
+terraform-apply:
+	cd apps/service-iac && terraform apply
+
+terraform-destroy:
+	cd apps/service-iac && terraform destroy

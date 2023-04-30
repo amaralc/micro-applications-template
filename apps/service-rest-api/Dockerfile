@@ -1,5 +1,5 @@
 # Start recipe from base image
-FROM node:16.20-slim
+FROM node:16.20-slim as base
 
 # Local SSH key in PEM format <--------- IMPORTANT!
 # To convert your local private key from OPENSSH to PEM format, use the following command: ssh-keygen -p -N "" -m pem -f /path/to/key
@@ -7,6 +7,9 @@ FROM node:16.20-slim
 # ssh-keygen -p -N "" -m pem -f /path/to/key
 # sudo docker build -t predict-instrumented-spots:latest --build-arg SSH__PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
 # ARG SSH_PRIVATE_KEY
+
+ARG DATABASE_URL
+ARG DIRECT_URL
 
 # # Install ssh tools and git
 RUN apt-get update -y && apt-get install -y openssl
@@ -21,6 +24,8 @@ RUN apt-get update -y && apt-get install -y openssl
 # RUN echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa && \
 #   chmod 600 /root/.ssh/id_rsa
 
+FROM base as build
+
 # Avoid cache purge by adding requirements first
 # Copy package.json and yarn lock to app directory
 # Set workdir
@@ -34,12 +39,15 @@ RUN yarn install --frozen-lockfile
 # RUN rm -rf /root/.ssh/
 
 ## Environment
-ENV NODE_ENV=production
-ENV PORT=8080
+ENV NODE_ENV="production"
+ENV PORT="8080"
 ENV ENV_SILENT=true
 
 ## Database provider ("mongodb-mongoose-orm" | "postgresql-prisma-orm" | "postgresql-type-orm" |  "in-memory")
 ENV DATABASE_PROVIDER=postgresql-prisma-orm
+# Defined as secrets in fly
+ENV DATABASE_URL=$DATABASE_URL
+ENV DIRECT_URL=$DIRECT_URL
 
 ## Events provider ('kafka' | 'in-memory')
 ENV EVENTS_PROVIDER=in-memory
@@ -61,6 +69,21 @@ RUN yarn prisma:generate:postgres
 # Build the service api
 # Creates a "dist" folder with the production build
 RUN yarn build:service-rest-api
+
+# build smaller image for running
+FROM base
+
+
+ENV PORT="8080"
+ENV NODE_ENV="production"
+
+WORKDIR /app/
+COPY package.json yarn.lock ./
+
+COPY --from=build /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/entrypoints /app/entrypoints
+COPY --from=build /app/libs/adapters/src/database/infra/prisma /app/libs/adapters/src/database/infra/prisma
 
 # # Expose the service api port
 EXPOSE 8080
