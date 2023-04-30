@@ -1,9 +1,4 @@
-# fly.toml app configuration file generated for crimson-meadow-60 on 2023-04-29T13:56:03-03:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
-app = "crimson-meadow-60"
+app = "micro-applications-template-rest-api"
 primary_region = "gru"
 
 [http_service]
