@@ -1,21 +1,13 @@
-# main.tf
-terraform {
-  required_providers {
-    fly = {
-      source  = "fly-apps/fly"
-      version = "0.0.20"
-    }
-  }
-}
-
+# Configure the Fly provider
 provider "fly" {
   useinternaltunnel    = true
   internaltunnelorg    = "personal"
   internaltunnelregion = "gru"
+  fly_api_token        = var.fly_api_token
 }
 
+
 locals {
-  app_name         = "micro-applications-template-rest-api"
   commit_hash_file = "${path.module}/.commit_hash"
 }
 
@@ -31,9 +23,44 @@ data "local_file" "commit_hash" {
 }
 
 locals {
+  app_name  = "micro-applications-template-rest-api"
   image_tag = trimspace(data.local_file.commit_hash.content)
 }
 
+# Create a Fly.io application
+resource "fly_app" "micro_app_rest_api" {
+  # Create the fly app named "micro-applications-template-rest-api"
+  name = local.app_name
+  org  = "personal"
+}
+
+# Configure app secrets
+resource "null_resource" "set_fly_secrets" {
+  provisioner "local-exec" {
+    command = <<EOF
+      echo "Settings fly secrets..." &&
+      cd ../service-rest-api/ &&
+      fly secrets set DATABASE_URL=${var.database_url} && fly secrets set DIRECT_URL=${var.direct_url}
+    EOF
+  }
+  depends_on = [fly_app.micro_app_rest_api]
+}
+
+# Configure ip v4 address
+resource "fly_ip" "ip_v4" {
+  app        = local.app_name
+  type       = "v4"
+  depends_on = [fly_app.micro_app_rest_api]
+}
+
+# Configure ip v6 address
+resource "fly_ip" "ip_v6" {
+  app        = local.app_name
+  type       = "v6"
+  depends_on = [fly_app.micro_app_rest_api]
+}
+
+# Build image from Dockerfile
 resource "null_resource" "build_and_push_docker_image" {
   triggers = {
     dockerfile_content = filesha256("${path.module}/../service-rest-api/Dockerfile")
@@ -43,45 +70,13 @@ resource "null_resource" "build_and_push_docker_image" {
     command = <<EOF
       cd ../../ &&
       flyctl auth docker &&
-      docker build --build-arg DATABASE_URL=${var.database_url} \
-      --build-arg DIRECT_URL=${var.direct_url} \
-      -t registry.fly.io/${local.app_name}:${local.image_tag} -f apps/service-rest-api/Dockerfile . &&
+      docker build -t registry.fly.io/${local.app_name}:${local.image_tag} -f apps/service-rest-api/Dockerfile . &&
       docker push registry.fly.io/${local.app_name}:${local.image_tag}
     EOF
   }
 }
 
-
-
-resource "fly_app" "micro-applications-template-rest-api" {
-  name = local.app_name
-  org  = "personal"
-}
-
-resource "null_resource" "set_fly_secrets" {
-  provisioner "local-exec" {
-    command = <<EOF
-      echo "Settings fly secrets..." &&
-      cd ../service-rest-api/ &&
-      fly secrets set DATABASE_URL=${var.database_url} && fly secrets set DIRECT_URL=${var.direct_url}
-    EOF
-  }
-  depends_on = [fly_app.micro-applications-template-rest-api]
-}
-
-
-resource "fly_ip" "ip_v4" {
-  app        = local.app_name
-  type       = "v4"
-  depends_on = [fly_app.micro-applications-template-rest-api]
-}
-
-resource "fly_ip" "ip_v6" {
-  app        = local.app_name
-  type       = "v6"
-  depends_on = [fly_app.micro-applications-template-rest-api]
-}
-
+# Create and run machine with that image
 resource "fly_machine" "application_machine" {
   for_each = toset(["gru"])
   app      = local.app_name
@@ -101,10 +96,10 @@ resource "fly_machine" "application_machine" {
         }
       ]
       "protocol" : "tcp",
-      "internal_port" : 80
+      "internal_port" : 8080
     },
   ]
   cpus       = 1
   memorymb   = 256
-  depends_on = [fly_app.micro-applications-template-rest-api, null_resource.build_and_push_docker_image]
+  depends_on = [fly_app.micro_app_rest_api, null_resource.build_and_push_docker_image]
 }

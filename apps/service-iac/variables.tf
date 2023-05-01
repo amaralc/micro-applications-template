@@ -1,11 +1,17 @@
-# variables.tf
-
 variable "database_url" {
-  description = "The DATABASE_URL secret for the app"
+  description = "The database URL connection string"
   type        = string
+  sensitive   = true
 }
 
 variable "direct_url" {
-  description = "The DIRECT_URL secret for the app"
+  description = "The direct URL string"
   type        = string
+  sensitive   = true
+}
+
+variable "fly_api_token" {
+  description = "FLY API token"
+  type        = string
+  sensitive   = true
 }
