@@ -68,13 +68,14 @@ For now, for experimentation purposes, we will go with `standard-version`. Later
 
 # Deployment
 
-TODO
+We are currently using terraform with some commands of fly cli and it works.
 
 References:
 
 - https://upstash.com/
 - https://registry.terraform.io/providers/upstash/upstash/latest/docs
 - https://payloadcms.com/
+- https://fly.io/
 
 # Use cases
 
