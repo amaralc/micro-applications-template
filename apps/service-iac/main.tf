@@ -34,6 +34,18 @@ resource "fly_app" "micro_app_rest_api" {
   org  = "personal"
 }
 
+# Configure app secrets
+resource "null_resource" "set_fly_secrets" {
+  provisioner "local-exec" {
+    command = <<EOF
+      echo "Settings fly secrets..." &&
+      cd ../service-rest-api/ &&
+      fly secrets set DATABASE_URL=${var.database_url} && fly secrets set DIRECT_URL=${var.direct_url}
+    EOF
+  }
+  depends_on = [fly_app.micro_app_rest_api]
+}
+
 # Configure ip v4 address
 resource "fly_ip" "ip_v4" {
   app        = local.app_name
