@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@0.4.1...micro-applications-template@0.5.0) (2023-05-01)
+
+### Features
+
+- add terraform config ([a39fd9e](https://github.com/amaralc/micro-applications-template/commit/a39fd9e964b47888859483f7d85d36793f3538a0))
+- deploy to vercel ([9a85b64](https://github.com/amaralc/micro-applications-template/commit/9a85b6449cc84fc9be22a1dafb68e3784c7917b3))
+- set secrets ([699a25e](https://github.com/amaralc/micro-applications-template/commit/699a25ed9cc43e180f5c36af13f3fd3fbfcaefd6))
+
+### Bug Fixes
+
+- add build args ([a5d708c](https://github.com/amaralc/micro-applications-template/commit/a5d708cd1c91a9f8a4d8da732b9d98924909d4c6))
+- add minimal terraform config ([d1a2f1c](https://github.com/amaralc/micro-applications-template/commit/d1a2f1cee601307fc71687d12952b15354f8d8a0))
+- add secrets config and commit hash file ([ee11dab](https://github.com/amaralc/micro-applications-template/commit/ee11dabaaa524608a3e6ff8c46ec7509206e5433))
+- adjust internal port ([c4cf32b](https://github.com/amaralc/micro-applications-template/commit/c4cf32b56a787bb294a1fe45b8d08d58d422737e))
+- **iac:** adjust terraform script ([75a0c6e](https://github.com/amaralc/micro-applications-template/commit/75a0c6ea4d52ac947760c9e3d9d200b49f66f0a9))
+- remove unecessary build args ([9f46c2a](https://github.com/amaralc/micro-applications-template/commit/9f46c2a89b0c249a25a588df7033e1d3994ed44c))
+
 ## [0.4.1](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@0.4.0...micro-applications-template@0.4.1) (2023-04-29)
 
 **Note:** Version bump only for package micro-applications-template

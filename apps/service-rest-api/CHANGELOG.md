@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/amaralc/micro-applications-template/compare/service-rest-api@0.2.1...service-rest-api@0.2.2) (2023-05-01)
+
+### Bug Fixes
+
+- **iac:** adjust terraform script ([75a0c6e](https://github.com/amaralc/micro-applications-template/commit/75a0c6ea4d52ac947760c9e3d9d200b49f66f0a9))
+- remove unecessary build args ([9f46c2a](https://github.com/amaralc/micro-applications-template/commit/9f46c2a89b0c249a25a588df7033e1d3994ed44c))
+
 ## [0.2.1](https://github.com/amaralc/micro-applications-template/compare/service-rest-api@0.2.0...service-rest-api@0.2.1) (2023-04-29)
 
 **Note:** Version bump only for package service-rest-api
