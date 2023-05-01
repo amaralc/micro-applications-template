@@ -8,9 +8,6 @@ FROM node:16.20-slim as base
 # sudo docker build -t predict-instrumented-spots:latest --build-arg SSH__PEM_PRIVATE_KEY="$$(cat ~/.ssh/id_rsa)" --no-cache .
 # ARG SSH_PRIVATE_KEY
 
-ARG DATABASE_URL
-ARG DIRECT_URL
-
 # # Install ssh tools and git
 RUN apt-get update -y && apt-get install -y openssl
 
@@ -45,9 +42,6 @@ ENV ENV_SILENT=true
 
 ## Database provider ("mongodb-mongoose-orm" | "postgresql-prisma-orm" | "postgresql-type-orm" |  "in-memory")
 ENV DATABASE_PROVIDER=postgresql-prisma-orm
-# Defined as secrets in fly
-ENV DATABASE_URL=$DATABASE_URL
-ENV DIRECT_URL=$DIRECT_URL
 
 ## Events provider ('kafka' | 'in-memory')
 ENV EVENTS_PROVIDER=in-memory
