@@ -38,9 +38,10 @@ resource "fly_app" "micro_app_rest_api" {
 resource "null_resource" "set_fly_secrets" {
   provisioner "local-exec" {
     command = <<EOF
-      echo "Settings fly secrets..." &&
-      cd ../service-rest-api/ &&
-      fly secrets set DATABASE_URL=${var.database_url} && fly secrets set DIRECT_URL=${var.direct_url}
+      echo "Settings fly secrets..."
+      cd ../service-rest-api/
+      fly secrets set DATABASE_URL=${var.database_url}
+      fly secrets set DIRECT_URL=${var.direct_url}
     EOF
   }
   depends_on = [fly_app.micro_app_rest_api]
@@ -77,12 +78,18 @@ resource "null_resource" "build_and_push_docker_image" {
 }
 
 # Create and run machine with that image
-resource "fly_machine" "application_machine" {
-  for_each = toset(["gru"])
-  app      = local.app_name
-  region   = each.value
-  name     = "${local.app_name}-${each.value}"
-  image    = "registry.fly.io/${local.app_name}:${local.image_tag}"
+resource "fly_machine" "micro_app_machine_01" {
+  // Regions where the app will be deployed
+  for_each = toset(
+    [
+      "gru", // Sao Paulo
+      "gig"  // Rio de Janeiro
+    ]
+  )
+  app    = local.app_name
+  region = each.value
+  name   = "${local.app_name}-${each.value}"
+  image  = "registry.fly.io/${local.app_name}:${local.image_tag}"
   services = [
     {
       ports = [
