@@ -84,7 +84,7 @@ resource "fly_machine" "application_machine" {
         }
       ]
       "protocol" : "tcp",
-      "internal_port" : 80
+      "internal_port" : 8080
     },
   ]
   cpus       = 1
