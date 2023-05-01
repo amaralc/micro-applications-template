@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@0.5.0...micro-applications-template@0.5.1) (2023-05-01)
+
+### Bug Fixes
+
+- adjust fly secrets commands ([8c67947](https://github.com/amaralc/micro-applications-template/commit/8c67947e1efc7e60c7c1861a54dd467a3b75fc8c))
+
 ## [0.5.0](https://github.com/amaralc/micro-applications-template/compare/micro-applications-template@0.4.1...micro-applications-template@0.5.0) (2023-05-01)
 
 ### Features
