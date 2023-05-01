@@ -58,7 +58,7 @@ resource "null_resource" "build_and_push_docker_image" {
     command = <<EOF
       cd ../../ &&
       flyctl auth docker &&
-      docker build -t registry.fly.io/${local.app_name}:${local.image_tag} -f apps/service-rest-api/Dockerfile . &&
+      docker build --build-arg DATABASE_URL=${var.database_url} --build-arg DIRECT_URL=${var.direct_url} -t registry.fly.io/${local.app_name}:${local.image_tag} -f apps/service-rest-api/Dockerfile . &&
       docker push registry.fly.io/${local.app_name}:${local.image_tag}
     EOF
   }
